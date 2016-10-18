@@ -1,0 +1,270 @@
+﻿
+@section styles{
+    <link href="~/Content/PhMS.css" rel="stylesheet" />
+}
+@{
+    ViewBag.Title = "住院报表";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>@ViewBag.Title</h2>
+<div class="form-horizontal">
+    <div class="panel panel-default adjustwidth col-lg-offset-3">
+        <div class="panel-heading">
+            <div class="form-group">
+                <label class="col-lg-2 control-label">开始时间</label>
+                <div class="col-lg-10 adjustheight">
+                    <input type="date" id="starttimeID" name="StartTime" class="changeTime form-control"
+                           data-val="true" data-val-date="字段 '选择时间' 是必须的"
+                           data-val-required="选择时间 字段是必需的!">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="panel panel-default adjustwidth col-lg-offset-3">
+        <div class="panel-heading">
+            <div class="form-group">
+                <label class="col-lg-2 control-label">结束时间</label>
+                <div class="col-lg-10 adjustheight">
+                    <input type="date" name="EndTime" id="endtimeID" class="changeTime form-control" data-val="true"
+                           data-val-date="字段 '选择时间' 是必须的"
+                           data-val-required="选择时间 字段是必需的!">
+                </div>
+            </div>
+            <div id="compareTime" class="alert alert-danger" hidden="hidden">结束时间小于开始时间，请重新选择！</div>
+        </div>
+    </div>
+    <div class="col-lg-12">
+
+        <!-- Nav tabs -->
+        <ul class="nav nav-tabs" role="tablist">
+            <li role="presentation" class="active">
+                <a href="#getOutPatientAntibioticRate" aria-controls="getOutPatientAntibioticRate" role="tab" data-toggle="tab">
+                    门诊抗菌药物使用率
+                </a>
+            </li>
+            <li role="presentation">
+                <a href="#getEmergyRateBodyID" aria-controls="settings" role="tab" data-toggle="tab">
+                    急诊抗菌药物使用率
+                </a>
+            </li>
+            <li role="presentation"><a href="#outPatientAverageCost" aria-controls="outPatientAverageCost" role="tab" data-toggle="tab">每次就诊人均药费</a></li>
+
+            <li role="presentation"><a href="#topTenAntibioticID" aria-controls="topTenAntibioticID" role="tab" data-toggle="tab">使用金额排名前10名抗菌药物对应每一种药品使用金额前三位医生</a></li>
+            <li role="presentation"><a href="#topTenAntibioticDepID" aria-controls="topTenAntibioticDepID" role="tab" data-toggle="tab">使用金额排名前10名抗菌药物对应每一种药品使用金额前三个科室</a></li>
+            <li role="presentation"><a href="#topThirtyDrugID" aria-controls="topThirtyDrug" role="tab" data-toggle="tab">药物使用金额排前30个品种及每个品种排前3名的医生</a></li>
+            <li role="presentation"><a href="#outPatientDrugDetailsID" aria-controls="outPatientDrugDetailsID" role="tab" data-toggle="tab">门、急诊患者药物处方、金额情况集合</a></li>
+            <li role="presentation"><a href="#essentialDrugRateID" aria-controls="essentialDrugRateID" role="tab" data-toggle="tab">基本药物占处方用药的百分率</a></li>
+            <li role="presentation"><a href="#averageDrugCategoryID" aria-controls="averageDrugCategoryID" role="tab" data-toggle="tab">每次就诊人均用药品种数</a></li>
+            <li role="presentation"><a href="#outPatientVeinInfusionRateID" aria-controls="outPatientVeinInfusionRateID" role="tab" data-toggle="tab">门诊患者静脉输液使用率</a></li>
+            <li role="presentation"><a href="#emergyVeinInfusionRateID" aria-controls="emergyVeinInfusionRateID" role="tab" data-toggle="tab">急诊患者静脉输液使用率</a></li>
+
+            <li role="presentation"><a href="#messages" aria-controls="messages" role="tab" data-toggle="tab">Messages</a></li>
+            <li role="presentation"><a href="#settings" aria-controls="settings" role="tab" data-toggle="tab">Settings</a></li>
+        </ul>
+
+        <!-- Tab panes -->
+        <div class="tab-content">
+            <div role="tabpanel" class="tab-pane active" id="getOutPatientAntibioticRate">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <div class="form-group">
+                            <label class="col-lg-6 control-label">门诊抗菌药物使用率</label>
+                            <div class="col-lg-6 adjustheight">
+                                <input type="submit" id="getOutPatientRate" src="@Url.Action("GetOutpatientAntimicrobialRate", "Reporters")" value="获取" class="label label-primary getResult" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel-body" hidden="hidden" id="getOutPatientRateBody">
+                    </div>
+                </div>
+            </div>
+            <div role="tabpanel" class="tab-pane" id="getEmergyRateBodyID">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <div class="form-group">
+                            <label class="col-lg-6 control-label">急诊抗菌药物使用率</label>
+                            <div class="col-lg-6 adjustheight">
+                                <input type="submit" id="getEmergyRate" src="@Url.Action("GetEmergyAntimicrobialRate", "Reporters")" value="获取"
+                                       class="label label-primary getResult" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel-body" hidden="hidden" id="getEmergyRateBody">
+                    </div>
+                </div>
+            </div>
+
+
+            <div role="tabpanel" class="tab-pane" id="outPatientAverageCost">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <div class="form-group">
+                            <label class="col-lg-6 control-label">每次就诊人均药费</label>
+                            <div class="col-lg-6 adjustheight">
+                                <input type="submit" id="getAverageCost" src="@Url.Action("GetOutPatientAverageCostView", "Reporters")" value="获取"
+                                       class="label label-primary getResult" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel-body" hidden="hidden" id="getAverageCostBody">
+
+                    </div>
+                </div>
+            </div>
+
+            <div role="tabpanel" class="tab-pane" id="topTenAntibioticID">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <div class="form-group">
+                            <label class="col-lg-6 control-label">使用金额排名前10名抗菌药物对应每一种药品使用金额前三位医生</label>
+                            <div class="col-lg-6">
+                                <input type="submit" id="getTopTenAntibiotic" src="@Url.Action("GetTopTenAntibiotic", "Reporters")" value="获取"
+                                       class="label label-primary getResult" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel-body" id="getTopTenAntibioticBody">
+
+                    </div>
+                </div>
+            </div>
+            <div role="tabpanel" class="tab-pane" id="topTenAntibioticDepID">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <div class="form-group">
+                            <label class="col-lg-6 control-label">使用金额排名前10名抗菌药物对应每一种药品使用金额前三个科室</label>
+                            <div class="col-lg-6">
+                                <input type="submit" id="getTopTenAntibioticDep" src="@Url.Action("GetTopTenAntibioticDepartment", "Reporters")" value="获取" class="label label-primary getResult" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel-body" id="getTopTenAntibioticDepBody">
+
+                    </div>
+                </div>
+            </div>
+            <div role="tabpanel" class="tab-pane" id="topThirtyDrugID">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <div class="form-group">
+                            <label class="col-lg-6 control-label">药物使用金额排前30个品种及每个品种排前3名的医生</label>
+                            <div class="col-lg-6">
+                                <input type="submit" id="getTopThirtyDrug" src="@Url.Action("GetTopThirtyDrug", "Reporters")" value="获取"
+                                       class="label label-primary getResult" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel-body" id="getTopThirtyDrugBody">
+
+                    </div>
+                </div>
+            </div>
+            <div role="tabpanel" class="tab-pane" id="outPatientDrugDetailsID">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <div class="form-group">
+                            <label class="col-lg-6 control-label">门、急诊患者药物处方、金额情况集合</label>
+                            <div class="col-lg-6">
+                                <input type="submit" id="getOutPatientDrugDetails" src="@Url.Action("GetOutPatientDrugDetails", "Reporters")" value="获取"
+                                       class="label label-primary getResult" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel-body" id="getOutPatientDrugDetailsBody">
+
+                    </div>
+                </div>
+            </div>
+            <div role="tabpanel" class="tab-pane" id="essentialDrugRateID">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <div class="form-group">
+                            <label class="col-lg-6 control-label">基本药物占处方用药的百分率</label>
+                            <div class="col-lg-6">
+                                <input type="submit" id="getEssentialDrugRate" src="@Url.Action("GetEssentialDrugRate", "Reporters")" value="获取"
+                                       class="label label-primary getResult" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel-body" id="getEssentialDrugRateBody">
+
+                    </div>
+                </div>
+            </div>
+            <div role="tabpanel" class="tab-pane" id="averageDrugCategoryID">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <div class="form-group">
+                            <label class="col-lg-6 control-label">每次就诊人均用药品种数</label>
+                            <div class="col-lg-6 adjustheight">
+                                <input type="submit" id="getAverageDrugCategory" src="@Url.Action("GetAverageDrugCategory", "Reporters")" value="获取"
+                                       class="label label-primary getResult" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel-body" id="getAverageDrugCategoryBody">
+
+                    </div>
+                </div>
+            </div>
+            <div role="tabpanel" class="tab-pane" id="outPatientVeinInfusionRateID">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <div class="form-group">
+                            <label class="col-lg-6 control-label">门诊患者静脉输液使用率</label>
+                            <div class="col-lg-6 adjustheight">
+                                <input type="submit" id="getOutPatientVeinInfusionRate" src="@Url.Action("GetOutPatientVeinInfusionRate", "Reporters")" value="获取"
+                                       class="label label-primary getResult" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel-body" id="getOutPatientVeinInfusionRateBody">
+
+                    </div>
+                </div>
+            </div>
+            <div role="tabpanel" class="tab-pane" id="emergyVeinInfusionRateID">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <div class="form-group">
+                            <label class="col-lg-6 control-label">急诊患者静脉输液使用率</label>
+                            <div class="col-lg-6 adjustheight">
+                                <input type="submit" id="getEmergyVeinInfusionRate" src="@Url.Action("GetEmergyVeinInfusionRate", "Reporters")" value="获取"
+                                       class="label label-primary getResult" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel-body" id="getEmergyVeinInfusionRateBody">
+
+                    </div>
+                </div>
+            </div>
+            <div role="tabpanel" class="tab-pane" id="messages">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <div class="form-group">
+                            <label class="col-lg-6 control-label">TestMessage</label>
+                            <div class="col-lg-6 adjustheight">
+                                <input type="submit" id="getMessage" src="@Url.Action("GetOutPatientAverageCostView", "Reporters")" value="获取Message"
+                                       class="label label-primary getResult" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel-body" id="getMessageBody">
+                        <button id="testBtn">测试按钮</button>
+                    </div>
+                </div>
+            </div>
+            <div role="tabpanel" class="tab-pane" id="settings">
+                ...Test1Test1Test1
+            </div>
+
+        </div>
+    </div>
+</div>
+@section Scripts{
+    @Scripts.Render("~/bundles/jqueryval")
+    <script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
+    <script src="~/Scripts/PhMS.js"></script>
+}

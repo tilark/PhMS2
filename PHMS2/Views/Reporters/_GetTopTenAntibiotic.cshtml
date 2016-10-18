@@ -1,0 +1,101 @@
+﻿@model  IEnumerable<PHMS2.Models.ViewModel.DrugTopRank>
+
+<div class="panel-body" id="getTopTenAntibioticBody">
+    <table class="table table-hover table-bordered table-striped">
+        <tr>
+            <td colspan="7" class="text-center">
+                使用金额排名前10名抗菌药物对应每一种药品使用金额前三位医生
+            </td>
+        </tr>
+        <tr>
+            <td colspan="7" class="text-left">
+                <small>时间：@ViewBag.startTime -- @ViewBag.endTime</small>
+            </td>
+        </tr>
+        <tr class="text-center">
+            <td rowspan="2">序号</td>
+            <td rowspan="2">药品名</td>
+            <td rowspan="2">总金额（元）</td>
+            <td colspan="4">对应每一种药使用金额前3的医生</td>
+            @*<td rowspan="2">对应每一种药使用金额前3的科室</td>*@
+        </tr>
+        <tr class="text-center">
+            <td>排名</td>
+            <td>姓名</td>
+            <td>科室</td>
+            <td>金额</td>
+        </tr>
+        @{var i = 1; }
+        @foreach (var items in Model)
+        {
+
+            <tr class="text-center">
+                <td rowspan="4">@i</td>
+                <td rowspan="4">@items.ProductName</td>
+                <td rowspan="4">@Decimal.Round(items.Cost, 2)</td>
+                <td colspan="4"></td>
+                @*<td rowspan="4">是</td>*@
+
+            </tr>
+            int j = 0;
+            foreach (var item in items.DrugDoctorDepartmentCostList)
+            {
+                j++;
+                <tr class="text-center">
+                    <td>@j</td>
+                    <td>@item.Doctor</td>
+                    <td>@item.Department</td>
+                    <td>@Decimal.Round(item.Cost, 2)</td>
+                </tr>
+
+            }
+            if (j < 3)
+            {
+                for (int k = 0; k < 3 - j; k++)
+                {
+                    <tr class="text-center">
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                }
+            }
+            i++;
+        }
+    </table>
+    <table class="table table-hover table-bordered table-striped">
+        <tr>
+            <td colspan="5" class="text-center">
+                使用金额排名前10名抗菌药物对应每一种药品使用金额前三位医生及科室
+            </td>
+        </tr>
+        <tr>
+            <td colspan="5" class="text-left">
+                <small>时间：</small>
+            </td>
+        </tr>
+        <tr class="text-center">
+            <td>序号</td>
+            <td>药品名</td>
+            <td>总金额（元）</td>
+            <td>对应每一种药使用金额前3的医生</td>
+            <td>对应每一种药使用金额前3的科室</td>
+        </tr>
+        <tr class="text-center">
+            <td rowspan="3">1</td>
+            <td rowspan="3">青莓素</td>
+            <td rowspan="3">3000</td>
+            <td>医生1</td>
+            <td>科室1</td>
+        </tr>
+        <tr class="text-center">
+            <td>医生2</td>
+            <td>科室2</td>
+        </tr>
+        <tr class="text-center">
+            <td>医生3</td>
+            <td>科室3</td>
+        </tr>
+    </table>
+</div>

@@ -1,0 +1,28 @@
+﻿@model PHMS2.Models.ViewModel.AntibioticUsageRate
+<div class="panel-body" id="getOutPatientRateBody">
+    <table class="table table-hover table-bordered table-striped text-center">
+        <tr>
+            <th colspan="3" class="text-center">
+                急诊抗菌药物使用率
+            </th>
+        </tr>
+        <tr>
+            <td colspan="3" class="text-left">
+                <small>时间：@ViewBag.startTime -- @ViewBag.endTime</small>
+            </td>
+        </tr>
+        <tr>
+            <td>急诊抗菌药物使用人数</td>
+            <td>急诊就诊人数</td>
+            <td>急诊抗菌药物使用率</td>
+        </tr>
+        <tr>
+            <td>@Model.AntibioticPerson</td>
+            <td>@Model.RegisterPerson</td>
+            <td>@Model.UsageRate %</td>
+        </tr>
+    </table>
+</div>
+
+
+

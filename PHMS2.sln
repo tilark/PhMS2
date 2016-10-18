@@ -1,0 +1,52 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.24720.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PHMS2", "PHMS2\PHMS2.csproj", "{C6B1D28A-A50F-40CE-8A4F-D7E97B6B3359}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PHMS2.Tests", "PHMS2.Tests\PHMS2.Tests.csproj", "{D5DF2132-30D1-4CB1-8C0B-5846203BFC34}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PHMS2Domain", "PHMS2Domain\PHMS2Domain.csproj", "{0A3CA7B2-0E36-4446-9EC5-6BE6529B41D3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PHMS2Domain.Tests", "PHMS2DomainTests\PHMS2Domain.Tests.csproj", "{A9F06D07-6A2D-499D-AE7C-CC5E82939C63}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClassViewModelToDomain", "ClassViewModelToDomain\ClassViewModelToDomain.csproj", "{D9D58B38-C2AE-4B1F-A9A3-1FBF6BD7D185}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PhMS2dot1Domain", "PHMS2dot1Domain\PhMS2dot1Domain.csproj", "{27D20805-0862-46B3-918A-1D00B34D7E08}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C6B1D28A-A50F-40CE-8A4F-D7E97B6B3359}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C6B1D28A-A50F-40CE-8A4F-D7E97B6B3359}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C6B1D28A-A50F-40CE-8A4F-D7E97B6B3359}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C6B1D28A-A50F-40CE-8A4F-D7E97B6B3359}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D5DF2132-30D1-4CB1-8C0B-5846203BFC34}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D5DF2132-30D1-4CB1-8C0B-5846203BFC34}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D5DF2132-30D1-4CB1-8C0B-5846203BFC34}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D5DF2132-30D1-4CB1-8C0B-5846203BFC34}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0A3CA7B2-0E36-4446-9EC5-6BE6529B41D3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0A3CA7B2-0E36-4446-9EC5-6BE6529B41D3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0A3CA7B2-0E36-4446-9EC5-6BE6529B41D3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0A3CA7B2-0E36-4446-9EC5-6BE6529B41D3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A9F06D07-6A2D-499D-AE7C-CC5E82939C63}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A9F06D07-6A2D-499D-AE7C-CC5E82939C63}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A9F06D07-6A2D-499D-AE7C-CC5E82939C63}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A9F06D07-6A2D-499D-AE7C-CC5E82939C63}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D9D58B38-C2AE-4B1F-A9A3-1FBF6BD7D185}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D9D58B38-C2AE-4B1F-A9A3-1FBF6BD7D185}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D9D58B38-C2AE-4B1F-A9A3-1FBF6BD7D185}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D9D58B38-C2AE-4B1F-A9A3-1FBF6BD7D185}.Release|Any CPU.Build.0 = Release|Any CPU
+		{27D20805-0862-46B3-918A-1D00B34D7E08}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{27D20805-0862-46B3-918A-1D00B34D7E08}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{27D20805-0862-46B3-918A-1D00B34D7E08}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{27D20805-0862-46B3-918A-1D00B34D7E08}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

@@ -1,0 +1,117 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{0A3CA7B2-0E36-4446-9EC5-6BE6529B41D3}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>PHMS2Domain</RootNamespace>
+    <AssemblyName>PHMS2Domain</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AllDrugMessage.cs" />
+    <Compile Include="EnumDrugCategories.cs" />
+    <Compile Include="Factory\DomainInnerFactory.cs" />
+    <Compile Include="Factory\IDomainInnerFactory.cs" />
+    <Compile Include="Implement\ImDrugTopThirtyRank.cs" />
+    <Compile Include="Implement\ImGetDrugCategoriesNumbers.cs" />
+    <Compile Include="Implement\ImGetEssentialDrugCategoryNumbers.cs" />
+    <Compile Include="Implement\ImPatientCost.cs" />
+    <Compile Include="Implement\ImPrescriptionMessage.cs" />
+    <Compile Include="Implement\ImTopTenAntibioticDepRank.cs" />
+    <Compile Include="Implement\ImTopTenAntibioticRank.cs" />
+    <Compile Include="Models\Abstract\AbDrugMessage.cs" />
+    <Compile Include="DomainUnitOfWork.cs" />
+    <Compile Include="Factory\DomainOuterFactory.cs" />
+    <Compile Include="Factory\IDomainOuterFactory.cs" />
+    <Compile Include="Implement\GetCountFromRegisterList.cs" />
+    <Compile Include="Implement\ImAntibioticCategoryNumber.cs" />
+    <Compile Include="Implement\ImAntibioticPerson.cs" />
+    <Compile Include="Implement\ImPrescriptionInDuration.cs" />
+    <Compile Include="Implement\ImRegisterFromPerscription.cs" />
+    <Compile Include="Implement\ImRegisterInDuration.cs" />
+    <Compile Include="Implement\ImRegisterPerson.cs" />
+    <Compile Include="Interface\IPrescriptionInDuration.cs" />
+    <Compile Include="Interface\IRegisterInDuration.cs" />
+    <Compile Include="Models\AntibioticManageLevels.cs" />
+    <Compile Include="Models\CostCategories.cs" />
+    <Compile Include="Models\Departments.cs" />
+    <Compile Include="Models\Doctors.cs" />
+    <Compile Include="Models\DrugMaintenances.cs" />
+    <Compile Include="EssentialDrugMessage.cs" />
+    <Compile Include="Models\DrugMessage.cs" />
+    <Compile Include="Models\OutPatientPrescriptionDetails.cs" />
+    <Compile Include="Models\OutPatientPrescriptionDetailsMethod.cs" />
+    <Compile Include="Models\OutPatientPrescriptions.cs" />
+    <Compile Include="Models\OutPatientPrescriptionsMethod.cs" />
+    <Compile Include="Models\OutPatientReceiptDetails.cs" />
+    <Compile Include="Models\OutPatientReceipts.cs" />
+    <Compile Include="Models\PHMS2DomainContext.cs" />
+    <Compile Include="Models\RegisterCategories.cs" />
+    <Compile Include="Models\Registers.cs" />
+    <Compile Include="Models\RegistersMethod.cs" />
+    <Compile Include="Models\sysdiagrams.cs" />
+    <Compile Include="Models\Usages.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ClassViewModelToDomain\ClassViewModelToDomain.csproj">
+      <Project>{d9d58b38-c2ae-4b1f-a9a3-1fbf6bd7d185}</Project>
+      <Name>ClassViewModelToDomain</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

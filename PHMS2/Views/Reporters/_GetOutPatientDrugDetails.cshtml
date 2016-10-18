@@ -1,0 +1,140 @@
+﻿@model PHMS2.Models.ViewModel.PrescriptionMessageCollection
+
+<div class="panel-body" id="getOutPatientDrugDetailsBody">
+    <table class="table table-hover table-bordered table-striped">
+        <tr>
+            <td colspan="9" class="text-center">
+                门、急诊患者药物处方情况集合
+            </td>
+        </tr>
+        <tr>
+            <td colspan="9" class="text-left">
+                <small>时间：@ViewBag.startTime -- @ViewBag.endTime</small>
+            </td>
+        </tr>
+        <tr class="text-center">
+            <td>门诊患者静脉使用抗菌药物处方人次</td>
+            <td>@Model.OutPatientMessage.InjectAntibioticPerson </td>
+            <td>（人）</td>
+            <td>急诊患者静脉使用抗菌药物处方人次</td>
+            <td>@Model.EmergencyMessage.InjectAntibioticPerson</td>
+            <td>（人）</td>
+            <td>门、急诊患者静脉使用抗菌药物处方人次</td>
+            <td>@Model.TotalMessage.InjectAntibioticPerson</td>
+            <td>（人）</td>
+        </tr>
+        <tr class="text-center">
+            <td>门诊患者就诊使用药物处方人次</td>
+            <td> @Model.OutPatientMessage.UseDrugPerson</td>
+            <td>（人）</td>
+            <td>急诊患者就诊使用药物处方人次</td>
+            <td>@Model.EmergencyMessage.UseDrugPerson</td>
+            <td>（人）</td>
+            <td>门、急诊患者就诊使用药物处方人次</td>
+            <td>@Model.TotalMessage.UseDrugPerson</td>
+            <td>（人）</td>
+        </tr>
+        <tr class="text-center">
+            <td>门诊患者就诊使用抗菌药物品种数</td>
+            <td> @Model.OutPatientMessage.AntibioticCategoryNumber</td>
+            <td>（种）</td>
+            <td>急诊患者就诊使用抗菌药物品种数</td>
+            <td> @Model.EmergencyMessage.AntibioticCategoryNumber</td>
+            <td>（种）</td>
+            <td>门、急诊患者就诊使用抗菌药物品种数</td>
+            <td> @Model.TotalMessage.AntibioticCategoryNumber</td>
+            <td>（种）</td>
+
+        </tr>
+        <tr class="text-center">
+            <td>门诊患者使用抗菌药物费用</td>
+            <td> @Decimal.Round(Model.OutPatientMessage.AntibioticCost, 2)</td>
+            <td>（元）</td>
+            <td>急诊患者使用抗菌药物费用</td>
+            <td>@Decimal.Round(Model.EmergencyMessage.AntibioticCost, 2)</td>
+            <td>（元）</td>
+            <td>门、急诊患者使用抗菌药物费用</td>
+            <td>@Decimal.Round(Model.TotalMessage.AntibioticCost, 2)</td>
+            <td>（元）</td>
+        </tr>
+        <tr class="text-center">
+            <td>门诊患者使用药物总费用</td>
+            <td>@Decimal.Round(Model.OutPatientMessage.DrugCost, 2)</td>
+            <td>（元）</td>
+            <td>急诊患者使用药物总费用</td>
+            <td>@Decimal.Round(Model.EmergencyMessage.DrugCost, 2)</td>
+            <td>（元）</td>
+            <td>门、急诊患者使用药物总费用</td>
+            <td>@Decimal.Round(Model.TotalMessage.DrugCost, 2)</td>
+            <td>（元）</td>
+        </tr>
+    </table>
+    <table class="table table-hover table-bordered table-striped">
+        <tr>
+            <td colspan="9" class="text-center">
+                门、急诊患者药物处方情况集合
+            </td>
+        </tr>
+        <tr>
+            <td colspan="9" class="text-left">
+                <small>时间：</small>
+            </td>
+        </tr>        
+        <tr class="text-center">
+            <td>门诊患者静脉使用抗菌药物处方人次</td>
+            <td>2000 </td>
+            <td>（人）</td>
+            <td>急诊患者静脉使用抗菌药物处方人次</td>
+            <td>1000</td>
+            <td>（人）</td>
+            <td>门、急诊患者静脉使用抗菌药物处方人次</td>
+            <td>3000</td>
+            <td>（人）</td>
+        </tr>
+        <tr class="text-center">
+            <td>门诊患者就诊使用药物处方人次</td>
+            <td> 2000</td>
+            <td>（人）</td>
+            <td>急诊患者就诊使用药物处方人次</td>
+            <td>1000</td>
+            <td>（人）</td>
+            <td>门、急诊患者就诊使用药物处方人次</td>
+            <td>3000</td>
+            <td>（人）</td>
+        </tr>
+        <tr class="text-center">
+            <td>门诊患者就诊使用抗菌药物品种数</td>
+            <td> 30</td>
+            <td>（种）</td>
+            <td>急诊患者就诊使用抗菌药物品种数</td>
+            <td> 30</td>
+            <td>（种）</td>
+            <td>门、急诊患者就诊使用抗菌药物品种数</td>
+            <td> 60</td>
+            <td>（种）</td>
+           
+        </tr>
+        <tr class="text-center">
+            <td>门诊患者使用抗菌药物费用</td>
+            <td> 15000</td>
+            <td>（元）</td>
+            <td>急诊患者使用抗菌药物费用</td>
+            <td> 15000</td>
+            <td>（元）</td>
+            <td>门、急诊患者使用抗菌药物费用</td>
+            <td> 30000</td>
+            <td>（元）</td>
+        </tr>
+        <tr class="text-center">
+            <td>门诊患者使用药物总费用</td>
+            <td>15000</td>
+            <td>（元）</td>
+            <td>急诊患者使用药物总费用</td>
+            <td>15000</td>
+            <td>（元）</td>
+            <td>门、急诊患者使用药物总费用</td>
+            <td>30000</td>
+            <td>（元）</td>
+        </tr>
+    </table>
+</div>

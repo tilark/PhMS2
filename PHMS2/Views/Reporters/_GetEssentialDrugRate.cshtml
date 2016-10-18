@@ -1,0 +1,26 @@
+﻿@model PHMS2.Models.ViewModel.EssentialDrugCategoryRate
+
+<div class="panel-body" id="getEssentialDrugRateBody">
+    <table class="table table-hover table-bordered table-striped text-center">
+        <tr>
+            <th colspan="3" class="text-center">
+                基本药物占处方用药的百分率
+            </th>
+        </tr>
+        <tr>
+            <td colspan="3" class="text-left">
+                <small>时间：@ViewBag.startTime -- @ViewBag.endTime</small>
+            </td>
+        </tr>
+        <tr>
+            <td>就诊用基本药物品种数</td>
+            <td>同期就诊用药总品种数</td>
+            <td>基本药物占处方用药的百分率</td>
+        </tr>
+        <tr>
+            <td>@Model.EssentialDrugNums</td>
+            <td>@Model.DrugCategoriesNums</td>
+            <td>@Model.Rate %</td>
+        </tr>
+    </table>
+</div>
