@@ -17,7 +17,7 @@ namespace PhMS2dot1Domain.Models
         [Display(Name = "原HIS费用表ID")]
         public virtual Guid? Origin_ID { get; set; }
         [Display(Name = "药物记录ID")]
-        public virtual Guid DrugRecordID { get; set; }
+        public virtual Guid InPatientDrugRecordID { get; set; }
         [Display(Name = "药物单价")]
         public virtual Decimal UnitPrice { get; set; }
         [Display(Name = "原HIS药物单位")]
@@ -28,6 +28,6 @@ namespace PhMS2dot1Domain.Models
         public virtual Decimal ActualPrice { get; set; }
         [Display(Name = "收费时间")]
         public virtual DateTime ChargeTime { get; set; }
-        public virtual InPatientDrugRecord DrugRecord { get; set; }
+        public virtual InPatientDrugRecord InPatientDrugRecord { get; set; }
     }
 }

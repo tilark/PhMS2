@@ -97,6 +97,10 @@
     <Compile Include="PhMS2dot1DomainContextMigrations\201610180050360_AddOutPatientInfrastructer.Designer.cs">
       <DependentUpon>201610180050360_AddOutPatientInfrastructer.cs</DependentUpon>
     </Compile>
+    <Compile Include="PhMS2dot1DomainContextMigrations\201610180728503_FixInPatientDrugRecordName.cs" />
+    <Compile Include="PhMS2dot1DomainContextMigrations\201610180728503_FixInPatientDrugRecordName.Designer.cs">
+      <DependentUpon>201610180728503_FixInPatientDrugRecordName.cs</DependentUpon>
+    </Compile>
     <Compile Include="PhMS2dot1DomainContextMigrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -119,6 +123,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="PhMS2dot1DomainContextMigrations\201610180050360_AddOutPatientInfrastructer.resx">
       <DependentUpon>201610180050360_AddOutPatientInfrastructer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PhMS2dot1DomainContextMigrations\201610180728503_FixInPatientDrugRecordName.resx">
+      <DependentUpon>201610180728503_FixInPatientDrugRecordName.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
