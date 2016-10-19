@@ -6,6 +6,7 @@ using PHMS2.Models.ViewModel.Interface;
 using PHMS2.Models.Factories;
 using PHMS2Domain.Factory;
 using ClassViewModelToDomain;
+using ClassViewModelToDomain.IFactory;
 
 namespace PHMS2.Models.ViewModel.Implement
 {
@@ -13,14 +14,11 @@ namespace PHMS2.Models.ViewModel.Implement
     {
         public class ImOutPatientAverageCost : IPatientAverageCost
         {
-            DomainFactoryUnitOfWork uow = null;
-            public ImOutPatientAverageCost() : this(new DomainFactoryUnitOfWork())
-            {
+            private readonly IDomainFacotry DomainFactory;
 
-            }
-            public ImOutPatientAverageCost(DomainFactoryUnitOfWork unitOfWork)
+            public ImOutPatientAverageCost(IDomainFacotry factory)
             {
-                this.uow = unitOfWork;
+                this.DomainFactory = factory;
             }
 
             public PatientAverageCost GetOutPatientAverageCost(DateTime startTime, DateTime endTime)
@@ -28,8 +26,8 @@ namespace PHMS2.Models.ViewModel.Implement
                 var result = new PatientAverageCost();
                 result = new PatientAverageCost
                 {
-                    PatientCost = this.uow.DomainFactory.CreatePatientCost(EnumOutPatientCategories.OUTPATIENT_EMERGEMENT).GetPatientCost(startTime, endTime),
-                    RegisterPerson = this.uow.DomainFactory.CreateRegisterPerson(EnumOutPatientCategories.OUTPATIENT_EMERGEMENT).GetRegisterPerson(startTime, endTime)
+                    PatientCost = this.DomainFactory.CreatePatientCost(EnumOutPatientCategories.OUTPATIENT_EMERGEMENT).GetPatientCost(startTime, endTime),
+                    RegisterPerson = this.DomainFactory.CreateRegisterPerson(EnumOutPatientCategories.OUTPATIENT_EMERGEMENT).GetRegisterPerson(startTime, endTime)
                 };             
                 return result;
             }

@@ -4,20 +4,18 @@ using PHMS2Domain.Interface;
 using PHMS2.Models.ViewModel.Interface;
 using PHMS2.Models.Factories;
 using PHMS2Domain.Factory;
+using ClassViewModelToDomain.IFactory;
 
 namespace PHMS2.Models.ViewModel.Implement
 {
     public class ImEssentialDrugCategory : IEssentialDrugRate
     {
 
-        DomainFactoryUnitOfWork uow = null;
-        public ImEssentialDrugCategory():this(new DomainFactoryUnitOfWork())
-        {
+        private readonly IDomainFacotry DomainFactory;
 
-        }
-        public ImEssentialDrugCategory(DomainFactoryUnitOfWork unitOfWork)
+        public ImEssentialDrugCategory(IDomainFacotry factory)
         {
-            this.uow = unitOfWork;
+            this.DomainFactory = factory;
         }
         /// <summary>
         /// 获取基本药物品种率.
@@ -33,8 +31,8 @@ namespace PHMS2.Models.ViewModel.Implement
             
             var result = new EssentialDrugCategoryRate
             {
-                EssentialDrugNums = this.uow.DomainFactory.CreateEssentialDrugCategoryNumbers().GetEssentialDrugCategoryNumbers(startTime, endTime),
-                DrugCategoriesNums = this.uow.DomainFactory.CreateDrugCategoriesNumbers().GetDrugCategoriesNumbers(startTime, endTime)
+                EssentialDrugNums = this.DomainFactory.CreateEssentialDrugCategoryNumbers().GetEssentialDrugCategoryNumbers(startTime, endTime),
+                DrugCategoriesNums = this.DomainFactory.CreateDrugCategoriesNumbers().GetDrugCategoriesNumbers(startTime, endTime)
             };
             
             return result;

@@ -29,5 +29,13 @@ namespace PhMS2dot1Domain.Models
         [Display(Name = "收费时间")]
         public virtual DateTime ChargeTime { get; set; }
         public virtual InPatientDrugRecord InPatientDrugRecord { get; set; }
+
+        public Decimal ActualPriceInDuration(DateTime startTime, DateTime endTime)
+        {
+            return this.ChargeTime >= startTime && this.ChargeTime < endTime
+                ? 0
+                : this.ActualPrice;
+        }
+
     }
 }

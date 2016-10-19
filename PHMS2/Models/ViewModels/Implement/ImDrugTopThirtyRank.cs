@@ -1,4 +1,5 @@
 ﻿using ClassViewModelToDomain;
+using ClassViewModelToDomain.IFactory;
 using ClassViewModelToDomain.Interface;
 using PHMS2.Models.Factories;
 using System;
@@ -8,23 +9,17 @@ namespace PHMS2.Models.ViewModel.Implement
 {
     public class ImDrugTopThirtyRank : IDrugTopRank
     {
-        DomainFactoryUnitOfWork uow = null;
-        public ImDrugTopThirtyRank() : this(new DomainFactoryUnitOfWork())
+        private readonly IDomainFacotry DomainFactory;
+
+        public ImDrugTopThirtyRank(IDomainFacotry factory)
         {
-
+            this.DomainFactory = factory;
         }
-        public ImDrugTopThirtyRank(DomainFactoryUnitOfWork unitOfWork)
-        {
-            this.uow = unitOfWork;
-        }
-
-
-
         public List<DrugTopRank> GetDrugTopRankList(DateTime startTime, DateTime endTime)
         {
 
             List<DrugTopRank> result = new List<DrugTopRank>();
-            result = this.uow.DomainFactory.CreateDrugTopRank(EnumDrugCategory.ALL_DRUG).GetDrugTopRankList(startTime, endTime);
+            result = this.DomainFactory.CreateDrugTopRank(EnumDrugCategory.ALL_DRUG).GetDrugTopRankList(startTime, endTime);
             //var Iprescrition = this.uow.DomainFactory.CreatePrescrtionInDuration();
 
             //var prescritionList = Iprescrition.GetPrescriptionInDuration(startTime, endTime);

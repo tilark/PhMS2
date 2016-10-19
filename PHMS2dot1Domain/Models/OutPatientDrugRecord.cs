@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 using System.Data.Entity.ModelConfiguration.Conventions;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
+using PhMS2dot1Domain.ViewModels;
+using ClassViewModelToDomain;
+
 namespace PhMS2dot1Domain.Models
 {
     [Table("OutPatientDrugRecords")]
@@ -60,5 +63,113 @@ namespace PhMS2dot1Domain.Models
         public virtual Decimal ActualPrice { get; set; }
 
         public virtual OutPatientPrescription OutPatientPrescription { get; set; }
+
+        //扩展方法
+        #region 抗菌药物
+        /// <summary>
+        /// Determines whether this instance contain antibiotic.
+        /// </summary>
+        /// <returns><c>true</c> if this instance is antibiotic; otherwise, <c>false</c>.</returns>
+        /// 
+        internal bool IsAntibiotic
+        {
+            get
+            {
+                return this.Origin_KSSDJ.HasValue && this.Origin_KSSDJ.Value >= 1 && this.Origin_KSSDJ.Value <= 3;
+            }
+        }
+        internal string AntibioticCategoryNumber
+        {
+            get
+            {
+                return this.IsAntibiotic
+                                ? this.ProductName
+                                : String.Empty;
+            }
+
+        }
+
+        internal Decimal AntibioticCost()
+        {
+            Decimal cost = 0;
+            if (this.IsAntibiotic)
+            {
+                cost = this.ActualPrice;
+            }
+            return cost;
+        }
+        #endregion
+
+        #region 药物价格
+        /// <summary>
+        /// 该处方的药品价格
+        /// </summary>
+        /// <returns>Decimal.</returns>
+        internal Decimal DrugCost()
+        {
+            return ActualPrice;
+        }
+        #endregion
+
+        #region 药物种类
+        /// <summary>
+        /// 根据药品的种类获获得药物的编码和药物名称.
+        /// </summary>
+        /// <returns>EssentialDrugMessage.</returns>
+        internal DrugMessage GetDrugCategoryMessage(EnumDrugCategory drugCategory)
+        {
+            var result = new DrugMessage
+            {
+
+                ProductID = this.Origin_CJID.HasValue ? this.Origin_CJID.Value : -1,
+                ProductName = this.ProductName,
+                Cost = this.ActualPrice
+            }; 
+
+            switch (drugCategory)
+            {
+                case EnumDrugCategory.ALL_DRUG:
+
+                    break;
+                case EnumDrugCategory.ESSENTIAL_DRUG:
+                    if (!IsEssential)
+                    {
+                        result = null;
+                    }
+                    break;
+                case EnumDrugCategory.ANTIBIOTIC_DRUG:
+                    if (! this.IsAntibiotic)
+                    {
+                        result = null;
+                    }
+                    break;
+                default:
+                    break;
+            }
+            return result;
+        }
+        #endregion
+
+        #region 基本药物        
+        /// <summary>
+        /// 获得基本药物的编码和药物名称.
+        /// </summary>
+        /// <returns>EssentialDrugMessage.</returns>
+        internal DrugMessage GetEssentialDrugMessage()
+        {
+            DrugMessage result = new DrugMessage();
+            if (IsEssential)
+            {
+                result = new DrugMessage
+                {
+                    ProductID = this.Origin_CJID.HasValue ? this.Origin_CJID.Value : -1,
+                    ProductName = this.ProductName,
+                    Cost = ActualPrice
+                };
+            }
+
+            return result;
+        }
+        #endregion
     }
 }

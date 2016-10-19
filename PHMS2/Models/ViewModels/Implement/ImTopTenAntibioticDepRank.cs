@@ -6,19 +6,17 @@ using PHMS2Domain.Interface;
 using System.Linq;
 using ClassViewModelToDomain;
 using ClassViewModelToDomain.Interface;
+using ClassViewModelToDomain.IFactory;
 
 namespace PHMS2.Models.ViewModel.Implement
 {
     public class ImTopTenAntibioticDepRank : IDrugTopRank
     {
-        DomainFactoryUnitOfWork uow = null;
-        public ImTopTenAntibioticDepRank():this(new DomainFactoryUnitOfWork())
-        {
+        private readonly IDomainFacotry DomainFactory;
 
-        }
-        public ImTopTenAntibioticDepRank(DomainFactoryUnitOfWork unitOfWork)
+        public ImTopTenAntibioticDepRank(IDomainFacotry factory)
         {
-            this.uow = unitOfWork;
+            this.DomainFactory = factory;
         }
 
         public List<DrugTopRank> GetDrugTopRankList(DateTime startTime, DateTime endTime)
@@ -26,7 +24,7 @@ namespace PHMS2.Models.ViewModel.Implement
            
                 List<DrugTopRank> result = new List<DrugTopRank>();
             //取定时间范围内的处方单
-            result = this.uow.DomainFactory.CreateDrugTopRank(EnumDrugCategory.ANTIBIOTIC_DRUG_DEP).GetDrugTopRankList(startTime, endTime);
+            result = this.DomainFactory.CreateDrugTopRank(EnumDrugCategory.ANTIBIOTIC_DRUG_DEP).GetDrugTopRankList(startTime, endTime);
 
             //IPrescriptionInDuration iPrescrtiptions = this.uow.DomainFactory.CreatePrescrtionInDuration();
             //var prescritionList = iPrescrtiptions.GetPrescriptionInDuration(startTime, endTime);

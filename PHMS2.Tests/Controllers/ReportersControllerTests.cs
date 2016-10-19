@@ -39,7 +39,7 @@ namespace PHMS2.Controllers.Tests
             this.endTime = DateTime.Parse(strEndTime);
             Mock<IReporterViewFactory> factoryMock = new Mock<IReporterViewFactory>();
             this.unitOfWork = new ReporterUnitOfWork(factoryMock.Object);
-            this.controller = new ReportersController(this.unitOfWork);
+            //this.controller = new ReportersController(this.unitOfWork);
         }
         [AssemblyInitialize]
         public static void AssemblyInitial(TestContext context)

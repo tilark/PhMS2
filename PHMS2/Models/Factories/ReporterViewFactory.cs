@@ -1,4 +1,5 @@
 ﻿using ClassViewModelToDomain;
+using ClassViewModelToDomain.IFactory;
 using ClassViewModelToDomain.Interface;
 using PHMS2.Models.ViewModel.Implement;
 using PHMS2.Models.ViewModel.Interface;
@@ -9,17 +10,22 @@ namespace PHMS2.Models.Factories
 {
     public class ReporterViewFactory : IReporterViewFactory 
     {
-        
+        private readonly IDomainFacotry DomainFactory;
+
+        public ReporterViewFactory(IDomainFacotry factory)
+        {
+            this.DomainFactory = factory;
+        }
         public virtual IEssentialDrugRate CreateEssentialDrugRate()
         {
             IEssentialDrugRate drugRateModel = null;
-            drugRateModel = new ImEssentialDrugCategory();
+            drugRateModel = new ImEssentialDrugCategory(this.DomainFactory);
             return drugRateModel;
         }
         public virtual IAntibioticUsageRate CreateAntibioticUsageRate()
         {
             IAntibioticUsageRate result = null;
-            result = new ImAntibioticUsageRate();
+            result = new ImAntibioticUsageRate(this.DomainFactory);
             return result;
         }
         
@@ -29,13 +35,13 @@ namespace PHMS2.Models.Factories
             switch (drugCategory)
             {
                 case EnumDrugCategory.ALL_DRUG:
-                    drugTopRank = new ImDrugTopThirtyRank();
+                    drugTopRank = new ImDrugTopThirtyRank(this.DomainFactory);
                     break;
                 case EnumDrugCategory.ANTIBIOTIC_DRUG:
-                    drugTopRank = new ImTopTenAntibioticRank();
+                    drugTopRank = new ImTopTenAntibioticRank(this.DomainFactory);
                     break;
                 case EnumDrugCategory.ANTIBIOTIC_DRUG_DEP:
-                    drugTopRank = new ImTopTenAntibioticDepRank();
+                    drugTopRank = new ImTopTenAntibioticDepRank(this.DomainFactory);
                     break;
 
             }
@@ -46,7 +52,7 @@ namespace PHMS2.Models.Factories
         public virtual IPrescriptionMessageCollection CreatePrescriptionMessageCollection()
         {
             IPrescriptionMessageCollection result = null;
-            result = new ImPrescriptionMessageCollection();
+            result = new ImPrescriptionMessageCollection(this.DomainFactory);
             return result;
         }
 
@@ -57,7 +63,7 @@ namespace PHMS2.Models.Factories
             switch (categories)
             {
                 case EnumOutPatientCategories.OUTPATIENT_EMERGEMENT:
-                    result = new ImPatientAverageCost.ImOutPatientAverageCost();
+                    result = new ImPatientAverageCost.ImOutPatientAverageCost(this.DomainFactory);
 
                     break;
                 case EnumOutPatientCategories.OUTPATIENT:

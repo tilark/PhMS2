@@ -5,19 +5,17 @@ using PHMS2.Models.ViewModel.Interface;
 using PHMS2Domain.Interface;
 using PHMS2Domain.Factory;
 using ClassViewModelToDomain;
+using ClassViewModelToDomain.IFactory;
 
 namespace PHMS2.Models.ViewModel.Implement
 {
     public class ImAntibioticUsageRate : IAntibioticUsageRate
     {
-        DomainFactoryUnitOfWork uow = null;
-        public ImAntibioticUsageRate():this(new DomainFactoryUnitOfWork())
-        {
+        private readonly IDomainFacotry DomainFactory;
 
-        }
-        public ImAntibioticUsageRate(DomainFactoryUnitOfWork unitOfWork)
+        public ImAntibioticUsageRate(IDomainFacotry factory)
         {
-            this.uow = unitOfWork;
+            this.DomainFactory = factory;
         }
         public AntibioticUsageRate GetAntibioticUsageRate(DateTime startTime, DateTime endTime, EnumOutPatientCategories categories)
         {
@@ -25,8 +23,8 @@ namespace PHMS2.Models.ViewModel.Implement
                 var result =
                  new AntibioticUsageRate
                  {
-                     AntibioticPerson = this.uow.DomainFactory.CreateAntibioticPerson(categories).GetAntibioticPerson(startTime, endTime),
-                     RegisterPerson = this.uow.DomainFactory.CreateRegisterPerson(categories).GetRegisterPerson(startTime, endTime)
+                     AntibioticPerson = this.DomainFactory.CreateAntibioticPerson(categories).GetAntibioticPerson(startTime, endTime),
+                     RegisterPerson = this.DomainFactory.CreateRegisterPerson(categories).GetRegisterPerson(startTime, endTime)
                  };
                 
                 return result;

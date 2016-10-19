@@ -1,4 +1,6 @@
-﻿using PHMS2Domain.Factory;
+﻿using ClassViewModelToDomain.IFactory;
+using PHMS2Domain.Factory;
+using PhMS2dot1Domain.Factories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,22 +10,40 @@ namespace PHMS2.Models.Factories
 {
     public class DomainFactoryUnitOfWork : IDisposable
     {
+        #region  PhMSDomain
+
+        //public DomainFactoryUnitOfWork()
+        //{
+        //    //PhMSDomain
+        //   this.DomainFactory = new DomainOuterFactory();
+        //    //PhMS2dot2Domain
+        //}
+        ////用于单元测试
+        //public DomainFactoryUnitOfWork(IDomainOuterFactory factory)
+        //{
+        //    this.DomainFactory = factory;
+        //}
+
+        //public IDomainOuterFactory DomainFactory
+        //{
+        //    get;
+        //    private set;
+        //}
+        #endregion
+
         public DomainFactoryUnitOfWork()
         {
-           this.DomainFactory = new DomainOuterFactory();
+            
         }
-        //用于单元测试
-        public DomainFactoryUnitOfWork(IDomainOuterFactory factory)
+        public DomainFactoryUnitOfWork(IDomainFacotry factory)
         {
             this.DomainFactory = factory;
         }
-        
-        public IDomainOuterFactory DomainFactory
+        public IDomainFacotry DomainFactory
         {
             get;
             private set;
         }
-
         #region IDisposable Support
         private bool disposedValue = false; // 要检测冗余调用
 
@@ -34,9 +54,9 @@ namespace PHMS2.Models.Factories
                 if (disposing)
                 {
                     // TODO: 释放托管状态(托管对象)。
-                    if(this.DomainFactory != null)
+                    if (this.DomainFactory != null)
                     {
-                        this.DomainFactory.Dispose();
+                        //this.DomainFactory.Dispose();
                     }
                 }
 

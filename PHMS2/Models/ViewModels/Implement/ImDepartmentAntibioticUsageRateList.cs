@@ -8,18 +8,15 @@ using PHMS2.Models.Factories;
 using ClassViewModelToDomain.Interface;
 using Ninject;
 using PhMS2dot1Domain.Factories;
+using ClassViewModelToDomain.IFactory;
 
 namespace PHMS2.Models.ViewModels.Implement
 {
     public class ImDepartmentAntibioticUsageRateList : IDepartmentAntibioticUsageRateList
     {
-        private readonly IDomain2dot1OuterFactory factory;
-        public ImDepartmentAntibioticUsageRateList()
-        {
+        private readonly IDomainFacotry factory;
 
-        }
-
-        public ImDepartmentAntibioticUsageRateList(IDomain2dot1OuterFactory factory)
+        public ImDepartmentAntibioticUsageRateList(IDomainFacotry factory)
         {
             this.factory = factory;
         }

@@ -14,14 +14,11 @@ namespace PHMS2.Controllers
 {
     public class ReportersController : Controller
     {
-        private ReporterUnitOfWork unitOfWork = null;
-        public ReportersController() : this(new ReporterUnitOfWork())
+        //private ReporterUnitOfWork unitOfWork = null;
+        private readonly IReporterViewFactory ReporterViewFactory;
+        public ReportersController(IReporterViewFactory factory)
         {
-
-        }
-        public ReportersController(ReporterUnitOfWork uow)
-        {
-            this.unitOfWork = uow;
+            this.ReporterViewFactory = factory;
         }
         // GET: Reporters
         public ActionResult Index()
@@ -48,12 +45,12 @@ namespace PHMS2.Controllers
             List<DrugTopRank> viewModel = new List<DrugTopRank>();
             try
             {
-                var drugTopRank = this.unitOfWork.ReporterViewFactory.CreateDrugTopRank(EnumDrugCategory.ANTIBIOTIC_DRUG);
+                var drugTopRank = this.ReporterViewFactory.CreateDrugTopRank(EnumDrugCategory.ANTIBIOTIC_DRUG);
                 viewModel = drugTopRank.GetDrugTopRankList(startTime, endTime);
             }
             catch (Exception)
             {
-                throw;
+                viewModel = null;
             }            
             return PartialView("_GetTopTenAntibiotic", viewModel);
         }
@@ -71,11 +68,12 @@ namespace PHMS2.Controllers
             List<DrugTopRank> viewModel = new List<DrugTopRank>();
             try
             {
-                var drugTopRank = this.unitOfWork.ReporterViewFactory.CreateDrugTopRank(EnumDrugCategory.ANTIBIOTIC_DRUG_DEP);
+                var drugTopRank = this.ReporterViewFactory.CreateDrugTopRank(EnumDrugCategory.ANTIBIOTIC_DRUG_DEP);
                 viewModel = drugTopRank.GetDrugTopRankList(startTime, endTime);
             }
             catch (Exception)
             {
+                viewModel = null;
             }
 
             return PartialView("_GetTopTenAntibioticDepartment", viewModel);
@@ -95,13 +93,12 @@ namespace PHMS2.Controllers
             AntibioticUsageRate viewModel = null;
             try
             {
-                IAntibioticUsageRate iAntibioticRate = this.unitOfWork.ReporterViewFactory.CreateAntibioticUsageRate();
+                IAntibioticUsageRate iAntibioticRate = this.ReporterViewFactory.CreateAntibioticUsageRate();
                 viewModel = iAntibioticRate.GetAntibioticUsageRate(startTime, endTime, EnumOutPatientCategories.OUTPATIENT);
             }
             catch (Exception)
             {
-
-                throw;
+                viewModel = null;
             }
             finally
             {
@@ -132,7 +129,7 @@ namespace PHMS2.Controllers
                 ViewBag.startTime = startTime;
                 ViewBag.endTime = endTime.AddDays(1).AddMilliseconds(-1);
                 endTime = endTime.AddDays(1);
-                IAntibioticUsageRate iAntibioticRate = this.unitOfWork.ReporterViewFactory.CreateAntibioticUsageRate();
+                IAntibioticUsageRate iAntibioticRate = this.ReporterViewFactory.CreateAntibioticUsageRate();
                 viewModel = iAntibioticRate.GetAntibioticUsageRate(startTime, endTime, EnumOutPatientCategories.EMERGEMENT);
             }
             catch (Exception)
@@ -169,17 +166,14 @@ namespace PHMS2.Controllers
             List<DrugTopRank> viewModel = null;
             try
             {
-                var drugTopRank = this.unitOfWork.ReporterViewFactory.CreateDrugTopRank(EnumDrugCategory.ALL_DRUG);
+                var drugTopRank = this.ReporterViewFactory.CreateDrugTopRank(EnumDrugCategory.ALL_DRUG);
                 viewModel = drugTopRank.GetDrugTopRankList(startTime, endTime);
             }
             catch (Exception)
             {
-
-
+                viewModel = null;
             }
-
             return PartialView("_GetTopThirtyDrug", viewModel);
-
         }
         /// <summary>
         /// 每次就诊人均用药品种数
@@ -190,7 +184,6 @@ namespace PHMS2.Controllers
         public ActionResult GetAverageDrugCategory(DateTime startTime, DateTime endTime)
         {
             return PartialView("_GetAverageDrugCategory");
-
         }
         #endregion
         #region 药物费用
@@ -207,7 +200,7 @@ namespace PHMS2.Controllers
             endTime = endTime.AddDays(1);
 
             //var viewModel = GetOutPatientAverageCost(startTime, endTime);
-            IPatientAverageCost iAverageCost = this.unitOfWork.ReporterViewFactory.CreatePatientAverageCost(EnumOutPatientCategories.OUTPATIENT_EMERGEMENT);
+            IPatientAverageCost iAverageCost = this.ReporterViewFactory.CreatePatientAverageCost(EnumOutPatientCategories.OUTPATIENT_EMERGEMENT);
             var viewModel = iAverageCost.GetOutPatientAverageCost(startTime, endTime);
             return PartialView("_GetOutpatientAverageCost", viewModel);
 
@@ -225,7 +218,7 @@ namespace PHMS2.Controllers
             ViewBag.startTime = startTime;
             ViewBag.endTime = endTime.AddDays(1).AddMilliseconds(-1);
             endTime = endTime.AddDays(1);
-            IPrescriptionMessageCollection iPrescriptionMessage = this.unitOfWork.ReporterViewFactory.CreatePrescriptionMessageCollection();
+            IPrescriptionMessageCollection iPrescriptionMessage = this.ReporterViewFactory.CreatePrescriptionMessageCollection();
             var viewModel = iPrescriptionMessage.GetPrescriptionMessageCollection(startTime, endTime);
             return PartialView("_GetOutPatientDrugDetails", viewModel);
 
@@ -243,7 +236,7 @@ namespace PHMS2.Controllers
             ViewBag.endTime = endTime.AddDays(1).AddMilliseconds(-1);
             endTime = endTime.AddDays(1);
             EssentialDrugCategoryRate viewModel = null;
-            var drugRateModel = this.unitOfWork.ReporterViewFactory.CreateEssentialDrugRate();
+            var drugRateModel = this.ReporterViewFactory.CreateEssentialDrugRate();
             try
             {
                 viewModel = drugRateModel.GetEssentialDrugCategoryRate(startTime, endTime);

@@ -8,6 +8,7 @@ namespace ClassViewModelToDomain
 {
     public class DrugCost
     {
+        public int ProductCJID { get; set; }
         public string ProductNumber { get; set; }
         public string ProductName { get; set; }
         public Decimal Cost { get; set; }

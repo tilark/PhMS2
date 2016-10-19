@@ -6,6 +6,7 @@ namespace ClassViewModelToDomain
 {
     public class DrugTopRank
     {
+        public int ProductCJID { get; set; }
        
         public string ProductNumber { get; set; }
         public string ProductName { get; set; }

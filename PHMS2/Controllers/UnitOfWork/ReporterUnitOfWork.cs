@@ -8,10 +8,7 @@ namespace PHMS2.Controllers.UnitOfWork
 {
     public class ReporterUnitOfWork
     {
-        public ReporterUnitOfWork()
-        {
-            ReporterViewFactory = new ReporterViewFactory();
-        }
+       
         //用于单元测试
         public ReporterUnitOfWork(IReporterViewFactory factory)
         {

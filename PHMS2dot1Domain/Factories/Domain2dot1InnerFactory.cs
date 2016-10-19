@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using PhMS2dot1Domain.Models;
 using PhMS2dot1Domain.Interface;
 using PhMS2dot1Domain.Implement;
+using ClassViewModelToDomain;
 
 namespace PhMS2dot1Domain.Factories
 {
@@ -61,11 +62,61 @@ namespace PhMS2dot1Domain.Factories
             // GC.SuppressFinalize(this);
         }
         #endregion
-        public IInPatientFromDrugRecords CreateInPatientFromDrugRecords()
+        public IInPatientInDruation CreateInPatientFromDrugRecords()
         {
-            return new ImInPatientFromDrugRecords.ImGetInPatientFromDrugRecords(this.context);
+            return new ImInPatientInDruation.ImGetInPatientFromDrugRecords(this.context);
         }
 
+        public IDepartment CreateDepartment()
+        {
+           return new ImDepartment(this.context);
+        }
 
+        public IInPatientInDruation CreateInPatientInDuration()
+        {
+            return new ImInPatientInDruation.ImGetInPatientInDruation(this.context);
+        }
+
+        public IPrescriptionInDuration CreatePrescrtionInDuration()
+        {
+            return new ImPrescriptionInDuration.GetPrescriptionInDurationList(this.context);
+        }
+
+        public IOutPatientInDuration CreateRegisterFromPrescription(EnumOutPatientCategories categories)
+        {
+            IOutPatientInDuration result = null;
+            switch (categories)
+            {
+                case EnumOutPatientCategories.OUTPATIENT_EMERGEMENT:
+                    result = new ImOutPatientFromDrugRecordInDuration.GetOutPatientEmergencyRegisterFromPrescription(this.context);
+                    break;
+                case EnumOutPatientCategories.OUTPATIENT:
+                    result = new ImOutPatientFromDrugRecordInDuration.GetOutPatientRegisterFromPrescription(this.context);
+                    break;
+                case EnumOutPatientCategories.EMERGEMENT:
+                    result = new ImOutPatientFromDrugRecordInDuration.GetEmergencyRegisterFromPrescription(this.context);
+                    break;
+
+            }
+            return result;
+        }
+
+        public IOutPatientInDuration CreateRegisterInDuration(EnumOutPatientCategories categories)
+        {
+            IOutPatientInDuration result = null;
+            switch (categories)
+            {
+                case EnumOutPatientCategories.OUTPATIENT_EMERGEMENT:
+                    result = new ImOutPatientInDuration.GetOutPatientEmergencyRegisterInDuration(this.context);
+                    break;
+                case EnumOutPatientCategories.OUTPATIENT:
+                    result = new ImOutPatientInDuration.GetOutPatientRegisterInDuration(this.context);
+                    break;
+                case EnumOutPatientCategories.EMERGEMENT:
+                    result = new ImOutPatientInDuration.GetEmergencyRegisterInDuration(this.context);
+                    break;
+            }
+            return result;
+        }
     }
 }

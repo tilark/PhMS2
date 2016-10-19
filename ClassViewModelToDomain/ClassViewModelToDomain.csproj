@@ -47,6 +47,7 @@
     <Compile Include="DrugTopRank.cs" />
     <Compile Include="EnumDrugCategory.cs" />
     <Compile Include="EnumOutPatientCategories.cs" />
+    <Compile Include="IFactory\IDomainFacotry.cs" />
     <Compile Include="Interface\IAntibioticCategoryNumber.cs" />
     <Compile Include="Interface\IAntibioticPerson.cs" />
     <Compile Include="Interface\IDepartmentAntibioticUsageRateDomain.cs" />

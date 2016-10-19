@@ -6,27 +6,25 @@ using PHMS2Domain;
 using PHMS2Domain.Factory;
 using PHMS2.Models.Factories;
 using ClassViewModelToDomain;
+using ClassViewModelToDomain.IFactory;
 
 namespace PHMS2.Models.ViewModel.Implement
 {
     public class ImPrescriptionMessageCollection : IPrescriptionMessageCollection
     {
-        DomainFactoryUnitOfWork uow = null;
-        public ImPrescriptionMessageCollection() : this(new DomainFactoryUnitOfWork())
-        {
+        private readonly IDomainFacotry DomainFactory;
 
-        }
-        public ImPrescriptionMessageCollection(DomainFactoryUnitOfWork unitOfWork)
+        public ImPrescriptionMessageCollection(IDomainFacotry factory)
         {
-            this.uow = unitOfWork;
+            this.DomainFactory = factory;
         }
         public PrescriptionMessageCollection GetPrescriptionMessageCollection(DateTime startTime, DateTime endTime)
         {
 
             PrescriptionMessageCollection result = new PrescriptionMessageCollection();
-            result.OutPatientMessage = this.uow.DomainFactory.CreatePrescriptionMessage(EnumOutPatientCategories.OUTPATIENT).GetPrescriptionMessage(startTime, endTime);
+            result.OutPatientMessage = this.DomainFactory.CreatePrescriptionMessage(EnumOutPatientCategories.OUTPATIENT).GetPrescriptionMessage(startTime, endTime);
 
-            result.EmergencyMessage= this.uow.DomainFactory.CreatePrescriptionMessage(EnumOutPatientCategories.EMERGEMENT).GetPrescriptionMessage(startTime, endTime);
+            result.EmergencyMessage= this.DomainFactory.CreatePrescriptionMessage(EnumOutPatientCategories.EMERGEMENT).GetPrescriptionMessage(startTime, endTime);
             
             result.TotalMessage = new PrescriptionMessage
             {
