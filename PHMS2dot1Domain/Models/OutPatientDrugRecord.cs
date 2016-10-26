@@ -11,9 +11,12 @@ using ClassViewModelToDomain;
 
 namespace PhMS2dot1Domain.Models
 {
+    
+
     [Table("OutPatientDrugRecords")]
     public class OutPatientDrugRecord
     {
+        #region Domain
         [Display(Name = "门诊药物记录ID")]
         public virtual Guid OutPatientDrugRecordID { get; set; }
 
@@ -63,8 +66,10 @@ namespace PhMS2dot1Domain.Models
         public virtual Decimal ActualPrice { get; set; }
 
         public virtual OutPatientPrescription OutPatientPrescription { get; set; }
+        #endregion
 
-        //扩展方法
+        #region 扩展方法
+
         #region 抗菌药物
         /// <summary>
         /// Determines whether this instance contain antibiotic.
@@ -89,6 +94,13 @@ namespace PhMS2dot1Domain.Models
 
         }
 
+        internal int AntibioticCategoryID
+        {
+            get
+            {
+                return this.IsAntibiotic & this.Origin_CJID.HasValue ? this.Origin_CJID.Value : 0;
+            }
+        }
         internal Decimal AntibioticCost()
         {
             Decimal cost = 0;
@@ -171,5 +183,7 @@ namespace PhMS2dot1Domain.Models
             return result;
         }
         #endregion
+        #endregion
+
     }
 }

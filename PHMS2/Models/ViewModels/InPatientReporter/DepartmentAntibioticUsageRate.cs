@@ -4,19 +4,25 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace PHMS2.Models.ViewModel.InPatientReporter
+namespace PHMS2.Models.ViewModels.InPatientReporter
 {
     public class DepartmentAntibioticUsageRate
     {
         public List<DepartmentAntibioticUsageRateDomain> DepartmentAntibioticUsageRateList;
-        public string Total { get
+        public string Hospital
+        {
+            get
             {
                 return "全院";
-            } }
-        public int TotalAntibioticPerson { get
+            }
+        }
+        public int TotalAntibioticPerson
+        {
+            get
             {
                 return this.DepartmentAntibioticUsageRateList.Sum(d => d.AntibioticPerson);
-            } }
+            }
+        }
         public int TotalRegisterPerson
         {
             get

@@ -10,10 +10,16 @@ namespace PhMS2dot1Domain.Factories
 {
     public interface IDomain2dot1InnerFactory : IDisposable
     {
+        #region 住院信息
+
         IInPatientInDruation CreateInPatientFromDrugRecords();
         IInPatientInDruation CreateInPatientInDuration();
         IDepartment CreateDepartment();
+        #endregion
 
+        #region 门诊信息
+
+        #endregion
         IPrescriptionInDuration CreatePrescrtionInDuration();
         IOutPatientInDuration CreateRegisterFromPrescription(EnumOutPatientCategories categories);
         IOutPatientInDuration CreateRegisterInDuration(EnumOutPatientCategories categories);

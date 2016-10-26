@@ -1,4 +1,4 @@
-﻿
+﻿@model PHMS2.Models.ViewModels.Reporter.DrugCategoryRate
 <div class="panel-body" id="getAverageDrugCategoryBody">
     <table class="table table-hover table-bordered table-striped text-center">
         <tr>
@@ -17,9 +17,9 @@
             <td>每次就诊人均用药品种数</td>
         </tr>
         <tr>
-            <td></td>
-            <td></td>
-            <td></td>
+            <td>@Model.DrugCategoryNums</td>
+            <td>@Model.RegisterPersons</td>
+            <td>@Model.Rate</td>
         </tr>
     </table>
 </div>

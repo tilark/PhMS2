@@ -17,6 +17,8 @@ namespace PhMS2dot1Domain.Factories
         {
             this.innerFactory = factory;
         }
+        #region 门诊信息
+
 
         public IAntibioticPerson CreateAntibioticPerson(EnumOutPatientCategories categories)
         {
@@ -35,12 +37,6 @@ namespace PhMS2dot1Domain.Factories
             }
             return result;
         }
-
-        public IDepartmentAntibioticUsageRateDomain CreateDepartmentAntibioticUsageRateDomain()
-        {
-            return new ImDepartmentAntibioticUsageRateDomain(this.innerFactory);
-        }
-
         public IDrugCategoriesNumbers CreateDrugCategoriesNumbers()
         {
             var result = new ImGetDrugCategoriesNumbers(this.innerFactory);
@@ -127,5 +123,59 @@ namespace PhMS2dot1Domain.Factories
             }
             return result;
         }
+        #endregion
+        #region 住院信息
+        public IDepartmentAntibioticIntensityDomain CreateDepartmentAntibioticIntensityDomain()
+        {
+            return new ImDepartmentAntibioticIntensityDomain(this.innerFactory);
+        }
+
+        public IDepartmentAntibioticUsageRateDomain CreateDepartmentAntibioticUsageRateDomain()
+        {
+            return new ImDepartmentAntibioticUsageRateDomain(this.innerFactory);
+        }
+
+        public ISpecialAntibioticDdds CreateSpecialAntibioticDdds()
+        {
+            return new ImSpecialAntibioticDdds(this.innerFactory);
+        }
+
+        public ITotalAntibioticDdds CreateTotalAntibioticDdds()
+        {
+            return new ImTotalAntibioticDdds(this.innerFactory);
+        }
+
+        public IDepartmentEssentialUsageRateDomain CreateDepartmentEssentialUsageRateDomain()
+        {
+            return new ImDepartmentEssentialUsageRateDomain(this.innerFactory);
+        }
+
+        public IInPatientAntibioticCost CreateInPatientAntibioticCost()
+        {
+            return new ImInPatientAntibioticCost(this.innerFactory);
+        }
+
+        public IPatientCost CreateInPatientDrugCost()
+        {
+            return new ImInPatientDrugCost(this.innerFactory);
+        }
+
+        public IAntibioticCategoryNumber CreateInPatientAntibioticCategoryNumber()
+        {
+            return new ImInPatientAntibioticCategoryNumber(this.innerFactory);
+        }
+
+        /// <summary>
+        /// 获取同期住院抗菌药物使用人数
+        /// </summary>
+        /// <returns>IAntibioticPerson.</returns>
+        /// <exception cref="System.NotImplementedException"></exception>
+        public IAntibioticPerson CreateInPatientAntibioticPerson()
+        {
+            return new ImInPatientAntibioticPerson(this.innerFactory);
+        }
+        #endregion
+
+
     }
 }

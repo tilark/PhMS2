@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using ClassViewModelToDomain;
 
-namespace PHMS2.Models.ViewModel.Interface
+namespace PHMS2.Models.ViewModels.Interface
 {
     public interface IAntibioticUsageRate
     {

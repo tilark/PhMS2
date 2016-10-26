@@ -28,11 +28,10 @@ namespace PhMS2dot1Domain.ImplementOuterRepository
                 var negaiveNumber = registerInDuration.SelectMany(r => r.DrugCategoryNumberNegativeList(startTime, endTime, EnumDrugCategory.ESSENTIAL_DRUG)).Distinct().Count();
                 result = positiveNumber - negaiveNumber;
             }
-            catch (Exception)
+            catch (Exception e)
             {
 
-                //throw new InvalidOperationException(String.Format("读取数据库出错!"));
-                throw;
+                throw new InvalidOperationException(String.Format("数据操作出错! {0}", e.Message));
             }
 
             return result;

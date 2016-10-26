@@ -7,12 +7,15 @@ using System.Data.Entity.ModelConfiguration.Conventions;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 using ClassViewModelToDomain;
+using PhMS2dot1Domain.ViewModels;
 
 namespace PhMS2dot1Domain.Models
 {
     [Table("InPatientDrugRecords")]
     public class InPatientDrugRecord
     {
+        #region Domain
+
         public InPatientDrugRecord()
         {
             DrugFees = new HashSet<DrugFee>();
@@ -43,9 +46,10 @@ namespace PhMS2dot1Domain.Models
         [Display(Name = "原HIS药物用法")]
         public virtual string Origin_ORDER_USAGE { get; set; }
         public virtual InPatient InPatient { get; set; }
-        public virtual HashSet<DrugFee> DrugFees { get; set; }
+        public virtual ICollection<DrugFee> DrugFees { get; set; }
+        #endregion
 
-        //扩展方法
+        #region 扩展方法
         #region 抗菌药物
 
         public bool IsAntibioticDrug
@@ -56,9 +60,16 @@ namespace PhMS2dot1Domain.Models
             }
         }
 
+        public bool IsSpecialAntibioticDrug
+        {
+            get
+            {
+                return this.Origin_KSSDJ.HasValue && this.Origin_KSSDJ.Value == 3;
+            }
+        }
         public Decimal AntibioticCost(DateTime startTime, DateTime endTime)
         {
-            return this.IsAntibioticDrug 
+            return this.IsAntibioticDrug
                 ? this.DrugFees.Sum(d => d.ActualPriceInDuration(startTime, endTime))
                 : 0;
         }
@@ -82,8 +93,117 @@ namespace PhMS2dot1Domain.Models
         #region 总费用
         internal Decimal DrugCost(DateTime startTime, DateTime endTime)
         {
-            return this.DrugFees.Sum(a => a.ActualPrice);
+            return this.DrugFees.Sum(a => a.ActualPriceInDuration(startTime, endTime));
+        }
+        internal DepartmentCost GetDepartmentTotalDrugCost(DateTime startTime, DateTime endTime)
+        {
+            return new DepartmentCost
+            {
+                DepartmentID = this.Origin_EXEC_DEPT,
+                Cost = DrugCost(startTime, endTime),
+                DrugCJID = this.Origin_CJID
+            };
         }
         #endregion
+        #region Ddd        
+        /// <summary>
+        /// 取定时间段内的 DDD.
+        /// </summary>
+        /// <value>The total DDD.</value>
+        internal Decimal TotalDddInDuration(DateTime startTime, DateTime endTime)
+        {
+
+            return this.DDD * this.DrugFees.Sum(d => d.QuantityInDuration(startTime, endTime));
+
+        }
+        /// <summary>
+        /// 取定时间段内的特殊抗菌药物的DDD值.
+        /// </summary>
+        /// <param name="startTime">The start time.</param>
+        /// <param name="endTime">The end time.</param>
+        /// <returns>Decimal.</returns>
+        internal Decimal TotalSpecialDddInDuration(DateTime startTime, DateTime endTime)
+        {
+            return this.IsSpecialAntibioticDrug ? this.DDD * this.DrugFees.Sum(d => d.QuantityInDuration(startTime, endTime)) : Decimal.Zero;
+        }
+        internal DepartmentDdd GetDepartmentDdd(DateTime startTime, DateTime endTime)
+        {
+            var result = new DepartmentDdd
+            {
+                DepartmentID = this.Origin_EXEC_DEPT,
+                Ddd = this.TotalDddInDuration(startTime, endTime)
+            };
+            return result;
+        }
+
+        /// <summary>
+        /// 获得特殊限制抗菌药物的科室及Ddd总消耗.
+        /// </summary>
+        /// <param name="startTime">The start time.</param>
+        /// <param name="endTime">The end time.</param>
+        /// <returns>DepartmentDdd.</returns>
+        internal DepartmentDdd GetDepartmentSpecialDdd(DateTime startTime, DateTime endTime)
+        {
+            var result = new DepartmentDdd
+            {
+                DepartmentID = this.Origin_EXEC_DEPT,
+                Ddd = this.TotalSpecialDddInDuration(startTime, endTime)
+            };
+            return result;
+        }
+        #endregion
+        #region 药品种类
+        /// <summary>
+        /// 根据药品的种类获获得药物的编码和药物名称.
+        /// </summary>
+        /// <returns>EssentialDrugMessage.</returns>
+        internal DrugMessage GetDrugCategoryMessage(DateTime startTime, DateTime endTime,EnumDrugCategory drugCategory)
+        {
+            var result = new DrugMessage
+            {
+                ProductID = this.Origin_CJID,
+                ProductName = this.ProductName,
+                Cost = this.DrugFees.Sum(d => d.ActualPriceInDuration(startTime, endTime))
+            };
+
+            switch (drugCategory)
+            {
+                case EnumDrugCategory.ALL_DRUG:
+
+                    break;
+                case EnumDrugCategory.ESSENTIAL_DRUG:
+                    if (!IsEssential)
+                    {
+                        result = null;
+                    }
+                    break;
+                case EnumDrugCategory.ANTIBIOTIC_DRUG:
+                    if (!this.IsAntibioticDrug)
+                    {
+                        result = null;
+                    }
+                    break;
+                default:
+                    break;
+            }
+            return result;
+        }
+        #endregion
+        #region 基本药物
+
+        internal DepartmentCost GetDepartmentEssentialDrugCost(DateTime startTime, DateTime endTime)
+        {
+            return this.IsEssential ? new DepartmentCost
+            {
+                DepartmentID = this.Origin_EXEC_DEPT,
+                Cost = DrugCost(startTime, endTime),
+                DrugCJID = this.Origin_CJID
+            }
+            : null;
+        }
+        #endregion
+        #endregion
+
     }
+
 }

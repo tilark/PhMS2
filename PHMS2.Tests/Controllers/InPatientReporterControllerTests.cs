@@ -7,12 +7,13 @@ using System.Text;
 using System.Threading.Tasks;
 using Ninject.MockingKernel;
 using Ninject.MockingKernel.Moq;
-using PHMS2.Models.ViewModel;
+using PHMS2.Models.ViewModels;
 //using Moq;
 using PHMS2.Models.ViewModels.Interface;
 using System.Web.Mvc;
 using ClassViewModelToDomain;
 using PHMS2.Models.Factories;
+using PHMS2.Models.ViewModels.InPatientReporter;
 
 namespace PHMS2.Controllers.Tests
 {
@@ -52,7 +53,7 @@ namespace PHMS2.Controllers.Tests
             factoryMock.Setup(f => f.CreateDepartmentAntibioticUsageRateList()).Returns(antibioticUsageRateMock.Object);
 
             var inPatientController = new InPatientReporterController(factoryMock.Object);
-            var returnResult = inPatientController.InPatientAntibioticUsageRate(this.startTime, this.endTime) as ViewResult;
+            var returnResult = inPatientController.InPatientAntibioticUsageRateIndex(this.startTime, this.endTime) as ViewResult;
             Assert.IsNotNull(returnResult.Model);
             var model = (DepartmentAntibioticUsageRate) returnResult.Model;
             var item = model.DepartmentAntibioticUsageRateList.FirstOrDefault();

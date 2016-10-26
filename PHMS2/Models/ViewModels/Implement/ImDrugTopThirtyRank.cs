@@ -5,7 +5,7 @@ using PHMS2.Models.Factories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-namespace PHMS2.Models.ViewModel.Implement
+namespace PHMS2.Models.ViewModels.Implement
 {
     public class ImDrugTopThirtyRank : IDrugTopRank
     {

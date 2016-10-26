@@ -130,6 +130,10 @@
       <Project>{0a3ca7b2-0e36-4446-9ec5-6be6529b41d3}</Project>
       <Name>PHMS2Domain</Name>
     </ProjectReference>
+    <ProjectReference Include="..\PHMS2dot1Domain\PhMS2dot1Domain.csproj">
+      <Project>{27d20805-0862-46b3-918a-1d00b34d7e08}</Project>
+      <Name>PhMS2dot1Domain</Name>
+    </ProjectReference>
     <ProjectReference Include="..\PHMS2\PHMS2.csproj">
       <Project>{C6B1D28A-A50F-40CE-8A4F-D7E97B6B3359}</Project>
       <Name>PHMS2</Name>

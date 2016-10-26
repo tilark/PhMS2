@@ -1,10 +1,10 @@
-﻿using ClassViewModelToDomain;
+﻿using System;
+using PHMS2.Models.ViewModels.Interface;
+using PHMS2.Models.ViewModels.Implement;
+using ClassViewModelToDomain;
 using ClassViewModelToDomain.IFactory;
 using ClassViewModelToDomain.Interface;
-using PHMS2.Models.ViewModel.Implement;
-using PHMS2.Models.ViewModel.Interface;
 using PHMS2Domain.Factory;
-using System;
 
 namespace PHMS2.Models.Factories
 {
@@ -76,6 +76,11 @@ namespace PHMS2.Models.Factories
             return result;
         }
 
-       
+        public IDrugCategoryRate CreateDrugCategoryRate()
+        {
+            IDrugCategoryRate result = null;
+            result = new ImDrugCategoryRate(this.DomainFactory);
+            return result;
+        }
     }
 }

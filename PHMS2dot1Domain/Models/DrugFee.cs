@@ -11,6 +11,8 @@ namespace PhMS2dot1Domain.Models
     [Table("DrugFees")]
     public class DrugFee
     {
+        #region Domain
+
         [Key]
         [Display(Name = "药物费用ID")]
         public virtual Guid DrugFeeID { get; set; }
@@ -29,6 +31,10 @@ namespace PhMS2dot1Domain.Models
         [Display(Name = "收费时间")]
         public virtual DateTime ChargeTime { get; set; }
         public virtual InPatientDrugRecord InPatientDrugRecord { get; set; }
+        #endregion
+
+        #region 扩展方法
+        #region 取定时间内的药物费用
 
         public Decimal ActualPriceInDuration(DateTime startTime, DateTime endTime)
         {
@@ -36,6 +42,16 @@ namespace PhMS2dot1Domain.Models
                 ? 0
                 : this.ActualPrice;
         }
+        #endregion
+        #region 取定时间内的药物数量
+        public Decimal QuantityInDuration(DateTime startTime, DateTime endTime)
+        {
+            return this.ChargeTime >= startTime && this.ChargeTime < endTime
+                ? 0
+                : this.Quantity;
+        }
+        #endregion
+        #endregion
 
     }
 }

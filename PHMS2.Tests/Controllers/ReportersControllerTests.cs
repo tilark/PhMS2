@@ -6,18 +6,22 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Moq;
-using PHMS2.Models.ViewModel.Interface;
-using PHMS2.Models.ViewModel;
-using ClassViewModelToDomain;
-//using PHMS2Domain;
- 
 using PHMS2.Models.Factories;
 using System.Web.Mvc;
 using System.Collections;
 using System.Data;
 using System.Data.Common;
 using PHMS2.Tests;
+using ClassViewModelToDomain.Interface;
+using ClassViewModelToDomain.IFactory;
+using Ninject.MockingKernel;
+using Ninject.MockingKernel.Moq;
+using Moq;
+using PHMS2.Models.ViewModels.Interface;
+using PHMS2.Models.ViewModels;
+using ClassViewModelToDomain;
+using PHMS2.Models.ViewModels.Reporter;
+using PhMS2dot1Domain.Factories;
 
 namespace PHMS2.Controllers.Tests
 {
@@ -73,11 +77,11 @@ namespace PHMS2.Controllers.Tests
             var antibioticUsageRate = new Mock<IAntibioticUsageRate>();
             antibioticUsageRate.Setup(a => a.GetAntibioticUsageRate(startTime, endTime, EnumOutPatientCategories.OUTPATIENT)).Returns(mockData);
             Mock<IReporterViewFactory> factoryMock = new Mock<IReporterViewFactory>();
-           
+
             factoryMock.Setup(f => f.CreateAntibioticUsageRate()).Returns(antibioticUsageRate.Object);
             var returnValue = antibioticUsageRate.Object.GetAntibioticUsageRate(startTime, endTime, EnumOutPatientCategories.OUTPATIENT);
 
-            var resultTest = this.controller.GetOutpatientAntimicrobialRate(startTime, endTime) as ViewResult;
+            var resultTest = this.controller.GetOutpatientAntibioticUsageRate(startTime, endTime) as ViewResult;
             Assert.IsNotNull(resultTest.Model);
             Assert.AreEqual(returnValue.AntibioticPerson, mockData.AntibioticPerson);
             Assert.AreEqual(((AntibioticUsageRate)resultTest.Model).AntibioticPerson, mockData.AntibioticPerson);
@@ -96,12 +100,52 @@ namespace PHMS2.Controllers.Tests
             var essentialDrugRate = new Mock<IEssentialDrugRate>();
             essentialDrugRate.Setup(e => e.GetEssentialDrugCategoryRate(this.startTime, this.endTime)).Returns(mockData);
             Mock<IReporterViewFactory> factoryMock = new Mock<IReporterViewFactory>();
-            
+
 
             factoryMock.Setup(f => f.CreateEssentialDrugRate()).Returns(essentialDrugRate.Object);
             var returnValue = essentialDrugRate.Object.GetEssentialDrugCategoryRate(this.startTime, this.endTime);
             Assert.AreEqual(returnValue.EssentialDrugNums, mockData.EssentialDrugNums);
-            Assert.AreEqual(returnValue.Rate, Decimal.Round((Decimal)mockData.EssentialDrugNums * 100 / (Decimal)mockData.DrugCategoriesNums, 2));            
+            Assert.AreEqual(returnValue.Rate, Decimal.Round((Decimal)mockData.EssentialDrugNums * 100 / (Decimal)mockData.DrugCategoriesNums, 2));
+        }
+
+        [TestMethod()]
+        public void GetAverageDrugCategoryTest()
+        {
+            InitialBaseData();
+            var mockKernerl = new MoqMockingKernel();
+
+            var drugCategoryRate = new DrugCategoryRate
+            {
+                DrugCategoryNums = 10,
+                RegisterPersons = 100
+            };
+            var iDrugCategoryRate = mockKernerl.GetMock<IDrugCategoryRate>();
+            iDrugCategoryRate.Setup(i => i.GetDrugCategoryRate(this.startTime, this.endTime)).Returns(drugCategoryRate);
+
+            //int drugCategoryNumbers = 10;
+            //var drugCategoriesNums = mockKernerl.GetMock<IDrugCategoriesNumbers>();
+            //drugCategoriesNums.Setup(d => d.GetDrugCategoriesNumbers(this.startTime, this.endTime)).Returns(drugCategoryNumbers);
+
+            //int registerPersons = 100;
+            //var registerPerson = mockKernerl.GetMock<IRegisterPerson>();
+            //registerPerson.Setup(r => r.GetRegisterPerson(this.startTime, this.endTime)).Returns(registerPersons);
+
+
+            var reporterViewFactory = mockKernerl.GetMock<IReporterViewFactory>();
+            reporterViewFactory.Setup(r => r.CreateDrugCategoryRate()).Returns(iDrugCategoryRate.Object);
+            var domainFactory = mockKernerl.GetMock<IDomainFacotry>();
+
+            //domainFactory.Setup(d => d.CreateDrugCategoriesNumbers()).Returns(drugCategoriesNums.Object);
+            //domainFactory.Setup(d => d.CreateRegisterPerson(EnumOutPatientCategories.OUTPATIENT_EMERGEMENT)).Returns(registerPerson.Object);
+
+            var controller = new ReportersController(reporterViewFactory.Object);
+
+            var viewResult = controller.GetAverageDrugCategory(this.startTime, this.endTime) as ViewResult;
+
+            var resultModel = (DrugCategoryRate)viewResult.Model;
+            Assert.AreNotEqual(resultModel.DrugCategoryNums, -1);
+            Assert.AreEqual(resultModel.DrugCategoryNums, 10);
+            //Assert.Fail();
         }
 
 

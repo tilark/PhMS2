@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using PHMS2.Models.ViewModel;
 using PHMS2.Models.ViewModels.Interface;
 using PHMS2.Models.Factories;
 using ClassViewModelToDomain.Interface;
 using Ninject;
 using PhMS2dot1Domain.Factories;
 using ClassViewModelToDomain.IFactory;
+using PHMS2.Models.ViewModels.InPatientReporter;
 
 namespace PHMS2.Models.ViewModels.Implement
 {
@@ -28,9 +28,9 @@ namespace PHMS2.Models.ViewModels.Implement
             {
                 result.DepartmentAntibioticUsageRateList = this.factory.CreateDepartmentAntibioticUsageRateDomain().GetDepartmentAntibioticUsageRateDomain(startTime, endTime);
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                result.DepartmentAntibioticUsageRateList = new List<ClassViewModelToDomain.DepartmentAntibioticUsageRateDomain>();
+                throw new ArgumentNullException("读取数据错误！{0}",e.Message);
             }
             return result;
         }

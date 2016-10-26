@@ -38,7 +38,7 @@ namespace PhMS2dot1Domain.Models
         public virtual Guid PatientID { get; set; }
 
         public virtual Patient Patient { get; set; }
-        public virtual HashSet<OutPatientPrescription> OutPatientPrescriptions { get; set; }
+        public virtual ICollection<OutPatientPrescription> OutPatientPrescriptions { get; set; }
 
         //扩展方法
         #region 抗菌药物
@@ -178,33 +178,42 @@ namespace PhMS2dot1Domain.Models
         /// <param name="startTime">The start time.</param>
         /// <param name="endTime">The end time.</param>
         /// <returns>List&lt;System.String&gt;.</returns>
-        internal List<string> DrugCategoryNumberPositiveList(DateTime startTime, DateTime endTime, EnumDrugCategory drugCategory)
+        internal List<int> DrugCategoryNumberPositiveList(DateTime startTime, DateTime endTime, EnumDrugCategory drugCategory)
         {
-            List<string> result = new List<string>();
+            List<int> result = new List<int>();
             //获取在startTime之前的基本药物种类总金额==0的集合，
             //并且获取在endTime之前的基本药物种类总金额 >0的集合
-
-            var preStartTimeList = OutPatientPrescriptions.SelectMany(opp => opp.GetDrugCategoryMessage(this.ChargeTime, startTime, drugCategory)).ToList()
-                .GroupBy(g => g.ProductNumber).Where(w => w.Sum(su => su.Cost) == 0).Select(s => s.Key).ToList();
-            var preStartTimeGreaterZeroList = OutPatientPrescriptions.SelectMany(opp => opp.GetDrugCategoryMessage(this.ChargeTime, startTime, drugCategory)).ToList()
-                .GroupBy(g => g.ProductNumber).Where(w => w.Sum(su => su.Cost) > 0).Select(s => s.Key).ToList();
-            var preEndTimeList = OutPatientPrescriptions.SelectMany(opp => opp.GetDrugCategoryMessage(this.ChargeTime, endTime, drugCategory)).ToList()
-                .GroupBy(g => g.ProductNumber).Where(w => w.Sum(su => su.Cost) > 0).Select(s => s.Key).ToList();
-            //preStartTimeList  preEndTimeList 的交集，即为该挂号信息中有效的药品种类
-            if (preStartTimeGreaterZeroList.Count > 0 && preEndTimeList.Count > 0)
+            try
             {
-                //返回空，计数0
+                var preStartTimeList = OutPatientPrescriptions.SelectMany(opp => opp.GetDrugCategoryMessage(this.ChargeTime, startTime, drugCategory)).ToList()
+                .GroupBy(g => g.ProductID).Where(w => w.Sum(su => su.Cost) == 0).Select(s => s.Key).ToList();
+                var preStartTimeGreaterZeroList = OutPatientPrescriptions.SelectMany(opp => opp.GetDrugCategoryMessage(this.ChargeTime, startTime, drugCategory)).ToList()
+                    .GroupBy(g => g.ProductID).Where(w => w.Sum(su => su.Cost) > 0).Select(s => s.Key).ToList();
+                var preEndTimeList = OutPatientPrescriptions.SelectMany(opp => opp.GetDrugCategoryMessage(this.ChargeTime, endTime, drugCategory)).ToList()
+                    .GroupBy(g => g.ProductID).Where(w => w.Sum(su => su.Cost) > 0).Select(s => s.Key).ToList();
+                //preStartTimeList  preEndTimeList 的交集，即为该挂号信息中有效的药品种类
+                if (preStartTimeGreaterZeroList.Count > 0 && preEndTimeList.Count > 0)
+                {
+                    //返回空，计数0
+                    
 
-            }
-            else if (preStartTimeList.Count > 0 && preEndTimeList.Count > 0)
-            {
-                result = preEndTimeList.Intersect(preEndTimeList).ToList();
+                }
+                else if (preStartTimeList.Count > 0 && preEndTimeList.Count > 0)
+                {
+                    result = preEndTimeList.Intersect(preEndTimeList).ToList();
 
+                }
+                else if (preStartTimeList.Count == 0 && preEndTimeList.Count > 0)
+                {
+                    result = preEndTimeList;
+                }
             }
-            else if (preStartTimeList.Count == 0 && preEndTimeList.Count > 0)
+            catch (Exception e)
             {
-                result = preEndTimeList;
+
+                throw new InvalidOperationException(String.Format("数据操作出错! {0}", e.Message));
             }
+            
             return result;
         }
         /// <summary>
@@ -213,21 +222,20 @@ namespace PhMS2dot1Domain.Models
         /// <param name="startTime">The start time.</param>
         /// <param name="endTime">The end time.</param>
         /// <returns>List&lt;System.String&gt;.</returns>
-        internal List<string> DrugCategoryNumberNegativeList(DateTime startTime, DateTime endTime, EnumDrugCategory drugCategory)
+        internal List<int> DrugCategoryNumberNegativeList(DateTime startTime, DateTime endTime, EnumDrugCategory drugCategory)
         {
-            List<string> result = new List<string>();
+            List<int> result = new List<int>();
             //获取在startTime之前的基本药物种类总金额==0的集合，
             //并且获取在endTime之前的基本药物种类总金额 >0的集合
 
             var preStartTimeList = OutPatientPrescriptions.SelectMany(opp => opp.GetEssentialDrugMessage(this.ChargeTime, startTime)).ToList()
-                .GroupBy(g => g.ProductNumber).Where(w => w.Sum(su => su.Cost) > 0).Select(s => s.Key).ToList();
+                .GroupBy(g => g.ProductID).Where(w => w.Sum(su => su.Cost) > 0).Select(s => s.Key).ToList();
             var preEndTimeList = OutPatientPrescriptions.SelectMany(opp => opp.GetEssentialDrugMessage(this.ChargeTime, endTime)).ToList()
-                .GroupBy(g => g.ProductNumber).Where(w => w.Sum(su => su.Cost) == 0).Select(s => s.Key).ToList();
+                .GroupBy(g => g.ProductID).Where(w => w.Sum(su => su.Cost) == 0).Select(s => s.Key).ToList();
             //preStartTimeList  preEndTimeList 的交集，即为该挂号信息中有效的药品种类
             if (preStartTimeList.Count > 0 && preEndTimeList.Count > 0)
             {
                 result = preEndTimeList.Intersect(preEndTimeList).ToList();
-
             }
             return result;
         }

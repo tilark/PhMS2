@@ -22,9 +22,18 @@ namespace PhMS2dot1Domain.ImplementOuterRepository
             public int GetAntibioticCategoryNumber(DateTime startTime, DateTime endTime)
             {
                 int result = 0;
-                var register = this.innerFactory.CreateRegisterFromPrescription(EnumOutPatientCategories.EMERGEMENT);
-                var registersList = register.GetRegisterInDuration(startTime, endTime);
-                result = new GetCountFromRegisterList().GetAntibioticCategoryNumberCount(registersList, startTime, endTime);
+                try
+                {
+                    var register = this.innerFactory.CreateRegisterFromPrescription(EnumOutPatientCategories.EMERGEMENT);
+                    var registersList = register.GetRegisterInDuration(startTime, endTime);
+                    result = new GetCountFromRegisterList().GetAntibioticCategoryNumberCount(registersList, startTime, endTime);
+
+                }
+                catch (Exception)
+                {
+
+                    throw;
+                }
                 return result;
             }
         }

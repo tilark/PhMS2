@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace PHMS2.Models.ViewModel
+namespace PHMS2.Models.ViewModels
 {
     public class DepartmentAntibioticUsageRate
     {

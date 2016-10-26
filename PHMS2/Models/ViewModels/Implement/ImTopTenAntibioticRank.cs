@@ -2,13 +2,13 @@
 using ClassViewModelToDomain.IFactory;
 using ClassViewModelToDomain.Interface;
 using PHMS2.Models.Factories;
-using PHMS2.Models.ViewModel.Interface;
+using PHMS2.Models.ViewModels.Interface;
 using PHMS2Domain.Interface;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace PHMS2.Models.ViewModel.Implement
+namespace PHMS2.Models.ViewModels.Implement
 {
     public class ImTopTenAntibioticRank : IDrugTopRank
     {

@@ -17,9 +17,45 @@ namespace PHMS2.Models.Factories
         {
             this.factory = factory;
         }
+
+        public IDepartmentAntibioticIntensity CreateDepartmentAntibioticIntensity()
+        {
+            return new ImDepartmentAntibioticIntensity(this.factory);
+        }
+
         public IDepartmentAntibioticUsageRateList CreateDepartmentAntibioticUsageRateList()
         {
             return new ImDepartmentAntibioticUsageRateList(this.factory);
+        }
+
+        public IDepartmentEssentialUsageRate CreateDepartmentEssentialUsageRate()
+        {
+            return new ImDepartmentEssentialUsageRate(this.factory);
+        }
+
+        public IInPatientAntibioticUsageRate CreateInPatientAntibioticUsageRate()
+        {
+            throw new NotImplementedException();
+        }
+
+        public IInPatientAverageAntibioticCategoryRate CreateInPatientAverageAntibioticCategoryRate()
+        {
+            return new ImInPatientAverageAntibioticCategoryRate(this.factory);
+        }
+
+        public IInPatientAverageAntibioticCostRate CreateInPatientAverageAntibioticCostRate()
+        {
+            return new ImInPatientAverageAntibioticCostRate(this.factory);
+        }
+
+        public IInPatientDrugMessage CreateInPatientDrugMessage()
+        {
+            return new ImInPatientDrugMessage(this.factory);
+        }
+
+        public ISpecialAntibioticUsageRate CreateSpecialAntibioticUsageRate()
+        {
+            return new ImSpecialAntibioticUsageRate(this.factory);
         }
     }
 }

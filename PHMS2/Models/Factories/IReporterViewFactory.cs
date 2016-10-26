@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ClassViewModelToDomain.Interface;
-using PHMS2.Models.ViewModel.Interface;
+using PHMS2.Models.ViewModels.Interface;
 using ClassViewModelToDomain;
 
 namespace PHMS2.Models.Factories
@@ -16,6 +16,7 @@ namespace PHMS2.Models.Factories
         IDrugTopRank CreateDrugTopRank(EnumDrugCategory drugCategory);
         IPrescriptionMessageCollection CreatePrescriptionMessageCollection();
         IPatientAverageCost CreatePatientAverageCost(EnumOutPatientCategories category);
+        IDrugCategoryRate CreateDrugCategoryRate();
 
     }
 }

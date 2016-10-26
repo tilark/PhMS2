@@ -1,5 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using PHMS2.Models.ViewModel.Implement;
+using PHMS2.Models.ViewModels.Implement;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,7 +12,7 @@ using PHMS2Domain.Interface;
 using PHMS2Domain;
 using ClassViewModelToDomain.Interface;
 
-namespace PHMS2.Models.ViewModel.Implement.Tests
+namespace PHMS2.Models.ViewModels.Implement.Tests
 {
     [TestClass()]
     public class ImAntibioticUsageRateTests

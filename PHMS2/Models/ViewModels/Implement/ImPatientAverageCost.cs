@@ -2,13 +2,13 @@
 using System.Linq;
 using PHMS2Domain.Interface;
 using PHMS2Domain;
-using PHMS2.Models.ViewModel.Interface;
+using PHMS2.Models.ViewModels.Interface;
 using PHMS2.Models.Factories;
 using PHMS2Domain.Factory;
 using ClassViewModelToDomain;
 using ClassViewModelToDomain.IFactory;
 
-namespace PHMS2.Models.ViewModel.Implement
+namespace PHMS2.Models.ViewModels.Implement
 {
     public class ImPatientAverageCost
     {

@@ -1,14 +1,15 @@
-﻿using PHMS2.Controllers.UnitOfWork;
-using PHMS2.Models.ViewModel;
-using PHMS2.Models.ViewModel.Interface;
-using PHMS2Domain;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using ClassViewModelToDomain;
 using PHMS2.Models.Factories;
+using PHMS2.Models.ViewModels.Reporter;
+using PHMS2.Controllers.UnitOfWork;
+using PHMS2.Models.ViewModels;
+using PHMS2.Models.ViewModels.Interface;
+using PHMS2Domain;
 
 namespace PHMS2.Controllers
 {
@@ -51,7 +52,7 @@ namespace PHMS2.Controllers
             catch (Exception)
             {
                 viewModel = null;
-            }            
+            }
             return PartialView("_GetTopTenAntibiotic", viewModel);
         }
         /// <summary>
@@ -79,12 +80,12 @@ namespace PHMS2.Controllers
             return PartialView("_GetTopTenAntibioticDepartment", viewModel);
         }
         /// <summary>
-        /// 获取门诊抗病菌使用率
+        /// 获取门诊抗菌药物使用率
         /// </summary>
         /// <param name="startTime">The start time.</param>
         /// <param name="endTime">The end time.</param>
         /// <returns>ActionResult.</returns>
-        public ActionResult GetOutpatientAntimicrobialRate(DateTime startTime, DateTime endTime)
+        public ActionResult GetOutpatientAntibioticUsageRate(DateTime startTime, DateTime endTime)
         {
             ViewBag.startTime = startTime;
             ViewBag.endTime = endTime.AddDays(1).AddMilliseconds(-1);
@@ -116,12 +117,12 @@ namespace PHMS2.Controllers
         }
 
         /// <summary>
-        /// 获取急诊抗病菌使用率
+        /// 获取急诊抗菌药物使用率
         /// </summary>
         /// <param name="startTime">The start time.</param>
         /// <param name="endTime">The end time.</param>
         /// <returns>ActionResult.</returns>
-        public ActionResult GetEmergyAntimicrobialRate(DateTime startTime, DateTime endTime)
+        public ActionResult GetEmergencyAnbitibioticUsageRate(DateTime startTime, DateTime endTime)
         {
             AntibioticUsageRate viewModel = null;
             try
@@ -152,7 +153,7 @@ namespace PHMS2.Controllers
         #endregion
         #region 药物品种
         /// <summary>
-        /// 药物使用金额排前30个品种及每个品种排前3名的医生
+        /// 药物使用金额排名前三十个品种中每个品种排名前三名的医生、所在科室及其使用金额
         /// </summary>
         /// <param name="startTime">The start time.</param>
         /// <param name="endTime">The end time.</param>
@@ -183,7 +184,26 @@ namespace PHMS2.Controllers
         /// <returns>ActionResult.</returns>
         public ActionResult GetAverageDrugCategory(DateTime startTime, DateTime endTime)
         {
-            return PartialView("_GetAverageDrugCategory");
+            ViewBag.startTime = startTime;
+            ViewBag.endTime = endTime.AddDays(1).AddMilliseconds(-1);
+            endTime = endTime.AddDays(1);
+            var viewModel = new DrugCategoryRate();
+            try
+            {
+                var iinterface = this.ReporterViewFactory.CreateDrugCategoryRate();
+                viewModel = iinterface.GetDrugCategoryRate(startTime, endTime);
+                //viewModel = this.ReporterViewFactory.CreateDrugCategoryRate().GetDrugCategoryRate(startTime, endTime);
+            }
+            catch (Exception)
+            {
+                viewModel = new DrugCategoryRate
+                {
+                    DrugCategoryNums = -1,
+                    RegisterPersons = 0
+                };
+            }
+            //return PartialView("_GetAverageDrugCategory", viewModel);
+            return View(viewModel);
         }
         #endregion
         #region 药物费用
@@ -198,14 +218,29 @@ namespace PHMS2.Controllers
             ViewBag.startTime = startTime;
             ViewBag.endTime = endTime.AddDays(1).AddMilliseconds(-1);
             endTime = endTime.AddDays(1);
+            var viewModel = new PatientAverageCost();
 
-            //var viewModel = GetOutPatientAverageCost(startTime, endTime);
-            IPatientAverageCost iAverageCost = this.ReporterViewFactory.CreatePatientAverageCost(EnumOutPatientCategories.OUTPATIENT_EMERGEMENT);
-            var viewModel = iAverageCost.GetOutPatientAverageCost(startTime, endTime);
+            try
+            {
+                IPatientAverageCost iAverageCost = this.ReporterViewFactory.CreatePatientAverageCost(EnumOutPatientCategories.OUTPATIENT_EMERGEMENT);
+                viewModel = iAverageCost.GetOutPatientAverageCost(startTime, endTime);
+            }
+            catch (Exception)
+            {
+
+                viewModel = null;
+            }
+            
             return PartialView("_GetOutpatientAverageCost", viewModel);
 
         }
+
+        public ActionResult GetTopThirtyDrugPrescriptionCost(DateTime startTime, DateTime endTime)
+        {
+
+        }
         #endregion
+
         #region 处方药物情况
         /// <summary>
         /// 门、急诊患者药物处方情况集合
@@ -218,8 +253,18 @@ namespace PHMS2.Controllers
             ViewBag.startTime = startTime;
             ViewBag.endTime = endTime.AddDays(1).AddMilliseconds(-1);
             endTime = endTime.AddDays(1);
-            IPrescriptionMessageCollection iPrescriptionMessage = this.ReporterViewFactory.CreatePrescriptionMessageCollection();
-            var viewModel = iPrescriptionMessage.GetPrescriptionMessageCollection(startTime, endTime);
+            var viewModel = new PrescriptionMessageCollection();
+            try
+            {
+                var iPrescriptionMessage = this.ReporterViewFactory.CreatePrescriptionMessageCollection();
+                viewModel = iPrescriptionMessage.GetPrescriptionMessageCollection(startTime, endTime);
+            }
+            catch (Exception)
+            {
+
+                viewModel = null;
+            }
+            
             return PartialView("_GetOutPatientDrugDetails", viewModel);
 
         }
@@ -246,7 +291,7 @@ namespace PHMS2.Controllers
                 viewModel = new EssentialDrugCategoryRate
                 {
                     DrugCategoriesNums = -1,
-                    EssentialDrugNums = -1                    
+                    EssentialDrugNums = -1
                 };
 
             }

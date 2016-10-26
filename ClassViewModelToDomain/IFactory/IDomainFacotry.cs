@@ -9,9 +9,25 @@ namespace ClassViewModelToDomain.IFactory
 {
     public interface IDomainFacotry
     {
-        IDepartmentAntibioticUsageRateDomain CreateDepartmentAntibioticUsageRateDomain();
+        #region 住院信息
 
-        //门诊信息
+        
+        IDepartmentAntibioticIntensityDomain CreateDepartmentAntibioticIntensityDomain();
+        IDepartmentAntibioticUsageRateDomain CreateDepartmentAntibioticUsageRateDomain();
+        ISpecialAntibioticDdds CreateSpecialAntibioticDdds();
+        ITotalAntibioticDdds CreateTotalAntibioticDdds();
+        IDepartmentEssentialUsageRateDomain CreateDepartmentEssentialUsageRateDomain();
+        IAntibioticCategoryNumber CreateInPatientAntibioticCategoryNumber();
+        IInPatientAntibioticCost CreateInPatientAntibioticCost();
+        IPatientCost CreateInPatientDrugCost();
+
+        //住院同期抗菌药物使用人数
+        IAntibioticPerson CreateInPatientAntibioticPerson();
+        IUnionAntibioticPerson CreateUnionAntibioticPerson();
+        #endregion
+
+
+        #region 门诊信息
         IRegisterPerson CreateRegisterPerson(EnumOutPatientCategories categories);
         IAntibioticPerson CreateAntibioticPerson(EnumOutPatientCategories categories);
 
@@ -21,5 +37,8 @@ namespace ClassViewModelToDomain.IFactory
 
         IPatientCost CreatePatientCost(EnumOutPatientCategories categories);
         IPrescriptionMessage CreatePrescriptionMessage(EnumOutPatientCategories categories);
+        #endregion
+
+
     }
 }

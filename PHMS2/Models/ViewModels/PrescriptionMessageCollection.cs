@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web;
 using ClassViewModelToDomain;
 
-namespace PHMS2.Models.ViewModel
+namespace PHMS2.Models.ViewModels
 {
     public class PrescriptionMessageCollection
     {

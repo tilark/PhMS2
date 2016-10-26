@@ -10,5 +10,12 @@ namespace PHMS2.Models.Factories
     public interface IInPatientReporterFactory
     {
         IDepartmentAntibioticUsageRateList CreateDepartmentAntibioticUsageRateList();
+        IDepartmentAntibioticIntensity CreateDepartmentAntibioticIntensity();
+        ISpecialAntibioticUsageRate CreateSpecialAntibioticUsageRate();
+        IDepartmentEssentialUsageRate CreateDepartmentEssentialUsageRate();
+        IInPatientDrugMessage CreateInPatientDrugMessage();
+        IInPatientAverageAntibioticCategoryRate CreateInPatientAverageAntibioticCategoryRate();
+        IInPatientAverageAntibioticCostRate CreateInPatientAverageAntibioticCostRate();
+        IInPatientAntibioticUsageRate CreateInPatientAntibioticUsageRate();
     }
 }

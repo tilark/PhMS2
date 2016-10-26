@@ -38,7 +38,7 @@ namespace PhMS2dot1Domain.Models
 
         public virtual OutPatient OutPatient { get; set; }
 
-        public virtual HashSet<OutPatientDrugRecord> OutPatientDrugRecords { get; set; }
+        public virtual ICollection<OutPatientDrugRecord> OutPatientDrugRecords { get; set; }
 
 
         //扩展方法
@@ -64,6 +64,14 @@ namespace PhMS2dot1Domain.Models
             return result;
         }
 
+        public List<int> AntibioticCategoryIDList(DateTime startTime, DateTime endTime)
+        {
+            List<int> result = new List<int>();
+            result = this.ChargeTime >= startTime && this.ChargeTime < endTime
+                ? OutPatientDrugRecords.Select(opp => opp.AntibioticCategoryID).ToList()
+                : result;
+            return result;
+        }
         /// <summary>
         /// 处方单包含抗菌药物的费用
         /// </summary>

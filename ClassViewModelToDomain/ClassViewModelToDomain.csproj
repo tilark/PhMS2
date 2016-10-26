@@ -40,7 +40,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DepartmentAntibioticIntensityDomain.cs" />
     <Compile Include="DepartmentAntibioticUsageRateDomain.cs" />
+    <Compile Include="DepartmentEssentialUsageRateDomain.cs" />
     <Compile Include="DrugCost.cs" />
     <Compile Include="DrugDoctorCost.cs" />
     <Compile Include="DrugDoctorDepartmentCost.cs" />
@@ -50,13 +52,19 @@
     <Compile Include="IFactory\IDomainFacotry.cs" />
     <Compile Include="Interface\IAntibioticCategoryNumber.cs" />
     <Compile Include="Interface\IAntibioticPerson.cs" />
+    <Compile Include="Interface\IDepartmentAntibioticIntensityDomain.cs" />
     <Compile Include="Interface\IDepartmentAntibioticUsageRateDomain.cs" />
+    <Compile Include="Interface\IDepartmentEssentialUsageRateDomain.cs" />
     <Compile Include="Interface\IDrugCategoriesNumbers.cs" />
     <Compile Include="Interface\IDrugTopRank.cs" />
     <Compile Include="Interface\IEssentialDrugCategoryNumbers.cs" />
+    <Compile Include="Interface\IInPatientAntibioticCost.cs" />
     <Compile Include="Interface\IPatientCost.cs" />
     <Compile Include="Interface\IPrescriptionMessage.cs" />
     <Compile Include="Interface\IRegisterPerson.cs" />
+    <Compile Include="Interface\ISpecialAntibioticDdds.cs" />
+    <Compile Include="Interface\ITotalAntibioticDdds.cs" />
+    <Compile Include="Interface\IUnionAntibioticPerson.cs" />
     <Compile Include="PrescriptionMessage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
