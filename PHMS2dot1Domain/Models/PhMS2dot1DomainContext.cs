@@ -10,6 +10,9 @@ namespace PhMS2dot1Domain.Models
 {
     public class PhMS2dot1DomainContext : DbContext
     {
+        public PhMS2dot1DomainContext(string connection) : base(connection)
+        {
+        }
         public PhMS2dot1DomainContext() : base("PHMS2dot1DomainString")
         {
         }
