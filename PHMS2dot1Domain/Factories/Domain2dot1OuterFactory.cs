@@ -174,6 +174,19 @@ namespace PhMS2dot1Domain.Factories
         {
             return new ImInPatientAntibioticPerson(this.innerFactory);
         }
+        /// <summary>
+        /// 联合使用抗菌药物人数.
+        /// </summary>
+        /// <returns>IUnionAntibioticPerson.</returns>
+        public IUnionAntibioticPerson CreateUnionAntibioticPerson()
+        {
+            return new ImUnionAntibioticPerson(this.innerFactory);
+        }
+
+        public IInPatientDrugDoctorCostList CreateInPatientDrugDoctorCostList()
+        {
+            return new ImInPatientDrugDoctorCostList(this.innerFactory);
+        }
         #endregion
 
 

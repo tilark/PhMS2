@@ -1,0 +1,41 @@
+﻿@model  PHMS2.Models.ViewModels.InPatientReporter.DepartmentEssentialUsageRate
+<div class="panel-body">
+    <table class="table table-hover table-bordered table-striped text-center">
+        <tr>
+            <th colspan="5" class="text-center">
+                基本药物使用率（分院科两级指标）
+            </th>
+        </tr>
+        <tr>
+            <td colspan="5" class="text-left">
+                <small>时间：@ViewBag.startTime -- @ViewBag.endTime</small>
+            </td>
+        </tr>
+        <tr>
+            <td>序号</td>
+            <td>出院科室</td>
+            <td>基本药物销售收入（元）</td>
+            <td>全部药品销售总收入(元)</td>
+            <td>基本药物使用率（%）</td>
+        </tr>
+        @{ int i = 1;}
+        @foreach (var item in Model.DepartmentEssentialUsageRateList)
+        {
+            <tr>
+                <td>@i</td>
+                <td>@item.DepartmentName</td>
+                <td>@item.EssentialCost</td>
+                <td>@item.TotalDrugCost</td>
+                <td>@item.UsageRate</td>
+            </tr>
+            i++;
+        }
+        <tr>
+            <td>@i</td>
+            <td>@Model.Hospital</td>
+            <td>@Model.TotalEssentialCost</td>
+            <td>@Model.AllTotalDrugCost</td>
+            <td>@Model.TotalUsageRate</td>
+        </tr>
+    </table>
+</div>

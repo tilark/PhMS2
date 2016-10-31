@@ -1,8 +1,197 @@
-﻿
+﻿@section styles{
+    @*<link href="~/Content/PhMS.css" rel="stylesheet" />*@
+}
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "住院报表列表";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Index</h2>
+<h2>@ViewBag.Title</h2>
+<div class="form-horizontal">
+    <div class="panel panel-default adjustwidth col-lg-offset-3">
+        <div class="panel-heading">
+            <div class="form-group">
+                <label class="col-lg-2 control-label">开始时间</label>
+                <div class="col-lg-10 adjustheight">
+                    <input type="date" id="starttimeID" name="StartTime" class="changeTime form-control"
+                           data-val="true" data-val-date="字段 '选择时间' 是必须的"
+                           data-val-required="选择时间 字段是必需的!">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="panel panel-default adjustwidth col-lg-offset-3">
+        <div class="panel-heading">
+            <div class="form-group">
+                <label class="col-lg-2 control-label">结束时间</label>
+                <div class="col-lg-10 adjustheight">
+                    <input type="date" name="EndTime" id="endtimeID" class="changeTime form-control" data-val="true"
+                           data-val-date="字段 '选择时间' 是必须的"
+                           data-val-required="选择时间 字段是必需的!">
+                </div>
+            </div>
+            <div id="compareTime" class="alert alert-danger" hidden="hidden">结束时间小于开始时间，请重新选择！</div>
+        </div>
+    </div>
+    <div class="col-lg-12">
 
+        <!-- Nav tabs -->
+        <ul class="nav nav-tabs" role="tablist">
+            <li role="presentation" class="active">
+                <a href="#InPatientAverageCostID" aria-controls="InPatientAverageCostID" role="tab" data-toggle="tab">
+                    住院患者抗菌药物使用率（分院科两级指标）
+                </a>
+            </li>
+            <li role="presentation">
+                <a href="#InPatientAntibioticIntensityID" aria-controls="InPatientAntibioticIntensityID" role="tab" data-toggle="tab">
+                    抗菌药物使用强度（分院科两级指标）
+                </a>
+            </li>
+            <li role="presentation"><a href="#InPatientSpecialAntibioticUsageRateID" aria-controls="InPatientSpecialAntibioticUsageRateID" role="tab" data-toggle="tab">特殊使用级抗菌药物使用量占比</a></li>
+
+            <li role="presentation"><a href="#InPatientDepartmentEssentialUsageRateID" aria-controls="InPatientDepartmentEssentialUsageRateID" role="tab" data-toggle="tab">基本药物使用率（分院科两级指标）</a></li>
+            <li role="presentation"><a href="#InPatientDrugMessageID" aria-controls="InPatientDrugMessageID" role="tab" data-toggle="tab">出院患者使用药物信息集合</a></li>
+            <li role="presentation"><a href="#InPatientAverageAnbitioticCategoryRateID" aria-controls="InPatientAverageAnbitioticCategoryRateID" role="tab" data-toggle="tab">住院患者人均使用抗菌药物品种数</a></li>
+            <li role="presentation"><a href="#InPatientAverageAntibioticCostRateID" aria-controls="InPatientAverageAntibioticCostRateID" role="tab" data-toggle="tab">住院患者人均使用抗菌药物费用</a></li>
+            <li role="presentation"><a href="#InPatientAntibioticUsageRateID" aria-controls="InPatientAntibioticUsageRateID" role="tab" data-toggle="tab">抗菌药物费用占药费总额的百分率</a></li>
+
+        </ul>
+
+        <!-- Tab panes -->
+        <div class="tab-content">
+            <div role="tabpanel" class="tab-pane active patientMessage" id="InPatientAverageCostID">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <div class="form-group">
+                            <label class="col-lg-6 control-label">住院患者抗菌药物使用率（分院科两级指标）</label>
+                            <div class="col-lg-6 adjustheight">
+                                <input type="submit" id="getInPatientAverageCost" src="@Url.Action("InPatientDepartmentAntibioticUsageRate", "InPatientReporter")" value="获取" class="label label-primary getResult" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel-body" hidden="hidden" id="getInPatientAverageCostBody">
+                    </div>
+                </div>
+            </div>
+            <div role="tabpanel" class="tab-pane patientMessage" id="InPatientAntibioticIntensityID">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <div class="form-group">
+                            <label class="col-lg-6 control-label">抗菌药物使用强度（分院科两级指标）</label>
+                            <div class="col-lg-6 adjustheight">
+                                <input type="submit" id="getInPatientAntibioticIntensity" src="@Url.Action("InPatientAntibioticIntensity", "InPatientReporter")" value="获取"
+                                       class="label label-primary getResult" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel-body" hidden="hidden" id="getInPatientAntibioticIntensityBody">
+                    </div>
+                </div>
+            </div>
+
+
+            <div role="tabpanel" class="tab-pane patientMessage" id="InPatientSpecialAntibioticUsageRateID">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <div class="form-group">
+                            <label class="col-lg-6 control-label">特殊使用级抗菌药物使用量占比</label>
+                            <div class="col-lg-6 adjustheight">
+                                <input type="submit" id="getAverageCost" src="@Url.Action("InPatientSpecialAntibioticUsageRate", "InPatientReporter")" value="获取"
+                                       class="label label-primary getResult" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel-body" hidden="hidden" id="getInPatientSpecialAntibioticUsageRateBody">
+
+                    </div>
+                </div>
+            </div>
+
+            <div role="tabpanel" class="tab-pane patientMessage" id="InPatientDepartmentEssentialUsageRateID">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <div class="form-group">
+                            <label class="col-lg-6 control-label">基本药物使用率（分院科两级指标）</label>
+                            <div class="col-lg-6">
+                                <input type="submit" id="getTopTenAntibiotic" src="@Url.Action("InPatientDepartmentEssentialUsageRateIndex", "InPatientReporter")" value="获取"
+                                       class="label label-primary getResult" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel-body" id="getInPatientDepartmentEssentialUsageRatecBody">
+
+                    </div>
+                </div>
+            </div>
+            <div role="tabpanel" class="tab-pane patientMessage" id="InPatientDrugMessageID">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <div class="form-group">
+                            <label class="col-lg-6 control-label">出院患者使用药物信息集合</label>
+                            <div class="col-lg-6">
+                                <input type="submit" id="getInPatientDrugMessage" src="@Url.Action("InPatientDrugMessageIndex", "InPatientReporter")" value="获取" class="label label-primary getResult" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel-body" id="getInPatientDrugMessageBody">
+
+                    </div>
+                </div>
+            </div>
+            <div role="tabpanel" class="tab-pane patientMessage" id="InPatientAverageAnbitioticCategoryRateID">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <div class="form-group">
+                            <label class="col-lg-6 control-label">住院患者人均使用抗菌药物品种数</label>
+                            <div class="col-lg-6">
+                                <input type="submit" id="getInPatientAverageAnbitioticCategoryRate" src="@Url.Action("InPatientAverageAnbitioticCategoryRateIndex", "InPatientReporter")" value="获取"
+                                       class="label label-primary getResult" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel-body" id="InPatientAverageAnbitioticCategoryRateBody">
+
+                    </div>
+                </div>
+            </div>
+            <div role="tabpanel" class="tab-pane patientMessage" id="InPatientAverageAntibioticCostRateID">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <div class="form-group">
+                            <label class="col-lg-6 control-label">住院患者人均使用抗菌药物费用</label>
+                            <div class="col-lg-6">
+                                <input type="submit" id="getInPatientAverageAntibioticCostRate" src="@Url.Action("InPatientAverageAntibioticCostRateIndex", "InPatientReporter")" value="获取"
+                                       class="label label-primary getResult" /> 
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel-body" id="getInPatientAverageAntibioticCostRateBody">
+
+                    </div>
+                </div>
+            </div>
+            <div role="tabpanel" class="tab-pane patientMessage" id="InPatientAntibioticUsageRateID">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <div class="form-group">
+                            <label class="col-lg-6 control-label">抗菌药物费用占药费总额的百分率</label>
+                            <div class="col-lg-6">
+                                <input type="submit" id="getInPatientAntibioticUsageRate" src="@Url.Action("InPatientAntibioticUsageRateIndex", "InPatientReporter")" value="获取"
+                                       class="label label-primary getResult" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel-body" id="getInPatientAntibioticUsageRateBody">
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+@section Scripts{
+    @Scripts.Render("~/bundles/jqueryval")
+    <script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
+    <script src="~/Scripts/PhMS.js"></script>
+}

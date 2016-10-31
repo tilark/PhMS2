@@ -237,7 +237,17 @@ namespace PHMS2.Controllers
 
         public ActionResult GetTopThirtyDrugPrescriptionCost(DateTime startTime, DateTime endTime)
         {
+            var viewMode = new DrugTopThirtyDescription();
+            try
+            {
 
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            return View(viewMode);
         }
         #endregion
 

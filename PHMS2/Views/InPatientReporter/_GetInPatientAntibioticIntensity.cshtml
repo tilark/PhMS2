@@ -1,0 +1,42 @@
+﻿@model  PHMS2.Models.ViewModels.InPatientReporter.DepartmentAntibioticIntensity
+
+<div class="panel-body">
+    <table class="table table-hover table-bordered table-striped text-center">
+        <tr>
+            <th colspan="5" class="text-center">
+                抗菌药物使用强度（分院科两级指标）
+            </th>
+        </tr>
+        <tr>
+            <td colspan="5" class="text-left">
+                <small>时间：@ViewBag.startTime -- @ViewBag.endTime</small>
+            </td>
+        </tr>
+        <tr>
+            <td>序号</td>
+            <td>出院科室</td>
+            <td>住院抗菌药物消耗量（累计DDD数)</td>
+            <td>同期出院总人数(单位：人)</td>
+            <td>抗菌药物使用强度（%）</td>
+        </tr>
+        @{ int i = 1;}
+        @foreach (var item in Model.DepartmentAntibioticIntensityList)
+        {
+            <tr>
+                <td>@i</td>
+                <td>@item.DepartmentName</td>
+                <td>@item.AntibioticDdd</td>
+                <td>@item.PersonNumberDays</td>
+                <td>@item.IntensityRate</td>
+            </tr>
+            i++;
+        }
+        <tr>
+            <td>@i</td>
+            <td>@Model.Hospital</td>
+            <td>@Model.TotalAntibioticDdd</td>
+            <td>@Model.TotalPersonNumberDays</td>
+            <td>@Model.TotalIntensityRate</td>
+        </tr>
+    </table>
+</div>

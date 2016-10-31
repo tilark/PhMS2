@@ -24,6 +24,7 @@ namespace ClassViewModelToDomain.IFactory
         //住院同期抗菌药物使用人数
         IAntibioticPerson CreateInPatientAntibioticPerson();
         IUnionAntibioticPerson CreateUnionAntibioticPerson();
+        IInPatientDrugDoctorCostList CreateInPatientDrugDoctorCostList();
         #endregion
 
 

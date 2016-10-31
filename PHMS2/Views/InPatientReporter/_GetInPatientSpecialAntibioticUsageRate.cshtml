@@ -1,0 +1,26 @@
+﻿@model  PHMS2.Models.ViewModels.InPatientReporter.SpecialAntibioticUsageRate
+
+<div class="panel-body">
+    <table class="table table-hover table-bordered table-striped text-center">
+        <tr>
+            <th colspan="3" class="text-center">
+                特殊使用级抗菌药物使用量占比
+            </th>
+        </tr>
+        <tr>
+            <td colspan="3" class="text-left">
+                <small>时间：@ViewBag.startTime -- @ViewBag.endTime</small>
+            </td>
+        </tr>
+        <tr>
+            <td>特殊使用级抗菌药物使用量（累计DDD数）</td>
+            <td>同期抗菌药物使用量（累计DDD数）</td>
+            <td>特殊使用级抗菌药物使用量占比</td>
+        </tr>       
+        <tr>
+            <td>@Model.SpecialAntibioticDdds</td>
+            <td>@Model.TotalAntibioticDdds</td>
+            <td>@Model.UsageRate</td>
+        </tr>
+    </table>
+</div>

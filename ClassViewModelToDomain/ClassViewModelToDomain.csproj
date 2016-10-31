@@ -59,6 +59,7 @@
     <Compile Include="Interface\IDrugTopRank.cs" />
     <Compile Include="Interface\IEssentialDrugCategoryNumbers.cs" />
     <Compile Include="Interface\IInPatientAntibioticCost.cs" />
+    <Compile Include="Interface\IInPatientDrugDoctorCost.cs" />
     <Compile Include="Interface\IPatientCost.cs" />
     <Compile Include="Interface\IPrescriptionMessage.cs" />
     <Compile Include="Interface\IRegisterPerson.cs" />

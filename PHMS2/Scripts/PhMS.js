@@ -35,134 +35,35 @@ $PHMS(document).ready(function () {
             return false;
         }
     }
-    $PHMS("#getOutPatientRate").click(function (event) {
+    //门诊报表信息
+    //$PHMS("#getOutPatientRate").click(function (event) {
+    //    event.preventDefault();
+    //    $PHMS(this).hide();
+    //    ajaxload.insertAfter(this);
+
+    //    $PHMS("#getOutPatientRateBody").load($PHMS(this).attr("src"), jsonData, function (responseTxt, statusTxt, xhr) {
+    //        if (statusTxt == "success") {
+    //        }
+    //        if (statusTxt == "error") {
+    //            alert("Error: " + xhr.status + ": " + xhr.statusText);
+    //        }
+    //        $PHMS(this).show();
+    //        ajaxload.remove();
+
+    //    });
+    //});
+    
+
+    //住院报表信息
+    //住院患者抗菌药物使用率（分院科两级指标）s
+   
+    $PHMS(".patientMessage").on("click", "input", function (event) {
         event.preventDefault();
         $PHMS(this).hide();
         ajaxload.insertAfter(this);
-
-        $PHMS("#getOutPatientRateBody").load($PHMS(this).attr("src"), jsonData, function (responseTxt, statusTxt, xhr) {
-            if (statusTxt == "success") {
-            }
-            if (statusTxt == "error") {
-                alert("Error: " + xhr.status + ": " + xhr.statusText);
-            }
-            $PHMS(this).show();
-            ajaxload.remove();
-
-        });
-    });
-
-
-
-    $PHMS("#getEmergyRate").click(function (event) {
-        event.preventDefault();
-
-        $PHMS(this).hide();
-        ajaxload.insertAfter(this);
-        $PHMS("#getEmergyRateBody").load($PHMS(this).attr("src"), jsonData, function (responseTxt, statusTxt, xhr) {
-            if (statusTxt == "success") {
-            }
-            if (statusTxt == "error") {
-                alert("Error: " + xhr.status + ": " + xhr.statusText);
-            }
-            $PHMS(this).show();
-            ajaxload.remove();
-
-        });
-    });
-
-    $PHMS("#getAverageCost").click(function (event) {
-        event.preventDefault();
-
-        $PHMS(this).hide();
-        ajaxload.insertAfter(this);
-
-        $PHMS("#getAverageCostBody").load($PHMS(this).attr("src"), jsonData, function (responseTxt, statusTxt, xhr) {
-            if (statusTxt == "success") {
-            }
-            if (statusTxt == "error") {
-                alert("Error: " + xhr.status + ": " + xhr.statusText);
-            }
-            $PHMS(this).show();
-            ajaxload.remove();
-
-        });
-    });
-    $PHMS("#getTopTenAntibiotic").click(function (event) {
-        event.preventDefault();
-        $PHMS(this).hide();
-        ajaxload.insertAfter(this);
-        $PHMS("#getTopTenAntibioticBody").load($PHMS(this).attr("src"), jsonData, function (responseTxt, statusTxt, xhr) {
-            if (statusTxt == "success") {
-            }
-            if (statusTxt == "error") {
-                alert("Error: " + xhr.status + ": " + xhr.statusText);
-            }
-            $PHMS(this).show();
-            ajaxload.remove();
-        });
-    });
-    $PHMS("#getTopTenAntibioticDep").click(function (event) {
-        event.preventDefault();
-        $PHMS(this).hide();
-        ajaxload.insertAfter(this);
-        $PHMS("#getTopTenAntibioticDepBody").load($PHMS(this).attr("src"), jsonData, function (responseTxt, statusTxt, xhr) {
-            if (statusTxt == "success") {
-            }
-            if (statusTxt == "error") {
-                alert("Error: " + xhr.status + ": " + xhr.statusText);
-            }
-            $PHMS(this).show();
-            ajaxload.remove();
-        });
-    });
-    $PHMS("#getTopThirtyDrug").click(function (event) {
-        event.preventDefault();
-        $PHMS(this).hide();
-        ajaxload.insertAfter(this);
-        $PHMS("#getTopThirtyDrugBody").load($PHMS(this).attr("src"), jsonData, function (responseTxt, statusTxt, xhr) {
-            if (statusTxt == "success") {
-            }
-            if (statusTxt == "error") {
-                alert("Error: " + xhr.status + ": " + xhr.statusText);
-            }
-            $PHMS(this).show();
-            ajaxload.remove();
-        });
-    });
-    $PHMS("#getOutPatientDrugDetails").click(function (event) {
-        event.preventDefault();
-        $PHMS(this).hide();
-        ajaxload.insertAfter(this);
-        $PHMS("#getOutPatientDrugDetailsBody").load($PHMS(this).attr("src"), jsonData, function (responseTxt, statusTxt, xhr) {
-            if (statusTxt == "success") {
-            }
-            if (statusTxt == "error") {
-                alert("Error: " + xhr.status + ": " + xhr.statusText);
-            }
-            $PHMS(this).show();
-            ajaxload.remove();
-        });
-    });
-    $PHMS("#getEssentialDrugRate").click(function (event) {
-        event.preventDefault();
-        $PHMS(this).hide();
-        ajaxload.insertAfter(this);
-        $PHMS("#getEssentialDrugRateBody").load($PHMS(this).attr("src"), jsonData, function (responseTxt, statusTxt, xhr) {
-            if (statusTxt == "success") {
-            }
-            if (statusTxt == "error") {
-                alert("Error: " + xhr.status + ": " + xhr.statusText);
-            }
-            $PHMS(this).show();
-            ajaxload.remove();
-        });
-    });
-    $PHMS("#getAverageDrugCategory").click(function (event) {
-        event.preventDefault();
-        $PHMS(this).hide();
-        ajaxload.insertAfter(this);
-        $PHMS("#getAverageDrugCategoryBody").load($PHMS(this).attr("src"), jsonData, function (responseTxt, statusTxt, xhr) {
+        console.log($PHMS(this).attr("src"))
+        var panelbody = $PHMS(this).parentsUntil(".patientMessage");
+        panelbody.find(".panel-body").load($PHMS(this).attr("src"), jsonData, function (responseTxt, statusTxt, xhr) {
             if (statusTxt == "success") {
             }
             if (statusTxt == "error") {
@@ -173,34 +74,6 @@ $PHMS(document).ready(function () {
         });
     });
 
-    $PHMS("#getOutPatientVeinInfusionRate").click(function (event) {
-        event.preventDefault();
-        $PHMS(this).hide();
-        ajaxload.insertAfter(this);
-        $PHMS("#getOutPatientVeinInfusionRateBody").load($PHMS(this).attr("src"), jsonData, function (responseTxt, statusTxt, xhr) {
-            if (statusTxt == "success") {
-            }
-            if (statusTxt == "error") {
-                alert("Error: " + xhr.status + ": " + xhr.statusText);
-            }
-            $PHMS(this).show();
-            ajaxload.remove();
-        });
-    });
-    $PHMS("#getEmergyVeinInfusionRate").click(function (event) {
-        event.preventDefault();
-        $PHMS(this).hide();
-        ajaxload.insertAfter(this);
-        $PHMS("#getEmergyVeinInfusionRateBody").load($PHMS(this).attr("src"), jsonData, function (responseTxt, statusTxt, xhr) {
-            if (statusTxt == "success") {
-            }
-            if (statusTxt == "error") {
-                alert("Error: " + xhr.status + ": " + xhr.statusText);
-            }
-            $PHMS(this).show();
-            ajaxload.remove();
-        });
-    });
     $PHMS("#getMessage").on("click", function () {
         event.preventDefault();
         ajaxload.insertAfter(this);

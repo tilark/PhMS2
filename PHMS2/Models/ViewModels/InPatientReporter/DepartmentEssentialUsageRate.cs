@@ -16,14 +16,14 @@ namespace PHMS2.Models.ViewModels.InPatientReporter
                 return "全院";
             }
         }
-        public Decimal TotalAntibioticPerson
+        public Decimal TotalEssentialCost
         {
             get
             {
                 return this.DepartmentEssentialUsageRateList.Sum(d => d.EssentialCost);
             }
         }
-        public Decimal TotalRegisterPerson
+        public Decimal AllTotalDrugCost
         {
             get
             {

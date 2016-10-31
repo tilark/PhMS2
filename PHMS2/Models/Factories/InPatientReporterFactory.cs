@@ -33,9 +33,14 @@ namespace PHMS2.Models.Factories
             return new ImDepartmentEssentialUsageRate(this.factory);
         }
 
+        public IDrugTopThirtyDescription CreateDrugTopThirtyDescription()
+        {
+           return new ImDrugTopThirtyDescription(this.factory);
+        }
+
         public IInPatientAntibioticUsageRate CreateInPatientAntibioticUsageRate()
         {
-            throw new NotImplementedException();
+            return new ImInPatientAntibioticUsageRate(this.factory);
         }
 
         public IInPatientAverageAntibioticCategoryRate CreateInPatientAverageAntibioticCategoryRate()

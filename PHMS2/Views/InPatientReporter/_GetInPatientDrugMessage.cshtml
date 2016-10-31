@@ -1,0 +1,28 @@
+﻿@model  PHMS2.Models.ViewModels.InPatientReporter.InPatientDrugMessage
+
+<div class="panel-body">
+    <table class="table table-hover table-bordered table-striped text-center">
+        <tr>
+            <th colspan="4" class="text-center">
+                住院患者药物信息集合
+            </th>
+        </tr>
+        <tr>
+            <td colspan="4" class="text-left">
+                <small>时间：@ViewBag.startTime -- @ViewBag.endTime</small>
+            </td>
+        </tr>
+        <tr>
+            <td>出院患者使用抗菌药物总品种数（种）</td>
+            <td>出院患者使用药物总费用（元）</td>
+            <td>出院患者使用抗菌药物费用（元）</td>
+            <td>出院患者中联合使用抗菌药物人次</td>
+        </tr>
+        <tr>
+            <td>@Model.AntibioticCategoryNumber</td>
+            <td>@Model.TotalDrugCost</td>
+            <td>@Model.AntibioticCost</td>
+            <td>@Model.UnionAntibioticPerson</td>
+        </tr>
+    </table>
+</div>

@@ -226,6 +226,7 @@
     <Compile Include="Models\ViewModels\Implement\ImDepartmentAntibioticUsageRateList.cs" />
     <Compile Include="Models\ViewModels\Implement\ImDepartmentEssentialUsageRate.cs" />
     <Compile Include="Models\ViewModels\Implement\ImDrugCategoryRate.cs" />
+    <Compile Include="Models\ViewModels\Implement\ImDrugTopThirtyDescription.cs" />
     <Compile Include="Models\ViewModels\Implement\ImDrugTopThirtyRank.cs" />
     <Compile Include="Models\ViewModels\Implement\ImEssentialDrugCategory.cs" />
     <Compile Include="Models\ViewModels\Implement\ImInPatientAntibioticUsageRate.cs" />
@@ -250,6 +251,7 @@
     <Compile Include="Models\ViewModels\Interface\IDepartmentAntibioticUsageRate.cs" />
     <Compile Include="Models\ViewModels\Interface\IDepartmentEssentialUsageRate.cs" />
     <Compile Include="Models\ViewModels\Interface\IDrugCategoryRate.cs" />
+    <Compile Include="Models\ViewModels\Interface\IDrugTopThirtyDescription.cs" />
     <Compile Include="Models\ViewModels\Interface\IEssentialDrugRate.cs" />
     <Compile Include="Models\ViewModels\Interface\IInPatientAntibioticUsageRate.cs" />
     <Compile Include="Models\ViewModels\Interface\IInPatientAverageAntibioticCategoryRate.cs" />
@@ -346,6 +348,13 @@
     <Content Include="Views\Reporters\ReportsList.cshtml" />
     <Content Include="Views\InPatientReporter\Index.cshtml" />
     <Content Include="Views\InPatientReporter\_InPatientAntibioticUsageRate.cshtml" />
+    <Content Include="Views\InPatientReporter\_GetInPatientAntibioticIntensity.cshtml" />
+    <Content Include="Views\InPatientReporter\_GetInPatientSpecialAntibioticUsageRate.cshtml" />
+    <Content Include="Views\InPatientReporter\_GetInPatientAntibioticUsageRate.cshtml" />
+    <Content Include="Views\InPatientReporter\_GetInPatientAverageAntibioticCostRate.cshtml" />
+    <Content Include="Views\InPatientReporter\_GetInPatientDrugMessage.cshtml" />
+    <Content Include="Views\InPatientReporter\_GetInPatientAverageAntibioticCategoryRate.cshtml" />
+    <Content Include="Views\InPatientReporter\_GetDepartmentEssentialUsageRate.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

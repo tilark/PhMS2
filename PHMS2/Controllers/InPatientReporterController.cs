@@ -56,8 +56,8 @@ namespace PHMS2.Controllers
 
                 viewModel.DepartmentAntibioticUsageRateList.Add(tempData);
             }
-            //return PartialView("_InPatientAntibioticUsageRate", viewModel);
-            return View(viewModel);
+            return PartialView("_InPatientAntibioticUsageRate", viewModel);
+            //return View(viewModel);
         }
         /// <summary>
         /// 抗菌药物使用强度（分院科两级指标）.
@@ -88,7 +88,7 @@ namespace PHMS2.Controllers
                 };
                 viewModel.DepartmentAntibioticIntensityList.Add(temp);
             }
-            return View(viewModel);
+            return PartialView("_GetInPatientAntibioticIntensity", viewModel);
 
         }
         /// <summary>
@@ -112,7 +112,7 @@ namespace PHMS2.Controllers
 
                 viewModel = null;
             }
-            return View(viewModel);
+            return PartialView("_GetInPatientSpecialAntibioticUsageRate", viewModel);
         }
         /// <summary>
         /// 抗菌药物费用占药费总额的百分率
@@ -135,7 +135,7 @@ namespace PHMS2.Controllers
 
                 viewModel = new InPatientAntibioticUsageRate();
             }
-            return View(viewModel);
+            return PartialView("_GetInPatientAntibioticUsageRate", viewModel);
         }
 
         /// <summary>
@@ -159,7 +159,7 @@ namespace PHMS2.Controllers
 
                 viewModel = null;
             }
-            return View(viewModel);
+            return PartialView("_GetInPatientAverageAntibioticCostRate", viewModel);
         }
         #endregion
         #region 药物品种数
@@ -182,9 +182,15 @@ namespace PHMS2.Controllers
             catch (Exception)
             {
 
-                viewModel = null;
+                viewModel = new InPatientDrugMessage
+                {
+                    AntibioticCategoryNumber = -1,
+                    AntibioticCost = -1,
+                    TotalDrugCost = 0,
+                    UnionAntibioticPerson = -1
+                };
             }
-            return View(viewModel);
+            return PartialView("_GetInPatientDrugMessage", viewModel);
         }
         /// <summary>
         /// 住院平均使用抗菌药物种类使用率.
@@ -207,7 +213,7 @@ namespace PHMS2.Controllers
 
                 viewModel = new InPatientAverageAntibioticCategoryRate();
             }
-            return View(viewModel);
+            return PartialView("_GetInPatientAverageAntibioticCategoryRate", viewModel);
         }
         #endregion
         #region 基本药物        
@@ -232,7 +238,7 @@ namespace PHMS2.Controllers
 
                 viewModel = null;
             }
-            return View(viewModel);
+            return PartialView("_GetDepartmentEssentialUsageRate", viewModel);
         }
         #endregion
     }

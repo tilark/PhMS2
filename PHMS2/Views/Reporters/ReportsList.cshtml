@@ -1,9 +1,9 @@
 ﻿
 @section styles{
-    <link href="~/Content/PhMS.css" rel="stylesheet" />
+    @*<link href="~/Content/PhMS.css" rel="stylesheet" />*@
 }
 @{
-    ViewBag.Title = "报表列表";
+    ViewBag.Title = "门、急诊报表列表";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -65,7 +65,7 @@
 
         <!-- Tab panes -->
         <div class="tab-content">
-            <div role="tabpanel" class="tab-pane active" id="getOutPatientAntibioticRate">
+            <div role="tabpanel" class="tab-pane active patientMessage" id="getOutPatientAntibioticRate">
                 <div class="panel panel-primary">
                     <div class="panel-heading">
                         <div class="form-group">
@@ -79,7 +79,7 @@
                     </div>
                 </div>
             </div>
-            <div role="tabpanel" class="tab-pane" id="getEmergyRateBodyID">
+            <div role="tabpanel" class="tab-pane patientMessage" id="getEmergyRateBodyID">
                 <div class="panel panel-primary">
                     <div class="panel-heading">
                         <div class="form-group">
@@ -96,7 +96,7 @@
             </div>
 
 
-            <div role="tabpanel" class="tab-pane" id="outPatientAverageCost">
+            <div role="tabpanel" class="tab-pane patientMessage" id="outPatientAverageCost">
                 <div class="panel panel-primary">
                     <div class="panel-heading">
                         <div class="form-group">
@@ -113,7 +113,7 @@
                 </div>
             </div>
 
-            <div role="tabpanel" class="tab-pane" id="topTenAntibioticID">
+            <div role="tabpanel" class="tab-pane patientMessage" id="topTenAntibioticID">
                 <div class="panel panel-primary">
                     <div class="panel-heading">
                         <div class="form-group">
@@ -129,7 +129,7 @@
                     </div>
                 </div>
             </div>
-            <div role="tabpanel" class="tab-pane" id="topTenAntibioticDepID">
+            <div role="tabpanel" class="tab-pane patientMessage" id="topTenAntibioticDepID">
                 <div class="panel panel-primary">
                     <div class="panel-heading">
                         <div class="form-group">
@@ -144,7 +144,7 @@
                     </div>
                 </div>
             </div>
-            <div role="tabpanel" class="tab-pane" id="topThirtyDrugID">
+            <div role="tabpanel" class="tab-pane patientMessage" id="topThirtyDrugID">
                 <div class="panel panel-primary">
                     <div class="panel-heading">
                         <div class="form-group">
@@ -160,7 +160,7 @@
                     </div>
                 </div>
             </div>
-            <div role="tabpanel" class="tab-pane" id="outPatientDrugDetailsID">
+            <div role="tabpanel" class="tab-pane patientMessage" id="outPatientDrugDetailsID">
                 <div class="panel panel-primary">
                     <div class="panel-heading">
                         <div class="form-group">
@@ -176,7 +176,7 @@
                     </div>
                 </div>
             </div>
-            <div role="tabpanel" class="tab-pane" id="essentialDrugRateID">
+            <div role="tabpanel" class="tab-pane patientMessage" id="essentialDrugRateID">
                 <div class="panel panel-primary">
                     <div class="panel-heading">
                         <div class="form-group">
@@ -192,7 +192,7 @@
                     </div>
                 </div>
             </div>
-            <div role="tabpanel" class="tab-pane" id="averageDrugCategoryID">
+            <div role="tabpanel" class="tab-pane patientMessage" id="averageDrugCategoryID">
                 <div class="panel panel-primary">
                     <div class="panel-heading">
                         <div class="form-group">
@@ -208,7 +208,7 @@
                     </div>
                 </div>
             </div>
-            <div role="tabpanel" class="tab-pane" id="outPatientVeinInfusionRateID">
+            <div role="tabpanel" class="tab-pane patientMessage" id="outPatientVeinInfusionRateID">
                 <div class="panel panel-primary">
                     <div class="panel-heading">
                         <div class="form-group">
@@ -224,7 +224,7 @@
                     </div>
                 </div>
             </div>
-            <div role="tabpanel" class="tab-pane" id="emergyVeinInfusionRateID">
+            <div role="tabpanel" class="tab-pane patientMessage" id="emergyVeinInfusionRateID">
                 <div class="panel panel-primary">
                     <div class="panel-heading">
                         <div class="form-group">
@@ -240,7 +240,7 @@
                     </div>
                 </div>
             </div>
-            <div role="tabpanel" class="tab-pane" id="messages">
+            <div role="tabpanel" class="tab-pane patientMessage" id="messages">
                 <div class="panel panel-primary">
                     <div class="panel-heading">
                         <div class="form-group">

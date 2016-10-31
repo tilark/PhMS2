@@ -1,0 +1,27 @@
+﻿@model  PHMS2.Models.ViewModels.InPatientReporter.InPatientAverageAntibioticCategoryRate
+
+<div class="panel-body">
+    <table class="table table-hover table-bordered table-striped text-center">
+        <tr>
+            <th colspan="3" class="text-center">
+                住院患者人均使用抗菌药物品种数
+            </th>
+        </tr>
+        <tr>
+            <td colspan="3" class="text-left">
+                <small>时间：@ViewBag.startTime -- @ViewBag.endTime</small>
+            </td>
+        </tr>
+        <tr>
+            <td>出院患者使用抗菌药物总品种数（种）</td>
+            <td>同期使用抗菌药物的出院总人数（人）</td>
+            <td>住院患者人均使用抗菌药物品种数</td>
+        </tr>
+        <tr>
+            <td>@Model.TotalAntibioticCategoryNumber</td>
+            <td>@Model.TotalAntibioticPerson</td>
+            <td>@Model.Rate</td>
+        </tr>
+    </table>
+</div>
+
