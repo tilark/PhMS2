@@ -239,9 +239,69 @@ namespace TranslationFromTrasen
             }
         }
 
-        public void GetFee(DateTime start,DateTime end,bool isContainNullOutDate = true, bool isUpdateExists = false)
+        public void GetDrugFee(DateTime start, DateTime end, bool isContainNullOutDate = true, bool isUpdateExists = false)
         {
+            var db = new PhMS2dot1Domain.Models.PhMS2dot1DomainContext(this.localConnection);
+            var dbTrasen = new TrasenDbContext(this.trasenConnection);
 
+            //测试使用。
+            {
+                //db.Database.Log = Console.WriteLine;
+                //dbTrasen.Database.Log = Console.WriteLine;
+            }
+
+            //取InPatients。
+            var queryInPatients = db.InPatients.Where(c => start <= c.OutDate && c.OutDate < end);
+            if (isContainNullOutDate)
+                queryInPatients = queryInPatients.Union(db.InPatients.Where(c => !c.OutDate.HasValue));
+            var listInPatient = queryInPatients.ToList();
+
+            foreach (var itemInPatient in listInPatient)
+            {
+                //预先获取InPatient相关的DrugFee，方便取数。
+                var listDrugFee = db.DrugFees.Where(c => c.InPatientDrugRecord.InPatientID == itemInPatient.InPatientID).ToList();
+
+                //取对应的VI_ZY_FEE_SPECI。
+                var listTrasen_VI_ZY_FEE_SPECI = dbTrasen.VI_ZY_FEE_SPECI.Where(c => c.INPATIENT_ID == itemInPatient.InPatientID && c.XMLY == 1).ToList();
+
+                foreach (var itemVI_ZY_FEE_SPECI in listTrasen_VI_ZY_FEE_SPECI)
+                {
+                    if (itemVI_ZY_FEE_SPECI.ORDER_ID == new Guid("00000000-0000-0000-0000-000000000000"))
+                        continue;
+
+                    var drugFee = listDrugFee.Where(c => c.Origin_ID == itemVI_ZY_FEE_SPECI.ID).FirstOrDefault();
+                    if (drugFee == null)
+                    {
+                        drugFee = new PhMS2dot1Domain.Models.DrugFee();
+
+                        drugFee.DrugFeeID = itemVI_ZY_FEE_SPECI.ID;
+                        drugFee.Origin_ID = itemVI_ZY_FEE_SPECI.ID;
+                        drugFee.UnitPrice = itemVI_ZY_FEE_SPECI.COST_PRICE;
+                        drugFee.Origin_Unit = itemVI_ZY_FEE_SPECI.UNIT;
+                        drugFee.Quantity = itemVI_ZY_FEE_SPECI.NUM;
+                        drugFee.ActualPrice = itemVI_ZY_FEE_SPECI.ACVALUE;
+                        drugFee.ChargeTime = itemVI_ZY_FEE_SPECI.CHARGE_DATE.Value;
+                        drugFee.InPatientDrugRecordID = itemVI_ZY_FEE_SPECI.ORDER_ID;
+
+                        db.DrugFees.Add(drugFee);
+                    }
+                    else
+                    {
+                        if (isUpdateExists)
+                        {
+                            drugFee.DrugFeeID = itemVI_ZY_FEE_SPECI.ID;
+                            drugFee.Origin_ID = itemVI_ZY_FEE_SPECI.ID;
+                            drugFee.UnitPrice = itemVI_ZY_FEE_SPECI.COST_PRICE;
+                            drugFee.Origin_Unit = itemVI_ZY_FEE_SPECI.UNIT;
+                            drugFee.Quantity = itemVI_ZY_FEE_SPECI.NUM;
+                            drugFee.ActualPrice = itemVI_ZY_FEE_SPECI.ACVALUE;
+                            drugFee.ChargeTime = itemVI_ZY_FEE_SPECI.CHARGE_DATE.Value;
+                            drugFee.InPatientDrugRecordID = itemVI_ZY_FEE_SPECI.ORDER_ID;
+                        }
+                    }
+                }
+                db.SaveChanges();
+            }
         }
     }
 }
