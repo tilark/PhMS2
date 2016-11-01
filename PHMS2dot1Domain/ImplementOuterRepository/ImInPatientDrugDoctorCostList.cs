@@ -24,7 +24,7 @@ namespace PhMS2dot1Domain.ImplementOuterRepository
             {
 
             }
-            catch (Exception)
+            catch (Exception e)
             {
 
                 throw new InvalidOperationException(String.Format("数据库读取错误！ {0}", e.Message));

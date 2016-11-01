@@ -205,7 +205,7 @@ namespace TranslationFromTrasen
                         inPatientDrugRecord.InPatientID = itemVI_ZY_ORDERRECORD.INPATIENT_ID;
                         inPatientDrugRecord.Origin_KSSDJ = objectYP_YPGGD.KSSDJID;
                         inPatientDrugRecord.Origin_EXEC_DEPT = itemVI_ZY_ORDERRECORD.EXEC_DEPT;
-                        inPatientDrugRecord.Origin_ORDER_DOC = (int)itemVI_ZY_ORDERRECORD.ORDER_DOC;
+                        inPatientDrugRecord.Origin_ORDER_DOC = itemVI_ZY_ORDERRECORD.ORDER_DOC;
                         inPatientDrugRecord.Origin_CJID = objectYP_YPCJD.CJID;
                         inPatientDrugRecord.ProductName = objectYP_YPCJD.S_YPPM;
                         inPatientDrugRecord.IsEssential = objectYP_YPGGD.GJJBYW.Value;
@@ -225,7 +225,7 @@ namespace TranslationFromTrasen
                             inPatientDrugRecord.InPatientID = itemVI_ZY_ORDERRECORD.INPATIENT_ID;
                             inPatientDrugRecord.Origin_KSSDJ = objectYP_YPGGD.KSSDJID;
                             inPatientDrugRecord.Origin_EXEC_DEPT = itemVI_ZY_ORDERRECORD.EXEC_DEPT;
-                            inPatientDrugRecord.Origin_ORDER_DOC = (int)itemVI_ZY_ORDERRECORD.ORDER_DOC;
+                            inPatientDrugRecord.Origin_ORDER_DOC = itemVI_ZY_ORDERRECORD.ORDER_DOC;
                             inPatientDrugRecord.Origin_CJID = objectYP_YPCJD.CJID;
                             inPatientDrugRecord.ProductName = objectYP_YPCJD.S_YPPM;
                             inPatientDrugRecord.IsEssential = objectYP_YPGGD.GJJBYW.Value;

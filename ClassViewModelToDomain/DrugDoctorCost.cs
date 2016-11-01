@@ -11,14 +11,15 @@ namespace ClassViewModelToDomain
 
         public int ProductCJID { get; set; }
 
-        public string ProductNumber { get; set; }
         public string ProductName { get; set; }
         public Decimal Cost { get; set; }
         public bool IsAntibiotic { get; set; }
 
-        public int DoctorID { get; set; }
+        public long DoctorID { get; set; }
         public string Doctor { get; set; }
         public int DepartmentID { get; set; }
         public string Department { get; set; }
+
+        public Decimal DrugCost { get; set; }
     }
 }

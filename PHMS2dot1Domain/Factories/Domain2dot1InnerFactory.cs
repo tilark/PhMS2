@@ -13,6 +13,7 @@ namespace PhMS2dot1Domain.Factories
     public class Domain2dot1InnerFactory : IDomain2dot1InnerFactory
     {
         private readonly  PhMS2dot1DomainContext context = null;
+        private const string localConnectString = "Server=192.168.100.162;Database=PhMs2;User Id=User_PhMs;Password=IkgnhzWEXpkyBghq;MultipleActiveResultSets=True;App=EntityFramework";
         #region Structer
         public Domain2dot1InnerFactory() : this(new PhMS2dot1DomainContext())
         {

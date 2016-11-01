@@ -85,6 +85,14 @@
     <Compile Include="Interface\IOutDepartmentPerson.cs" />
     <Compile Include="Interface\IOutPatientInDuration.cs" />
     <Compile Include="Interface\IPrescriptionInDuration.cs" />
+    <Compile Include="PhMS2dot1DomainContextMigrations\201611010117120_ChangeDoctorIDToLong.cs" />
+    <Compile Include="PhMS2dot1DomainContextMigrations\201611010117120_ChangeDoctorIDToLong.Designer.cs">
+      <DependentUpon>201611010117120_ChangeDoctorIDToLong.cs</DependentUpon>
+    </Compile>
+    <Compile Include="PhMS2dot1DomainContextMigrations\201611010130384_ChangeOutPatientDoctorIDToLong.cs" />
+    <Compile Include="PhMS2dot1DomainContextMigrations\201611010130384_ChangeOutPatientDoctorIDToLong.Designer.cs">
+      <DependentUpon>201611010130384_ChangeOutPatientDoctorIDToLong.cs</DependentUpon>
+    </Compile>
     <Compile Include="ViewModels\AntibioticDepartmentPerson.cs" />
     <Compile Include="ViewModels\DepartmentCost.cs" />
     <Compile Include="ViewModels\DepartmentDdd.cs" />
@@ -164,6 +172,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="PhMS2dot1DomainContextMigrations\201610180728503_FixInPatientDrugRecordName.resx">
       <DependentUpon>201610180728503_FixInPatientDrugRecordName.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PhMS2dot1DomainContextMigrations\201611010117120_ChangeDoctorIDToLong.resx">
+      <DependentUpon>201611010117120_ChangeDoctorIDToLong.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PhMS2dot1DomainContextMigrations\201611010130384_ChangeOutPatientDoctorIDToLong.resx">
+      <DependentUpon>201611010130384_ChangeOutPatientDoctorIDToLong.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

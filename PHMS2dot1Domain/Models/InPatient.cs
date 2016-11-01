@@ -135,6 +135,7 @@ namespace PhMS2dot1Domain.Models
             return result;
         }
 
+       
         public Decimal GetTotalDrugCost(DateTime startTime, DateTime endTime)
         {
             Decimal result = Decimal.Zero;

@@ -14,6 +14,8 @@ namespace PhMS2dot1Domain.Models
 
     public class OutPatient
     {
+        #region Domain
+
         public OutPatient()
         {
             OutPatientPrescriptions = new HashSet<OutPatientPrescription>();
@@ -39,8 +41,9 @@ namespace PhMS2dot1Domain.Models
 
         public virtual Patient Patient { get; set; }
         public virtual ICollection<OutPatientPrescription> OutPatientPrescriptions { get; set; }
+        #endregion
+        #region 扩展方法
 
-        //扩展方法
         #region 抗菌药物
 
         /// <summary>
@@ -262,6 +265,13 @@ namespace PhMS2dot1Domain.Models
 
             return cost;
         }
+
+        //public List<DrugDoctorCost> GetDrugDoctorCost(DateTime startTime, DateTime endTime)
+        //{
+        //    var result = this.OutPatientPrescriptions.Select(i => i.GetDrugDoctorCost(startTime, endTime)).GroupBy(a => new { a.DoctorID, a.DepartmentID, a.ProductCJID }).Select(g => new DrugDoctorCost { DoctorID = g.Key })
+        //}
         #endregion
+        #endregion
+
     }
 }

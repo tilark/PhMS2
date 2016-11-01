@@ -13,9 +13,9 @@ namespace PhMS2dot1Domain.Models
     {
         [Key]
         [Display(Name = "医生ID")]
-        public virtual int DoctorID { get; set; }
+        public virtual long DoctorID { get; set; }
         [Display(Name = "原HIS医生ID")]
-        public virtual int? ORIGIN_EMPLOYEE_ID { get; set; }
+        public virtual long? ORIGIN_EMPLOYEE_ID { get; set; }
         [Display(Name = "医生姓名")]
         public virtual string DoctorName { get; set; }
         [Display(Name = "医生工号")]

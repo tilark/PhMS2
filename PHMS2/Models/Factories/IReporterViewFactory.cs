@@ -17,6 +17,8 @@ namespace PHMS2.Models.Factories
         IPrescriptionMessageCollection CreatePrescriptionMessageCollection();
         IPatientAverageCost CreatePatientAverageCost(EnumOutPatientCategories category);
         IDrugCategoryRate CreateDrugCategoryRate();
+        IDrugTopThirtyDescription CreateDrugTopThirtyDescription();
+
 
     }
 }

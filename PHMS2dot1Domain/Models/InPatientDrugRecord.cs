@@ -32,7 +32,7 @@ namespace PhMS2dot1Domain.Models
         [Display(Name = "原HIS执行科室")]
         public virtual int Origin_EXEC_DEPT { get; set; }
         [Display(Name = "原HIS开医属医生")]
-        public virtual int Origin_ORDER_DOC { get; set; }
+        public virtual long Origin_ORDER_DOC { get; set; }
         [Display(Name = "原HIS药物CJID")]
         public virtual int Origin_CJID { get; set; }
         [Display(Name = "药物品名")]
@@ -104,6 +104,8 @@ namespace PhMS2dot1Domain.Models
                 DrugCJID = this.Origin_CJID
             };
         }
+
+
         #endregion
         #region Ddd        
         /// <summary>

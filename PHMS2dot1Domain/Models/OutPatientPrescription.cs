@@ -14,6 +14,8 @@ namespace PhMS2dot1Domain.Models
     [Table("OutPatientPrescriptions")]
     public class OutPatientPrescription
     {
+        #region Domain
+
         public OutPatientPrescription()
         {
             OutPatientDrugRecords = new HashSet<OutPatientDrugRecord>();
@@ -34,14 +36,16 @@ namespace PhMS2dot1Domain.Models
         public virtual int? Origin_KSDM { get; set; }
 
         [Display(Name = "原HIS医生代码")]
-        public virtual int? Origin_YSDM { get; set; }
+        public virtual long? Origin_YSDM { get; set; }
 
         public virtual OutPatient OutPatient { get; set; }
 
         public virtual ICollection<OutPatientDrugRecord> OutPatientDrugRecords { get; set; }
 
+        #endregion
+        #region //扩展方法
 
-        //扩展方法
+
         #region 抗菌药物
 
         public List<DrugCost> GetAntibioticCost()
@@ -172,5 +176,7 @@ namespace PhMS2dot1Domain.Models
             return OutPatientDrugRecords.Sum(oppd => oppd.DrugCost()); ;
         }
         #endregion
+        #endregion
+
     }
 }

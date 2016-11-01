@@ -18,7 +18,6 @@ namespace PHMS2.Models.Factories
         IInPatientAverageAntibioticCostRate CreateInPatientAverageAntibioticCostRate();
         IInPatientAntibioticUsageRate CreateInPatientAntibioticUsageRate();
 
-        IDrugTopThirtyDescription CreateDrugTopThirtyDescription();
 
     }
 }

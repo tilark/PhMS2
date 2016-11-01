@@ -82,5 +82,10 @@ namespace PHMS2.Models.Factories
             result = new ImDrugCategoryRate(this.DomainFactory);
             return result;
         }
+
+        public IDrugTopThirtyDescription CreateDrugTopThirtyDescription()
+        {
+            return new ImDrugTopThirtyDescription(this.DomainFactory);
+        }
     }
 }
