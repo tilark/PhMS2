@@ -10,8 +10,8 @@ namespace TranslationFromTrasen
     {
         static void Main(string[] args)
         {
-            DateTime start = new DateTime(2016, 7, 1);
-            DateTime end = new DateTime(2016, 8, 1);
+            DateTime start = new DateTime(2016, 10, 19);
+            DateTime end = new DateTime(2016, 11, 1);
 
             for (var time = start; time < end; time = time.AddDays(1))
             {
@@ -23,15 +23,35 @@ namespace TranslationFromTrasen
                 var target = new TranslationFromTrasen.Main();
 
                 //已完成从2016-07-01到2016-10-01（后界开区间）
-                //target.GetPatientAndInPatient(tempStart, tempEmd, true, false, true);
+                target.GetPatientAndInPatient(tempStart, tempEmd, true, false, false);
 
-                //已完成从2016-07-01到2016-09-01（后界开区间）
+                //已完成从2016-07-01到2016-10-01（后界开区间）
                 //target.GetDrugRecord(tempStart, tempEmd, false, false);
 
-                target.GetDrugFee(tempStart, tempEmd, false, false);
+                //已完成从2016-07-01到2016-10-01（后界开区间）
+                //target.GetDrugFee(tempStart, tempEmd, false, false);
 
                 Console.WriteLine(tempStart.ToLongDateString() + " - " + tempEmd.ToLongDateString() + "Finished");
             }
+
+            if(false)
+            {
+                //var target = new TranslationFromTrasen.Main();
+
+                //最近更新：2016-11-01
+                //target.GetDoctor(true);
+
+                //最近更新：2016-11-01
+                //target.GetDepartment(true);
+
+                //target.GetDrugUsage();
+
+                //target.GetAntiBioticLevel();
+
+                //target.GetUnit();
+            }
+
+            Console.ReadLine();
         }
     }
 }
