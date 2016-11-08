@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using System.Data.Entity.ModelConfiguration.Conventions;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
+using System.Collections;
+
 namespace PhMS2dot1Domain.Models
 {
     [Table("Patients")]
@@ -13,8 +15,7 @@ namespace PhMS2dot1Domain.Models
     {
         public Patient()
         {
-            //InPatients = new HashSet<InPatient>();
-            //OutPatients = new HashSet<OutPatient>();
+
         }
         [Key]
         [Display(Name = "病人信息ID")]
@@ -26,5 +27,21 @@ namespace PhMS2dot1Domain.Models
         public virtual ICollection<InPatient> InPatients { get; set; }
 
         public virtual ICollection<OutPatient> OutPatients { get; set; }
+    }
+    
+    public class PatientComparer : IEqualityComparer<Patient>
+    {
+        public bool Equals(Patient x, Patient y)
+        {
+            if (x != null && y != null & x.PatientID == y.PatientID)
+                return true;
+            else
+                return false;
+        }
+
+        public int GetHashCode(Patient obj)
+        {
+            return obj.PatientID.GetHashCode();
+        }
     }
 }
