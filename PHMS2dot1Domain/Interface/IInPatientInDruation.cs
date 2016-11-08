@@ -10,5 +10,7 @@ namespace PhMS2dot1Domain.Interface
     public interface IInPatientInDruation
     {
         List<InPatient> GetInPatientInDruation(DateTime startTime, DateTime endTime);
+
+        Task<List<InPatient>> GetInPatientInDruationAsync(DateTime startTime, DateTime endTime);
     }
 }

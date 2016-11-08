@@ -7,6 +7,15 @@
                 抗菌药物费用占药费总额的百分率
             </th>
         </tr>
+        @if (ViewBag.errorMessage != null)
+        {
+            <tr>
+                <th>
+                    @ViewBag.errorMessage
+                </th>
+            </tr>
+
+        }
         <tr>
             <td colspan="3" class="text-left">
                 <small>时间：@ViewBag.startTime -- @ViewBag.endTime</small>
@@ -20,7 +29,7 @@
         <tr>
             <td>@Model.TotalAntibioticCost</td>
             <td>@Model.TotalDrugCost</td>
-            <td>@Model.Rate</td>
+            <td>@Model.Rate %</td>
         </tr>
     </table>
 </div>

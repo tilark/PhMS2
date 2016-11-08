@@ -39,16 +39,16 @@ namespace PhMS2dot1Domain.Models
         public Decimal ActualPriceInDuration(DateTime startTime, DateTime endTime)
         {
             return this.ChargeTime >= startTime && this.ChargeTime < endTime
-                ? 0
-                : this.ActualPrice;
+                ? this.ActualPrice
+                : 0;
         }
         #endregion
         #region 取定时间内的药物数量
         public Decimal QuantityInDuration(DateTime startTime, DateTime endTime)
         {
             return this.ChargeTime >= startTime && this.ChargeTime < endTime
-                ? 0
-                : this.Quantity;
+                ? this.Quantity
+                : 0;
         }
         #endregion
         #endregion

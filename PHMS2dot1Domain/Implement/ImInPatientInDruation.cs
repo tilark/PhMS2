@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using PhMS2dot1Domain.Models;
+using System.Data.Entity;
 
 namespace PhMS2dot1Domain.Implement
 {
@@ -26,6 +27,11 @@ namespace PhMS2dot1Domain.Implement
             {
                 return this.context.InPatients.Where(i => i.OutDate.HasValue && i.OutDate.Value >= startTime && i.OutDate.Value < endTime).ToList();
             }
+
+            public async Task<List<InPatient>> GetInPatientInDruationAsync(DateTime startTime, DateTime endTime)
+            {
+                return await this.context.InPatients.Where(i => i.OutDate.HasValue && i.OutDate.Value >= startTime && i.OutDate.Value < endTime).ToListAsync();
+            }
         }
 
         /// <summary>
@@ -43,8 +49,15 @@ namespace PhMS2dot1Domain.Implement
             public List<InPatient> GetInPatientInDruation(DateTime startTime, DateTime endTime)
             {
                 var result = new List<InPatient>();
-                result = this.context.InPatients.Where(i => i.OutDate.HasValue && i.InPatientDrugRecords.Any(ii => ii.DrugFees.Any(df => df.ChargeTime >= startTime && df.ChargeTime < endTime))).ToList();
+                //result = this.context.InPatients.Where(i => i.OutDate.HasValue && i.InPatientDrugRecords.Any(ii => ii.DrugFees.Any(df => df.ChargeTime >= startTime && df.ChargeTime < endTime))).ToList();
+                //取定有出院时间，出院时间小于endTime，在取定时间段内有交费记录的。
+                result = this.context.InPatients.Include("InPatientDrugRecords.DrugFees").Where(i => i.OutDate.HasValue && i.OutDate.Value < endTime && i.InPatientDrugRecords.Any(ii => ii.DrugFees.Any(df => df.ChargeTime >= startTime && df.ChargeTime < endTime))).ToList();
                 return result;
+            }
+
+            public async Task<List<InPatient>> GetInPatientInDruationAsync(DateTime startTime, DateTime endTime)
+            {
+                return await this.context.InPatients.Include("InPatientDrugRecords.DrugFees").Where(i => i.OutDate.HasValue && i.OutDate.Value < endTime && i.InPatientDrugRecords.Any(ii => ii.DrugFees.Any(df => df.ChargeTime >= startTime && df.ChargeTime < endTime))).ToListAsync();
             }
         }
     }

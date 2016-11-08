@@ -18,7 +18,7 @@ namespace PhMS2dot1Domain.Models
 
         public InPatientDrugRecord()
         {
-            DrugFees = new HashSet<DrugFee>();
+            //DrugFees = new HashSet<DrugFee>();
         }
         [Key]
         [Display(Name = "药物记录ID")]
@@ -46,7 +46,7 @@ namespace PhMS2dot1Domain.Models
         [Display(Name = "原HIS药物用法")]
         public virtual string Origin_ORDER_USAGE { get; set; }
         public virtual InPatient InPatient { get; set; }
-        public virtual ICollection<DrugFee> DrugFees { get; set; }
+        public ICollection<DrugFee> DrugFees { get; set; }
         #endregion
 
         #region 扩展方法
@@ -176,13 +176,13 @@ namespace PhMS2dot1Domain.Models
                 case EnumDrugCategory.ESSENTIAL_DRUG:
                     if (!IsEssential)
                     {
-                        result = null;
+                        result = new DrugMessage();
                     }
                     break;
                 case EnumDrugCategory.ANTIBIOTIC_DRUG:
                     if (!this.IsAntibioticDrug)
                     {
-                        result = null;
+                        result = new DrugMessage();
                     }
                     break;
                 default:
@@ -201,7 +201,7 @@ namespace PhMS2dot1Domain.Models
                 Cost = DrugCost(startTime, endTime),
                 DrugCJID = this.Origin_CJID
             }
-            : null;
+            : new DepartmentCost();
         }
         #endregion
         #endregion

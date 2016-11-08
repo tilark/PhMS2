@@ -130,9 +130,9 @@ namespace PHMS2.Controllers
             {
                 viewModel = this.factory.CreateInPatientAntibioticUsageRate().GetInPatientAntibioticUsageRate(startTime, endTime);
             }
-            catch (Exception)
+            catch (Exception e)
             {
-
+                ViewBag.errorMessage = e.Message;
                 viewModel = new InPatientAntibioticUsageRate();
             }
             return PartialView("_GetInPatientAntibioticUsageRate", viewModel);
@@ -186,14 +186,14 @@ namespace PHMS2.Controllers
                 {
                     AntibioticCategoryNumber = -1,
                     AntibioticCost = -1,
-                    TotalDrugCost = 0,
+                    TotalDrugCost = -1,
                     UnionAntibioticPerson = -1
                 };
             }
             return PartialView("_GetInPatientDrugMessage", viewModel);
         }
         /// <summary>
-        /// 住院平均使用抗菌药物种类使用率.
+        /// 住院患者人均使用抗菌药物品种数
         /// </summary>
         /// <param name="startTime">The start time.</param>
         /// <param name="endTime">The end time.</param>

@@ -25,9 +25,11 @@ namespace PHMS2.App_Start
         {
             //PhMS2dot1Domain Bind Factory
             this.kernel.Bind<IDomainFacotry>().To<Domain2dot1OuterFactory>();
-            this.kernel.Bind<Domain2dot1OuterFactory>().ToSelf().InSingletonScope();
-            this.kernel.Bind<IDomain2dot1InnerFactory>().To<Domain2dot1InnerFactory>();
+            //this.kernel.Bind<Domain2dot1OuterFactory>().ToSelf().InSingletonScope();
+            this.kernel.Bind<Domain2dot1OuterFactory>().ToSelf().InThreadScope();
 
+            this.kernel.Bind<IDomain2dot1InnerFactory>().To<Domain2dot1InnerFactory>();
+            this.kernel.Bind<Domain2dot1InnerFactory>().ToSelf().InThreadScope();
             //InPatientReporterController Bind factory
             this.kernel.Bind<IInPatientReporterFactory>().To<InPatientReporterFactory>();
             this.kernel.Bind<InPatientReporterFactory>().ToSelf().InSingletonScope();

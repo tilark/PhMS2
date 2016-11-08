@@ -93,6 +93,10 @@
     <Compile Include="PhMS2dot1DomainContextMigrations\201611010130384_ChangeOutPatientDoctorIDToLong.Designer.cs">
       <DependentUpon>201611010130384_ChangeOutPatientDoctorIDToLong.cs</DependentUpon>
     </Compile>
+    <Compile Include="PhMS2dot1DomainContextMigrations\201611081339042_addIsHemodialysis.cs" />
+    <Compile Include="PhMS2dot1DomainContextMigrations\201611081339042_addIsHemodialysis.Designer.cs">
+      <DependentUpon>201611081339042_addIsHemodialysis.cs</DependentUpon>
+    </Compile>
     <Compile Include="ViewModels\AntibioticDepartmentPerson.cs" />
     <Compile Include="ViewModels\DepartmentCost.cs" />
     <Compile Include="ViewModels\DepartmentDdd.cs" />
@@ -178,6 +182,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="PhMS2dot1DomainContextMigrations\201611010130384_ChangeOutPatientDoctorIDToLong.resx">
       <DependentUpon>201611010130384_ChangeOutPatientDoctorIDToLong.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PhMS2dot1DomainContextMigrations\201611081339042_addIsHemodialysis.resx">
+      <DependentUpon>201611081339042_addIsHemodialysis.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

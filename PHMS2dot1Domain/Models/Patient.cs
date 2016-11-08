@@ -13,8 +13,8 @@ namespace PhMS2dot1Domain.Models
     {
         public Patient()
         {
-            InPatients = new HashSet<InPatient>();
-            OutPatients = new HashSet<OutPatient>();
+            //InPatients = new HashSet<InPatient>();
+            //OutPatients = new HashSet<OutPatient>();
         }
         [Key]
         [Display(Name = "病人信息ID")]

@@ -23,9 +23,10 @@ namespace PhMS2dot1Domain.ImplementOuterRepository
                 //根据DrugFee中的收费时间获取入院患者集合（含在取定时间范围之前的患者）
                 var inPatientFromDrugRecordList = this.innerFactory.CreateInPatientFromDrugRecords().GetInPatientInDruation(startTime, endTime);
 
-                var personPositive = inPatientFromDrugRecordList.Sum(a => a.AntibioticPersonPositive(startTime, endTime));
-                var personNegative = inPatientFromDrugRecordList.Sum(a => a.AntibioticPersonNegative(startTime, endTime));
-                result = personPositive - personNegative;
+                //var personPositive = inPatientFromDrugRecordList.Sum(a => a.AntibioticPersonPositive(startTime, endTime));
+                //var personNegative = inPatientFromDrugRecordList.Sum(a => a.AntibioticPersonNegative(startTime, endTime));
+                //result = personPositive + personNegative;
+                result = inPatientFromDrugRecordList.Sum(a => a.AntibioticPerson(startTime, endTime));
             }
             catch (Exception e)
             {

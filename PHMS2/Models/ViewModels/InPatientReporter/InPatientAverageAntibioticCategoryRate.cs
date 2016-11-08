@@ -19,7 +19,7 @@ namespace PHMS2.Models.ViewModels.InPatientReporter
         {
             get
             {
-                return this.TotalAntibioticPerson != 0 ? Decimal.Round(this.TotalAntibioticCategoryNumber * 100 / this.TotalAntibioticPerson, 2) : 0;
+                return this.TotalAntibioticPerson != 0 ? Decimal.Round(this.TotalAntibioticCategoryNumber  / this.TotalAntibioticPerson, 2) : 0;
             }
         }
     }

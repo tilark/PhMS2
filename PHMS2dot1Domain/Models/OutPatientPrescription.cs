@@ -18,7 +18,7 @@ namespace PhMS2dot1Domain.Models
 
         public OutPatientPrescription()
         {
-            OutPatientDrugRecords = new HashSet<OutPatientDrugRecord>();
+            //OutPatientDrugRecords = new HashSet<OutPatientDrugRecord>();
         }
         [Display(Name = "门诊处方ID")]
         public virtual Guid OutPatientPrescriptionID { get; set; }

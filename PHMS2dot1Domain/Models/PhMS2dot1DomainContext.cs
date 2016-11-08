@@ -10,11 +10,21 @@ namespace PhMS2dot1Domain.Models
 {
     public class PhMS2dot1DomainContext : DbContext
     {
+        private static readonly object locker = new object();
         public PhMS2dot1DomainContext(string connection) : base(connection)
         {
+            this.Configuration.LazyLoadingEnabled = false;
+            lock (locker)
+            {
+                this.ChangeTracker.DetectChanges();
+            }
+
         }
         public PhMS2dot1DomainContext() : base("PHMS2dot1DomainString")
         {
+            this.Configuration.LazyLoadingEnabled = false;
+            //this.Database.Initialize(false);
+
         }
         public DbSet<AntibioticLevel> AntibioticLevels { get; set; }
         public DbSet<Department> Departments { get; set; }
@@ -33,6 +43,7 @@ namespace PhMS2dot1Domain.Models
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
+            
             //定义Decimal精度
             modelBuilder.Entity<InPatientDrugRecord>()
                 .Property(d => d.DDD)
@@ -59,14 +70,15 @@ namespace PhMS2dot1Domain.Models
             modelBuilder.Entity<InPatient>()
                 .HasMany(e => e.InPatientDrugRecords)
                 .WithRequired(e => e.InPatient)
-                .WillCascadeOnDelete(false);
+                .WillCascadeOnDelete(true);
 
             //OutPatient 1: n OutPatientDrugRecord, 取消级联删除
             modelBuilder.Entity<OutPatient>()
                 .HasMany(o => o.OutPatientPrescriptions)
                 .WithRequired(o => o.OutPatient)
-                .WillCascadeOnDelete(false);
+                .WillCascadeOnDelete(true);
 
+           
 
         }
     }
