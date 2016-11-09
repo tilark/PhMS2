@@ -39,45 +39,68 @@ namespace PhMS2dot1Domain.ImplementOuterRepository
                 //var endTime2 = startTime2.AddDays(durationDay);
                 var departmentPersonTotoalList = new List<OutDepartmentPerson>();
                 var inPatientFromDrugRecordTotalList = new List<InPatient>();
+                var antibioticDepartmentPersonList = new List<AntibioticDepartmentPerson>();
+                //同期出院人数
+                departmentPersonTotoalList = innerRepository.CreateOutDepartmentPerson().GetOutDepartmentPerson(startTime, endTime);
 
-                Parallel.For(0, maxDays, (i, state) =>
+
+
+                //抗菌药物使用人的出院病人集合
+                var inPatientFromDrugRecordList = this.innerFactory.CreateInPatientFromDrugRecords().GetInPatientInDruation(startTime, endTime);
+
+                Parallel.ForEach(inPatientFromDrugRecordList, (inPatient, state, index) =>
                 {
-                    //do
-                    //{
-                    var startTime2 = startTime.AddDays( i * durationDay);
-                    var endTime2 = startTime2.AddDays( durationDay);
-                   
-                    if (endTime2 > endTime)
-                    {
-                        endTime2 = endTime;
-                    }
                     PhMS2dot1DomainContext context = new PhMS2dot1DomainContext();
                     IInnerRepository innerRepository = new InnerRepository(new Domain2dot1InnerFactory(context));
-                    //根据DrugFee中的收费时间获取入院患者集合（含在取定时间范围之前的患者）
-                    //var inPatientFromDrugRecordList = this.innerFactory.CreateInPatientFromDrugRecords().GetInPatientInDruation(startTime2, endTime2);
-                    //inPatientFromDrugRecordTotalList.AddRange(inPatientFromDrugRecordList);
+                    //var inPatientFromDrugRecord = context.InPatients.Include("InPatientDrugRecords.DrugFees").Where(i => i.InPatientID == inPatient.InPatientID).FirstOrDefault();
+                    var inPatientFromDrugRecord = innerFactory.CreateInPatient().GetInPatient(inPatient.InPatientID);
+                    //    //获取各科室抗菌药物使用人数
+                    var antibioticDepartmentPerson = inPatientFromDrugRecord.AntibioticDepartmentPersonList(startTime, endTime);
 
-                    //获取各科室抗菌药物使用人数
-                    //var antibioticDepartmentPerson = inPatientFromDrugRecordList.SelectMany(i => i.AntibioticDepartmentPersonList(startTime, endTime)).ToList().GroupBy(a => a.DepartmentID).Select(g => new DepartmentAntibioticUsageRateDomain { DepartmentID = g.Key, AntibioticPerson = g.Sum(a => a.PersonNumber) }).ToList();
-
-                    var departmentPersonList = innerRepository.CreateOutDepartmentPerson().GetOutDepartmentPerson(startTime2, endTime2);
-                    //var departmentPersonList = await this.innerRepository.CreateOutDepartmentPerson().GetOutDepartmentPersonAsync(startTime2, endTime2);
-                    departmentPersonTotoalList.AddRange(departmentPersonList);
-
-
-
-                    //var result1 = antibioticDepartmentPerson.Join(departmentPersonList, antibioticPerson => antibioticPerson.DepartmentID, departmentPerson => departmentPerson.DepartmentID, (antibioticPerson, departmentPerson) => new DepartmentAntibioticUsageRateDomain { DepartmentID = antibioticPerson.DepartmentID, AntibioticPerson = antibioticPerson.AntibioticPerson, RegisterPerson = departmentPerson.InPatientNumber }).ToList();
-
-                    //result = result1.Join(departments, result11 => result11.DepartmentID, department => department.Origin_DEPT_ID, (result11, department) => new DepartmentAntibioticUsageRateDomain { DepartmentID = result11.DepartmentID, DepartmentName = department.DepartmentName, AntibioticPerson = result11.AntibioticPerson, RegisterPerson = result11.RegisterPerson }).ToList();
-
-                    //result = result2.Join(antibioticDepartmentPerson, departmentPerson => departmentPerson.DepartmentID, antibioticPerson => antibioticPerson.DepartmentID, (departmentPerson, antibioticPerson) => new DepartmentAntibioticUsageRateDomain { DepartmentID = departmentPerson.DepartmentID, DepartmentName = departmentPerson.DepartmentName, RegisterPerson = departmentPerson.RegisterPerson, AntibioticPerson = antibioticPerson.AntibioticPerson }).ToList();
-
-                    //startTime2 = endTime2;
-                    //endTime2 = startTime2.AddDays(durationDay);
-                    //}
-                    //while (startTime2 < endTime);
+                    antibioticDepartmentPersonList.AddRange(antibioticDepartmentPerson);
 
                 });
+                #region Parallel
+
+                //Parallel.For(0, maxDays, (i, state) =>
+                //{
+                //    //do
+                //    //{
+                //    var startTime2 = startTime.AddDays( i * durationDay);
+                //    var endTime2 = startTime2.AddDays( durationDay);
+
+                //    if (endTime2 > endTime)
+                //    {
+                //        endTime2 = endTime;
+                //    }
+                //    PhMS2dot1DomainContext context = new PhMS2dot1DomainContext();
+                //    IInnerRepository innerRepository = new InnerRepository(new Domain2dot1InnerFactory(context));
+                //    //根据DrugFee中的收费时间获取入院患者集合（含在取定时间范围之前的患者）
+                //    //var inPatientFromDrugRecordList = this.innerFactory.CreateInPatientFromDrugRecords().GetInPatientInDruation(startTime2, endTime2);
+                //    //inPatientFromDrugRecordTotalList.AddRange(inPatientFromDrugRecordList);
+
+                //    //获取各科室抗菌药物使用人数
+                //    //var antibioticDepartmentPerson = inPatientFromDrugRecordList.SelectMany(i => i.AntibioticDepartmentPersonList(startTime, endTime)).ToList().GroupBy(a => a.DepartmentID).Select(g => new DepartmentAntibioticUsageRateDomain { DepartmentID = g.Key, AntibioticPerson = g.Sum(a => a.PersonNumber) }).ToList();
+
+                //    var departmentPersonList = innerRepository.CreateOutDepartmentPerson().GetOutDepartmentPerson(startTime2, endTime2);
+                //    //var departmentPersonList = await this.innerRepository.CreateOutDepartmentPerson().GetOutDepartmentPersonAsync(startTime2, endTime2);
+                //    departmentPersonTotoalList.AddRange(departmentPersonList);
+
+
+
+                //    //var result1 = antibioticDepartmentPerson.Join(departmentPersonList, antibioticPerson => antibioticPerson.DepartmentID, departmentPerson => departmentPerson.DepartmentID, (antibioticPerson, departmentPerson) => new DepartmentAntibioticUsageRateDomain { DepartmentID = antibioticPerson.DepartmentID, AntibioticPerson = antibioticPerson.AntibioticPerson, RegisterPerson = departmentPerson.InPatientNumber }).ToList();
+
+                //    //result = result1.Join(departments, result11 => result11.DepartmentID, department => department.Origin_DEPT_ID, (result11, department) => new DepartmentAntibioticUsageRateDomain { DepartmentID = result11.DepartmentID, DepartmentName = department.DepartmentName, AntibioticPerson = result11.AntibioticPerson, RegisterPerson = result11.RegisterPerson }).ToList();
+
+                //    //result = result2.Join(antibioticDepartmentPerson, departmentPerson => departmentPerson.DepartmentID, antibioticPerson => antibioticPerson.DepartmentID, (departmentPerson, antibioticPerson) => new DepartmentAntibioticUsageRateDomain { DepartmentID = departmentPerson.DepartmentID, DepartmentName = departmentPerson.DepartmentName, RegisterPerson = departmentPerson.RegisterPerson, AntibioticPerson = antibioticPerson.AntibioticPerson }).ToList();
+
+                //    //startTime2 = endTime2;
+                //    //endTime2 = startTime2.AddDays(durationDay);
+                //    //}
+                //    //while (startTime2 < endTime);
+
+                //});
+                #endregion
 
                 //获取科室集合
 
@@ -85,8 +108,11 @@ namespace PhMS2dot1Domain.ImplementOuterRepository
 
                 //需再group
                 var departmentPersonResult = departmentPersonTotoalList.GroupBy(a => a.DepartmentID).Select(g => new { DepartmentID = g.Key, InPatientNumber = g.Sum(b => b.InPatientNumber) });
+                var antibioticPersonList = antibioticDepartmentPersonList.GroupBy(a => a.DepartmentID).Select(g => new DepartmentAntibioticUsageRateDomain { DepartmentID = g.Key, AntibioticPerson = g.Sum(a => a.PersonNumber) }).ToList();
                 //join
                 result = departmentPersonResult.Join(departments, departmentPerson => departmentPerson.DepartmentID, department => department.Origin_DEPT_ID, (departmentPerson, department) => new DepartmentAntibioticUsageRateDomain { DepartmentID = departmentPerson.DepartmentID, DepartmentName = department.DepartmentName, RegisterPerson = departmentPerson.InPatientNumber }).ToList();
+
+                result = result.Join(antibioticPersonList, departmentPerson => departmentPerson.DepartmentID, antibioticPerson => antibioticPerson.DepartmentID, (departmentPerson, antibioticPerson) => new DepartmentAntibioticUsageRateDomain { DepartmentID = departmentPerson.DepartmentID, DepartmentName = departmentPerson.DepartmentName, RegisterPerson = departmentPerson.RegisterPerson, AntibioticPerson = antibioticPerson.AntibioticPerson }).ToList();
             }
             catch (Exception e)
             {

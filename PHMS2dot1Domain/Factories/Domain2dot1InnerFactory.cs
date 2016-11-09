@@ -119,5 +119,10 @@ namespace PhMS2dot1Domain.Factories
             }
             return result;
         }
+
+        public IInPatient CreateInPatient()
+        {
+            return new ImInPatient(this.context);
+        }
     }
 }

@@ -47,8 +47,7 @@ namespace PhMS2dot1Domain.Models
 
         [Display(Name = "当前科室（原HIS）")]
         public virtual long Origin_DEPT_ID { get; set; }
-        [Display(Name = "血透住院")]
-        public virtual bool IsHemodialysis { get; set; }
+       
         public virtual Patient Patient { get; set; }
         public ICollection<InPatientDrugRecord> InPatientDrugRecords { get; set; }
         #endregion
@@ -119,12 +118,12 @@ namespace PhMS2dot1Domain.Models
             if (this.OutDate.HasValue && this.OutDate.Value >= startTime)
             {
                 //outDate在取定时间段内的情况
-                result = this.InPatientDrugRecords.GroupBy(i => i.Origin_EXEC_DEPT).Select(g => new AntibioticDepartmentPerson { DepartmentID = g.Key, preStartTimeCost = 0M, preEndTimeCost = g.Sum(a => a.AntibioticCost(this.InDate, endTime)), Cost = g.Sum(a => a.AntibioticCost(this.InDate, endTime)), IsAntibiotic = true }).ToList();
+                result = this.InPatientDrugRecords.Select(g => new AntibioticDepartmentPerson { DepartmentID = (int)this.Origin_DEPT_ID, preStartTimeCost = 0M, preEndTimeCost = g.AntibioticCost(this.InDate, endTime), Cost = g.AntibioticCost(this.InDate, endTime), IsAntibiotic = true }).ToList();
             }
             else if (this.OutDate.HasValue && this.OutDate.Value < startTime)
             {
                 //outDate在startTime之间的情况
-                result = this.InPatientDrugRecords.GroupBy(i => i.Origin_EXEC_DEPT).Select(g => new AntibioticDepartmentPerson { DepartmentID = g.Key, preStartTimeCost = g.Sum(a => a.AntibioticCost(this.InDate, startTime)), preEndTimeCost = g.Sum(a => a.AntibioticCost(this.InDate, endTime)), Cost = g.Sum(a => a.AntibioticCost(startTime, endTime)), IsAntibiotic = true }).ToList();
+                result = this.InPatientDrugRecords.Select(g => new AntibioticDepartmentPerson { DepartmentID = (int)this.Origin_DEPT_ID, preStartTimeCost = g.AntibioticCost(this.InDate, startTime), preEndTimeCost = g.AntibioticCost(this.InDate, endTime), Cost = g.AntibioticCost(startTime, endTime), IsAntibiotic = true }).ToList();
             }
             return result;
         }

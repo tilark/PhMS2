@@ -25,12 +25,12 @@ namespace PhMS2dot1Domain.Implement
 
             public List<InPatient> GetInPatientInDruation(DateTime startTime, DateTime endTime)
             {
-                return this.context.InPatients.Where(i => i.OutDate.HasValue && i.OutDate.Value >= startTime && i.OutDate.Value < endTime).ToList();
+                return this.context.InPatients.Where(i => i.OutDate.HasValue && i.OutDate.Value >= startTime && i.OutDate.Value < endTime && !i.CaseNumber.Contains("XT")).ToList();
             }
 
             public async Task<List<InPatient>> GetInPatientInDruationAsync(DateTime startTime, DateTime endTime)
             {
-                return await this.context.InPatients.Where(i => i.OutDate.HasValue && i.OutDate.Value >= startTime && i.OutDate.Value < endTime).ToListAsync();
+                return await this.context.InPatients.Where(i => i.OutDate.HasValue && i.OutDate.Value >= startTime && i.OutDate.Value < endTime && !i.CaseNumber.Contains("XT")).ToListAsync();
             }
         }
 
@@ -51,13 +51,13 @@ namespace PhMS2dot1Domain.Implement
                 var result = new List<InPatient>();
                 //result = this.context.InPatients.Where(i => i.OutDate.HasValue && i.InPatientDrugRecords.Any(ii => ii.DrugFees.Any(df => df.ChargeTime >= startTime && df.ChargeTime < endTime))).ToList();
                 //取定有出院时间，出院时间小于endTime，在取定时间段内有交费记录的。
-                result = this.context.InPatients.Include("InPatientDrugRecords.DrugFees").Where(i => i.OutDate.HasValue && i.OutDate.Value < endTime && i.InPatientDrugRecords.Any(ii => ii.DrugFees.Any(df => df.ChargeTime >= startTime && df.ChargeTime < endTime))).ToList();
+                result = this.context.InPatients.Where(i => i.OutDate.HasValue && i.OutDate.Value < endTime && !i.CaseNumber.Contains("XT") &&  i.InPatientDrugRecords.Any(ii => ii.DrugFees.Any(df => df.ChargeTime >= startTime && df.ChargeTime < endTime))).ToList();
                 return result;
             }
 
             public async Task<List<InPatient>> GetInPatientInDruationAsync(DateTime startTime, DateTime endTime)
             {
-                return await this.context.InPatients.Include("InPatientDrugRecords.DrugFees").Where(i => i.OutDate.HasValue && i.OutDate.Value < endTime && i.InPatientDrugRecords.Any(ii => ii.DrugFees.Any(df => df.ChargeTime >= startTime && df.ChargeTime < endTime))).ToListAsync();
+                return await this.context.InPatients.Where(i => i.OutDate.HasValue && i.OutDate.Value < endTime && !i.CaseNumber.Contains("XT") && i.InPatientDrugRecords.Any(ii => ii.DrugFees.Any(df => df.ChargeTime >= startTime && df.ChargeTime < endTime))).ToListAsync();
             }
         }
     }

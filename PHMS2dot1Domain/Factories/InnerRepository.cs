@@ -16,6 +16,8 @@ namespace PhMS2dot1Domain.Factories
             this.innerFactory = factory;
         }
 
+       
+
         public IOutDepartmentPerson CreateOutDepartmentPerson()
         {
             return new ImOutDepartmentPerson(this.innerFactory);

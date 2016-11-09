@@ -76,11 +76,13 @@
     <Compile Include="ImplementOuterRepository\ImTopTenAntibioticRank.cs" />
     <Compile Include="ImplementOuterRepository\ImTotalAntibioticDdds.cs" />
     <Compile Include="ImplementOuterRepository\ImUnionAntibioticPerson.cs" />
+    <Compile Include="Implement\ImInPatient.cs" />
     <Compile Include="Implement\ImInPatientInDruation.cs" />
     <Compile Include="Implement\ImOutDepartmentPerson.cs" />
     <Compile Include="Implement\ImOutPatientFromDrugRecordInDuration.cs" />
     <Compile Include="Implement\ImOutPatientInDuration.cs" />
     <Compile Include="Implement\ImPrescriptionInDuration.cs" />
+    <Compile Include="Interface\IInPatient.cs" />
     <Compile Include="Interface\IInPatientInDruation.cs" />
     <Compile Include="Interface\IOutDepartmentPerson.cs" />
     <Compile Include="Interface\IOutPatientInDuration.cs" />
@@ -96,6 +98,10 @@
     <Compile Include="PhMS2dot1DomainContextMigrations\201611081339042_addIsHemodialysis.cs" />
     <Compile Include="PhMS2dot1DomainContextMigrations\201611081339042_addIsHemodialysis.Designer.cs">
       <DependentUpon>201611081339042_addIsHemodialysis.cs</DependentUpon>
+    </Compile>
+    <Compile Include="PhMS2dot1DomainContextMigrations\201611090027361_deletexuetoubiaozhi.cs" />
+    <Compile Include="PhMS2dot1DomainContextMigrations\201611090027361_deletexuetoubiaozhi.Designer.cs">
+      <DependentUpon>201611090027361_deletexuetoubiaozhi.cs</DependentUpon>
     </Compile>
     <Compile Include="ViewModels\AntibioticDepartmentPerson.cs" />
     <Compile Include="ViewModels\DepartmentCost.cs" />
@@ -185,6 +191,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="PhMS2dot1DomainContextMigrations\201611081339042_addIsHemodialysis.resx">
       <DependentUpon>201611081339042_addIsHemodialysis.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PhMS2dot1DomainContextMigrations\201611090027361_deletexuetoubiaozhi.resx">
+      <DependentUpon>201611090027361_deletexuetoubiaozhi.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

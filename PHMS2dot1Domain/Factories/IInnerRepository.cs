@@ -10,6 +10,5 @@ namespace PhMS2dot1Domain.Factories
     public interface IInnerRepository
     {
         IOutDepartmentPerson CreateOutDepartmentPerson();
-        
     }
 }
