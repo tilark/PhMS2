@@ -9,5 +9,6 @@ namespace ClassViewModelToDomain.Interface
     public interface IDepartmentAntibioticUsageRateDomain
     {
         List<DepartmentAntibioticUsageRateDomain> GetDepartmentAntibioticUsageRateDomain(DateTime startTime, DateTime endTime);
+        Task<List<DepartmentAntibioticUsageRateDomain>> GetDepartmentAntibioticUsageRateDomainAsync(DateTime startTime, DateTime endTime);
     }
 }

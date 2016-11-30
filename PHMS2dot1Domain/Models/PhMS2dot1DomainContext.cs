@@ -13,16 +13,13 @@ namespace PhMS2dot1Domain.Models
         private static readonly object locker = new object();
         public PhMS2dot1DomainContext(string connection) : base(connection)
         {
-            this.Configuration.LazyLoadingEnabled = false;
-            lock (locker)
-            {
-                this.ChangeTracker.DetectChanges();
-            }
+            //this.Configuration.LazyLoadingEnabled = false;
+           
 
         }
         public PhMS2dot1DomainContext() : base("PHMS2dot1DomainString")
         {
-            this.Configuration.LazyLoadingEnabled = false;
+            //this.Configuration.LazyLoadingEnabled = false;
             //this.Database.Initialize(false);
 
         }

@@ -17,6 +17,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PhMS2dot1Domain", "PHMS2dot
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TranslationFromTrasen", "TranslationFromTrasen\TranslationFromTrasen.csproj", "{9B6BC7DD-657A-42CB-82E2-4E626D168541}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PHMS2dot1DomainTest", "PHMS2dot1DomainTest\PHMS2dot1DomainTest.csproj", "{FF3705B2-4445-4721-B74E-87154750AF83}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -51,6 +53,10 @@ Global
 		{9B6BC7DD-657A-42CB-82E2-4E626D168541}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9B6BC7DD-657A-42CB-82E2-4E626D168541}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9B6BC7DD-657A-42CB-82E2-4E626D168541}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FF3705B2-4445-4721-B74E-87154750AF83}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FF3705B2-4445-4721-B74E-87154750AF83}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FF3705B2-4445-4721-B74E-87154750AF83}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FF3705B2-4445-4721-B74E-87154750AF83}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

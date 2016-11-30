@@ -202,6 +202,7 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\InPatientReporter2Controller.cs" />
     <Compile Include="Controllers\InPatientReporterController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\ReportersController.cs" />
@@ -355,6 +356,8 @@
     <Content Include="Views\InPatientReporter\_GetInPatientDrugMessage.cshtml" />
     <Content Include="Views\InPatientReporter\_GetInPatientAverageAntibioticCategoryRate.cshtml" />
     <Content Include="Views\InPatientReporter\_GetDepartmentEssentialUsageRate.cshtml" />
+    <Content Include="Views\InPatientReporter2\_InPatientAntibioticUsageRate.cshtml" />
+    <Content Include="Views\InPatientReporter2\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

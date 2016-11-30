@@ -118,16 +118,48 @@ namespace PhMS2dot1Domain.Models
             if (this.OutDate.HasValue && this.OutDate.Value >= startTime)
             {
                 //outDate在取定时间段内的情况
-                result = this.InPatientDrugRecords.Select(g => new AntibioticDepartmentPerson { DepartmentID = (int)this.Origin_DEPT_ID, preStartTimeCost = 0M, preEndTimeCost = g.AntibioticCost(this.InDate, endTime), Cost = g.AntibioticCost(this.InDate, endTime), IsAntibiotic = true }).ToList();
+                result = this.InPatientDrugRecords.Select(g => new AntibioticDepartmentPerson { DepartmentID = (int)this.Origin_DEPT_ID, preStartTimeCost = 0M, preEndTimeCost = g.AntibioticCost(this.InDate, endTime), IsAntibiotic = true }).ToList();
             }
             else if (this.OutDate.HasValue && this.OutDate.Value < startTime)
             {
                 //outDate在startTime之间的情况
-                result = this.InPatientDrugRecords.Select(g => new AntibioticDepartmentPerson { DepartmentID = (int)this.Origin_DEPT_ID, preStartTimeCost = g.AntibioticCost(this.InDate, startTime), preEndTimeCost = g.AntibioticCost(this.InDate, endTime), Cost = g.AntibioticCost(startTime, endTime), IsAntibiotic = true }).ToList();
+                result = this.InPatientDrugRecords.Select(g => new AntibioticDepartmentPerson { DepartmentID = (int)this.Origin_DEPT_ID, preStartTimeCost = g.AntibioticCost(this.InDate, startTime), preEndTimeCost = g.AntibioticCost(this.InDate, endTime), IsAntibiotic = true }).ToList();
             }
             return result;
         }
 
+        public AntibioticPerson AntibioticDepartmentPerson(DateTime startTime, DateTime endTime)
+        {
+            var result = new AntibioticPerson();
+            decimal preStartTimeCost = 0M;
+            decimal preEndTimeCost = 0M;
+            result.DepartmentID = (int) this.Origin_DEPT_ID;
+            if (this.OutDate.HasValue && this.OutDate.Value >= startTime)
+            {
+                //outDate在取定时间段内的情况
+                preEndTimeCost = this.InPatientDrugRecords.Sum(g =>g.AntibioticCost(this.InDate, endTime));
+                
+            }
+            else if (this.OutDate.HasValue && this.OutDate.Value < startTime)
+            {
+                //outDate在startTime之间的情况
+                preStartTimeCost = this.InPatientDrugRecords.Sum(g => g.AntibioticCost(this.InDate, startTime));
+                preEndTimeCost = this.InPatientDrugRecords.Sum(g =>g.AntibioticCost(this.InDate, endTime));
+            }
+            if (preStartTimeCost > 0 && preEndTimeCost == 0)
+            {
+                result.AntibioticPatientNumber = -1;
+            }
+            else if (preStartTimeCost == 0 && preEndTimeCost > 0)
+            {
+                result.AntibioticPatientNumber = 1;
+            }
+            else
+            {
+                result.AntibioticPatientNumber = 0;
+            }
+            return result;
+        }
         public Decimal AntibioticCost(DateTime startTime, DateTime endTime)
         {
             Decimal result = 0;

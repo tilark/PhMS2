@@ -16,7 +16,8 @@ namespace PhMS2dot1Domain.Factories
         IInPatientInDruation CreateInPatientInDuration();
         IDepartment CreateDepartment();
         IInPatient CreateInPatient();
-
+        IInPatientDrugRecord CreateInPatientDrugRecord();
+        IInPatientDrugFee CreateInPatientDrugFee();
         #endregion
 
         #region 门诊信息

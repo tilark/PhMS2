@@ -9,6 +9,8 @@ using PHMS2.Models.ViewModels.Interface;
 using PHMS2.Models.Factories;
 using ClassViewModelToDomain;
 using PHMS2.Models.ViewModels.InPatientReporter;
+using System.Threading.Tasks;
+
 namespace PHMS2.Controllers
 {
     public class InPatientReporterController : Controller
@@ -33,7 +35,7 @@ namespace PHMS2.Controllers
         /// <param name="startTime">The start time.</param>
         /// <param name="endTime">The end time.</param>
         /// <returns>ActionResult.</returns>
-        public ActionResult InPatientDepartmentAntibioticUsageRate(DateTime startTime, DateTime endTime)
+        public async Task<ActionResult> InPatientDepartmentAntibioticUsageRate(DateTime startTime, DateTime endTime)
         {
             ViewBag.startTime = startTime;
             ViewBag.endTime = endTime.AddDays(1).AddMilliseconds(-1);
@@ -42,7 +44,7 @@ namespace PHMS2.Controllers
             viewModel.DepartmentAntibioticUsageRateList = new List<ClassViewModelToDomain.DepartmentAntibioticUsageRateDomain>();
             try
             {
-                viewModel = this.factory.CreateDepartmentAntibioticUsageRateList().GetDepartmentAntibioticUsageRateList(startTime, endTime);
+                viewModel = await this.factory.CreateDepartmentAntibioticUsageRateList().GetDepartmentAntibioticUsageRateListAsync(startTime, endTime);
             }
             catch (Exception)
             {

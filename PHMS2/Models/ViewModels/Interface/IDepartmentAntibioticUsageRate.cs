@@ -10,5 +10,6 @@ namespace PHMS2.Models.ViewModels.Interface
     public interface IDepartmentAntibioticUsageRateList
     {
         DepartmentAntibioticUsageRate GetDepartmentAntibioticUsageRateList(DateTime startTime, DateTime endTime);
+        Task<DepartmentAntibioticUsageRate> GetDepartmentAntibioticUsageRateListAsync(DateTime startTime, DateTime endTime);
     }
 }

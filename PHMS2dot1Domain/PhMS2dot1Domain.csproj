@@ -59,6 +59,7 @@
     <Compile Include="ImplementOuterRepository\ImAntibioticCategoryNumber.cs" />
     <Compile Include="ImplementOuterRepository\ImAntibioticPerson.cs" />
     <Compile Include="ImplementOuterRepository\ImDepartmentAntibioticIntensityDomain.cs" />
+    <Compile Include="ImplementOuterRepository\ImDepartmentAntibioticUsageRateDomain2.cs" />
     <Compile Include="ImplementOuterRepository\ImDepartmentEssentialUsageRateDomain.cs" />
     <Compile Include="ImplementOuterRepository\ImDrugTopThirtyRank.cs" />
     <Compile Include="ImplementOuterRepository\ImGetDrugCategoriesNumbers.cs" />
@@ -76,13 +77,19 @@
     <Compile Include="ImplementOuterRepository\ImTopTenAntibioticRank.cs" />
     <Compile Include="ImplementOuterRepository\ImTotalAntibioticDdds.cs" />
     <Compile Include="ImplementOuterRepository\ImUnionAntibioticPerson.cs" />
+    <Compile Include="Implement\ImAntibioticPerson.cs" />
     <Compile Include="Implement\ImInPatient.cs" />
+    <Compile Include="Implement\ImInPatientDrugFee.cs" />
+    <Compile Include="Implement\ImInPatientDrugRecord.cs" />
     <Compile Include="Implement\ImInPatientInDruation.cs" />
     <Compile Include="Implement\ImOutDepartmentPerson.cs" />
     <Compile Include="Implement\ImOutPatientFromDrugRecordInDuration.cs" />
     <Compile Include="Implement\ImOutPatientInDuration.cs" />
     <Compile Include="Implement\ImPrescriptionInDuration.cs" />
+    <Compile Include="Interface\IAntibioticPerson.cs" />
     <Compile Include="Interface\IInPatient.cs" />
+    <Compile Include="Interface\IInPatientDrugFee.cs" />
+    <Compile Include="Interface\IInPatientDrugRecord.cs" />
     <Compile Include="Interface\IInPatientInDruation.cs" />
     <Compile Include="Interface\IOutDepartmentPerson.cs" />
     <Compile Include="Interface\IOutPatientInDuration.cs" />
@@ -104,6 +111,7 @@
       <DependentUpon>201611090027361_deletexuetoubiaozhi.cs</DependentUpon>
     </Compile>
     <Compile Include="ViewModels\AntibioticDepartmentPerson.cs" />
+    <Compile Include="ViewModels\AntibioticPerson.cs" />
     <Compile Include="ViewModels\DepartmentCost.cs" />
     <Compile Include="ViewModels\DepartmentDdd.cs" />
     <Compile Include="ViewModels\DepartmentInPatientDay.cs" />
@@ -157,7 +165,10 @@
     </Compile>
     <Compile Include="PhMS2dot1DomainContextMigrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ViewModels\DrugFeeView.cs" />
     <Compile Include="ViewModels\DrugMessage.cs" />
+    <Compile Include="ViewModels\InPatientDrugRecordView.cs" />
+    <Compile Include="ViewModels\InPatientView.cs" />
     <Compile Include="ViewModels\OutDepartmentPerson.cs" />
   </ItemGroup>
   <ItemGroup>

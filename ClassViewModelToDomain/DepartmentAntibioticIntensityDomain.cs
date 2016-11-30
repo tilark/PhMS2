@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ClassViewModelToDomain
 {
-    public class DepartmentAntibioticIntensityDomain
+    public class DepartmentAntibioticIntensityDomain : IEquatable<DepartmentAntibioticIntensityDomain>
     {
         public DepartmentAntibioticIntensityDomain()
         {
@@ -28,6 +28,28 @@ namespace ClassViewModelToDomain
                    ? Decimal.Round((Decimal)this.AntibioticDdd * 100 / (Decimal)this.PersonNumberDays, 2)
                   : 0;
             }
+        }
+
+        public bool Equals(DepartmentAntibioticIntensityDomain other)
+        {
+            if (Object.ReferenceEquals(other, null)) return false;
+
+            //Check whether the compared object references the same data.
+            if (Object.ReferenceEquals(this, other)) return true;
+
+            //Check whether the products' properties are equal.
+            return DepartmentID.Equals(other.DepartmentID);
+        }
+        public override int GetHashCode()
+        {
+
+            //Get hash code for the Name field if it is not null.
+            int hashDepartmentID = DepartmentID.GetHashCode();
+
+            //Get hash code for the Code field.
+
+            //Calculate the hash code for the product.
+            return hashDepartmentID;
         }
     }
 }

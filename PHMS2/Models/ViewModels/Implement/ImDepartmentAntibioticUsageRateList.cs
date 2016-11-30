@@ -9,6 +9,7 @@ using Ninject;
 using PhMS2dot1Domain.Factories;
 using ClassViewModelToDomain.IFactory;
 using PHMS2.Models.ViewModels.InPatientReporter;
+using System.Threading.Tasks;
 
 namespace PHMS2.Models.ViewModels.Implement
 {
@@ -28,9 +29,24 @@ namespace PHMS2.Models.ViewModels.Implement
             {
                 result.DepartmentAntibioticUsageRateList = this.factory.CreateDepartmentAntibioticUsageRateDomain().GetDepartmentAntibioticUsageRateDomain(startTime, endTime);
             }
-            catch (Exception e)
+            catch (Exception )
             {
-                throw new ArgumentNullException("读取数据错误！{0}",e.Message);
+                throw;
+            }
+            return result;
+        }
+
+        public async Task<DepartmentAntibioticUsageRate> GetDepartmentAntibioticUsageRateListAsync(DateTime startTime, DateTime endTime)
+        {
+            var result = new DepartmentAntibioticUsageRate();
+
+            try
+            {
+                result.DepartmentAntibioticUsageRateList = await this.factory.CreateDepartmentAntibioticUsageRateDomain().GetDepartmentAntibioticUsageRateDomainAsync(startTime, endTime);
+            }
+            catch (Exception)
+            {
+                throw;
             }
             return result;
         }

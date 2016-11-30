@@ -23,6 +23,17 @@ namespace PhMS2dot1Domain.Factories
         {
             this.context = context;
         }
+
+        public PhMS2dot1DomainContext dbContext
+        {
+            get
+            {
+               
+                    return this.context;
+
+               
+            }
+        }
         #endregion
 
         #region IDisposable Support
@@ -123,6 +134,16 @@ namespace PhMS2dot1Domain.Factories
         public IInPatient CreateInPatient()
         {
             return new ImInPatient(this.context);
+        }
+
+        public IInPatientDrugRecord CreateInPatientDrugRecord()
+        {
+            throw new NotImplementedException();
+        }
+
+        public IInPatientDrugFee CreateInPatientDrugFee()
+        {
+            return new ImInPatientDrugFee(this.context);
         }
     }
 }
