@@ -10,8 +10,17 @@ namespace TranslationFromTrasen
     {
         static void Main(string[] args)
         {
-            DateTime start = new DateTime(2016, 10, 19);
-            DateTime end = new DateTime(2016, 11, 1);
+            DateTime start = new DateTime(2016, 7, 1);
+            DateTime end = new DateTime(2016, 7, 2);
+
+            {
+                var target = new TranslationFromTrasen.Main();
+
+                //已完成从2016-07-01到2016-10-01（后界开区间）
+                target.GetPatientAndInPatient(start, end, true, false, true);
+            }
+
+            return;
 
             for (var time = start; time < end; time = time.AddDays(1))
             {
@@ -23,9 +32,6 @@ namespace TranslationFromTrasen
                 var target = new TranslationFromTrasen.Main();
 
                 //已完成从2016-07-01到2016-10-01（后界开区间）
-                target.GetPatientAndInPatient(tempStart, tempEmd, true, false, false);
-
-                //已完成从2016-07-01到2016-10-01（后界开区间）
                 //target.GetDrugRecord(tempStart, tempEmd, false, false);
 
                 //已完成从2016-07-01到2016-10-01（后界开区间）
@@ -34,7 +40,7 @@ namespace TranslationFromTrasen
                 Console.WriteLine(tempStart.ToLongDateString() + " - " + tempEmd.ToLongDateString() + "Finished");
             }
 
-            if(false)
+            if (false)
             {
                 //var target = new TranslationFromTrasen.Main();
 

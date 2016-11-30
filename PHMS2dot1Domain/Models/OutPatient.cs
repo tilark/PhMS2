@@ -34,7 +34,7 @@ namespace PhMS2dot1Domain.Models
         public virtual DateTime ChargeTime { get; set; }
 
         [Display(Name = "取消挂号时间")]
-        public virtual DateTime CancelChargeTime { get; set; }
+        public virtual DateTime? CancelChargeTime { get; set; }
 
         [Display(Name = "病人信息ID")]
         public virtual Guid PatientID { get; set; }
@@ -274,4 +274,20 @@ namespace PhMS2dot1Domain.Models
         #endregion
 
     }
+
+    //public class OutPatientComparer : IEqualityComparer<OutPatient>
+    //{
+    //    public bool Equals(OutPatient x, OutPatient y)
+    //    {
+    //        if (x != null && y != null & x.OutPatientID == y.OutPatientID)
+    //            return true;
+    //        else
+    //            return false;
+    //    }
+
+    //    public int GetHashCode(OutPatient obj)
+    //    {
+    //        return obj.OutPatientID.GetHashCode();
+    //    }
+    //}
 }
