@@ -35,7 +35,7 @@ namespace PHMS2.Controllers
         /// <param name="startTime">The start time.</param>
         /// <param name="endTime">The end time.</param>
         /// <returns>ActionResult.</returns>
-        public async Task<ActionResult> InPatientDepartmentAntibioticUsageRate(DateTime startTime, DateTime endTime)
+        public  ActionResult InPatientDepartmentAntibioticUsageRate(DateTime startTime, DateTime endTime)
         {
             ViewBag.startTime = startTime;
             ViewBag.endTime = endTime.AddDays(1).AddMilliseconds(-1);
@@ -44,16 +44,16 @@ namespace PHMS2.Controllers
             viewModel.DepartmentAntibioticUsageRateList = new List<ClassViewModelToDomain.DepartmentAntibioticUsageRateDomain>();
             try
             {
-                viewModel = await this.factory.CreateDepartmentAntibioticUsageRateList().GetDepartmentAntibioticUsageRateListAsync(startTime, endTime);
+                viewModel =  this.factory.CreateDepartmentAntibioticUsageRateList().GetDepartmentAntibioticUsageRateList(startTime, endTime);
             }
-            catch (Exception)
+            catch (Exception e)
             {
                 var tempData = new DepartmentAntibioticUsageRateDomain
                 {
                     AntibioticPerson = 0,
                     RegisterPerson = 0,
                     DepartmentID = 0,
-                    DepartmentName = "Empty"
+                    DepartmentName = e.Message
                 };
 
                 viewModel.DepartmentAntibioticUsageRateList.Add(tempData);

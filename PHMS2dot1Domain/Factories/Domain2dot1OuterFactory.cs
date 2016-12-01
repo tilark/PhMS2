@@ -132,7 +132,7 @@ namespace PhMS2dot1Domain.Factories
 
         public IDepartmentAntibioticUsageRateDomain CreateDepartmentAntibioticUsageRateDomain()
         {
-            return new ImDepartmentAntibioticUsageRateDomain(this.innerFactory);
+            return new ImDepartmentAntibioticUsageRateDomain2(this.innerFactory);
         }
 
         public ISpecialAntibioticDdds CreateSpecialAntibioticDdds()

@@ -5,13 +5,16 @@ using System.Text;
 using System.Threading.Tasks;
 using ClassViewModelToDomain;
 using PhMS2dot1Domain.Interface;
+using PhMS2dot1Domain.Models;
 
 namespace PhMS2dot1Domain.Factories
 {
     public interface IDomain2dot1InnerFactory : IDisposable
     {
+        PhMS2dot1DomainContext dbContext { get; }
         #region 住院信息
-
+        IInPatientDrugRecordDrugFeeView CreateInPatientDrugRecordDrugFeeView();
+        IInPatientOutDepartment CreateInPatientOutDepartment();
         IInPatientInDruation CreateInPatientFromDrugRecords();
         IInPatientInDruation CreateInPatientInDuration();
         IDepartment CreateDepartment();

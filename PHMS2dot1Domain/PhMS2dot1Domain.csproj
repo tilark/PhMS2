@@ -81,7 +81,9 @@
     <Compile Include="Implement\ImInPatient.cs" />
     <Compile Include="Implement\ImInPatientDrugFee.cs" />
     <Compile Include="Implement\ImInPatientDrugRecord.cs" />
+    <Compile Include="Implement\ImInpatientAntibioticDrugRecordFees.cs" />
     <Compile Include="Implement\ImInPatientInDruation.cs" />
+    <Compile Include="Implement\ImInPatientOutDepartment.cs" />
     <Compile Include="Implement\ImOutDepartmentPerson.cs" />
     <Compile Include="Implement\ImOutPatientFromDrugRecordInDuration.cs" />
     <Compile Include="Implement\ImOutPatientInDuration.cs" />
@@ -90,7 +92,9 @@
     <Compile Include="Interface\IInPatient.cs" />
     <Compile Include="Interface\IInPatientDrugFee.cs" />
     <Compile Include="Interface\IInPatientDrugRecord.cs" />
+    <Compile Include="Interface\IInPatientDrugRecordDrugFeeView.cs" />
     <Compile Include="Interface\IInPatientInDruation.cs" />
+    <Compile Include="Interface\IInPatientOutDepartment.cs" />
     <Compile Include="Interface\IOutDepartmentPerson.cs" />
     <Compile Include="Interface\IOutPatientInDuration.cs" />
     <Compile Include="Interface\IPrescriptionInDuration.cs" />
@@ -109,6 +113,10 @@
     <Compile Include="PhMS2dot1DomainContextMigrations\201611090027361_deletexuetoubiaozhi.cs" />
     <Compile Include="PhMS2dot1DomainContextMigrations\201611090027361_deletexuetoubiaozhi.Designer.cs">
       <DependentUpon>201611090027361_deletexuetoubiaozhi.cs</DependentUpon>
+    </Compile>
+    <Compile Include="PhMS2dot1DomainContextMigrations\201611300742190_RefleshDatabase.cs" />
+    <Compile Include="PhMS2dot1DomainContextMigrations\201611300742190_RefleshDatabase.Designer.cs">
+      <DependentUpon>201611300742190_RefleshDatabase.cs</DependentUpon>
     </Compile>
     <Compile Include="ViewModels\AntibioticDepartmentPerson.cs" />
     <Compile Include="ViewModels\AntibioticPerson.cs" />
@@ -167,7 +175,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModels\DrugFeeView.cs" />
     <Compile Include="ViewModels\DrugMessage.cs" />
+    <Compile Include="ViewModels\InpatientDrugRecordFees.cs" />
+    <Compile Include="ViewModels\InPatientDepartmentCost.cs" />
     <Compile Include="ViewModels\InPatientDrugRecordView.cs" />
+    <Compile Include="ViewModels\InPatientOutDepartment.cs" />
     <Compile Include="ViewModels\InPatientView.cs" />
     <Compile Include="ViewModels\OutDepartmentPerson.cs" />
   </ItemGroup>
@@ -205,6 +216,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="PhMS2dot1DomainContextMigrations\201611090027361_deletexuetoubiaozhi.resx">
       <DependentUpon>201611090027361_deletexuetoubiaozhi.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PhMS2dot1DomainContextMigrations\201611300742190_RefleshDatabase.resx">
+      <DependentUpon>201611300742190_RefleshDatabase.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

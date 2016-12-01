@@ -41,6 +41,9 @@ namespace PhMS2dot1Domain.ImplementOuterRepository
                 var inPatientNumberDayJoinDepartmentList = inPatientNumberDayList.Join(departments, numberDay => numberDay.DepartmentID, department => department.DepartmentID, (numberDay, department) => new { DepartmentID = numberDay.DepartmentID, DepartmentName = department.DepartmentName, InPatientDay = numberDay.InPatientDay }).ToList();
 
                 result = departmentDddList.Join(inPatientNumberDayJoinDepartmentList, departmentDdd => departmentDdd.DepartmentID, inPatientNumberDay => inPatientNumberDay.DepartmentID, (departmentDdd, inPatientNumberDay) => new DepartmentAntibioticIntensityDomain { DepartmentID = departmentDdd.DepartmentID, DepartmentName = inPatientNumberDay.DepartmentName, AntibioticDdd = departmentDdd.Ddd, PersonNumberDays = inPatientNumberDay.InPatientDay }).ToList();
+
+
+
             }
             catch (Exception e)
             {

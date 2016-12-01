@@ -27,6 +27,7 @@ namespace PhMS2dot1Domain.Implement
             int tryTimes = 0;
             do
             {
+
                 tryTimes++;
                 try
                 {
