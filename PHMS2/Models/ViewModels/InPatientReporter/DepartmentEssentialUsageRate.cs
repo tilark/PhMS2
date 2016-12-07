@@ -34,7 +34,9 @@ namespace PHMS2.Models.ViewModels.InPatientReporter
         {
             get
             {
-                return this.DepartmentEssentialUsageRateList.Sum(d => d.UsageRate);
+                return this.AllTotalDrugCost != 0
+                   ? Decimal.Round(this.TotalEssentialCost * 100 / this.AllTotalDrugCost, 2)
+                  : 0;
             }
         }
     }

@@ -18,7 +18,8 @@ namespace PhMS2dot1Domain.ViewModels
         public Decimal ActualPrice { get; set; }
         public Decimal Quantity { get; set; }
         public Decimal DDD { get; set; }
-
-        public int InHospitalDays { get { return this.OutDate.HasValue ? this.OutDate.Value.Subtract(this.InDate).Days} }
+        public bool IsEssential { get; set; }
+        public bool IsAntibiotic { get; set; }
+        public int InHospitalDays { get { return this.OutDate.HasValue ? this.OutDate.Value.Subtract(this.InDate).Days : 0; } }
     }
 }

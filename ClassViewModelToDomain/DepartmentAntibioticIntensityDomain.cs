@@ -13,10 +13,14 @@ namespace ClassViewModelToDomain
             this.AntibioticDdd = 0;
             this.PersonNumberDays = 0;
         }
+        private Decimal antibioticDdd;
         public int DepartmentID { get; set; }
         public string DepartmentName { get; set; }
         //住院抗菌药物消耗量（累计DDD数
-        public Decimal AntibioticDdd { get; set; }
+        public Decimal AntibioticDdd {
+            get { return Decimal.Round(this.antibioticDdd, 2); } 
+            set { this.antibioticDdd = value; }
+        }
         //同期收治患者人天数：同期出院患者人数×同期出院患者平均住院天数
         public int PersonNumberDays { get; set; }
 
@@ -25,7 +29,7 @@ namespace ClassViewModelToDomain
             get
             {
                 return this.PersonNumberDays != 0
-                   ? Decimal.Round((Decimal)this.AntibioticDdd * 100 / (Decimal)this.PersonNumberDays, 2)
+                   ? Decimal.Round((Decimal)this.AntibioticDdd  / (Decimal)this.PersonNumberDays, 2)
                   : 0;
             }
         }

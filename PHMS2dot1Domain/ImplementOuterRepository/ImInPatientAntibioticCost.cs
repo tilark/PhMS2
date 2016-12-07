@@ -21,14 +21,14 @@ namespace PhMS2dot1Domain.ImplementOuterRepository
             decimal result = Decimal.Zero;
             try
             {
-                //根据DrugFee中的收费时间获取入院患者集合（含在取定时间范围之前的患者）
-                var inPatientFromDrugRecordList = this.innerFactory.CreateInPatientFromDrugRecords().GetInPatientInDruation(startTime, endTime);
-                result = inPatientFromDrugRecordList.Sum(i => i.AntibioticCost(startTime, endTime));
+                //获取科室及所有药物费用
+                result = this.innerFactory.CreateInPatientAllDrugRecordFee().GetInpatientDrugRecordFees(startTime, endTime).Where(w => w.IsAntibiotic == true).Sum(a => a.ActualPrice);               
+               
             }
             catch (Exception e)
             {
 
-                throw new InvalidOperationException(String.Format("读取数据库出错! {0}", e.Message));
+                throw;
             }
             return result;
         }

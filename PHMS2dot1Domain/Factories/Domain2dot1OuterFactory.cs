@@ -187,6 +187,11 @@ namespace PhMS2dot1Domain.Factories
         {
             return new ImInPatientDrugDoctorCostList(this.innerFactory);
         }
+
+        public IInPatientAntibioticCostRateDomain CreateInPatientAntibioticCostRateDomain()
+        {
+            return new ImInPatientAntibioticCostRateDomain(this.innerFactory);
+        }
         #endregion
 
 

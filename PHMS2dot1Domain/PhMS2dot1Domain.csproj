@@ -66,6 +66,7 @@
     <Compile Include="ImplementOuterRepository\ImGetEssentialDrugCategoryNumbers.cs" />
     <Compile Include="ImplementOuterRepository\ImInPatientAntibioticCategoryNumber.cs" />
     <Compile Include="ImplementOuterRepository\ImInPatientAntibioticCost.cs" />
+    <Compile Include="ImplementOuterRepository\ImInPatientAntibioticCostRateDomain.cs" />
     <Compile Include="ImplementOuterRepository\ImInPatientAntibioticPerson.cs" />
     <Compile Include="ImplementOuterRepository\ImInPatientDrugCost.cs" />
     <Compile Include="ImplementOuterRepository\ImInPatientDrugDoctorCostList.cs" />
@@ -79,9 +80,11 @@
     <Compile Include="ImplementOuterRepository\ImUnionAntibioticPerson.cs" />
     <Compile Include="Implement\ImAntibioticPerson.cs" />
     <Compile Include="Implement\ImInPatient.cs" />
+    <Compile Include="Implement\ImInpatientAllDrugRecordFees.cs" />
     <Compile Include="Implement\ImInPatientDrugFee.cs" />
     <Compile Include="Implement\ImInPatientDrugRecord.cs" />
     <Compile Include="Implement\ImInpatientAntibioticDrugRecordFees.cs" />
+    <Compile Include="Implement\ImInpatientEnssentialDrugRecordFees.cs" />
     <Compile Include="Implement\ImInPatientInDruation.cs" />
     <Compile Include="Implement\ImInPatientOutDepartment.cs" />
     <Compile Include="Implement\ImOutDepartmentPerson.cs" />
@@ -117,6 +120,10 @@
     <Compile Include="PhMS2dot1DomainContextMigrations\201611300742190_RefleshDatabase.cs" />
     <Compile Include="PhMS2dot1DomainContextMigrations\201611300742190_RefleshDatabase.Designer.cs">
       <DependentUpon>201611300742190_RefleshDatabase.cs</DependentUpon>
+    </Compile>
+    <Compile Include="PhMS2dot1DomainContextMigrations\201612070846492_AddEffectiveConstituentAmoutInDrugRecord.cs" />
+    <Compile Include="PhMS2dot1DomainContextMigrations\201612070846492_AddEffectiveConstituentAmoutInDrugRecord.Designer.cs">
+      <DependentUpon>201612070846492_AddEffectiveConstituentAmoutInDrugRecord.cs</DependentUpon>
     </Compile>
     <Compile Include="ViewModels\AntibioticDepartmentPerson.cs" />
     <Compile Include="ViewModels\AntibioticPerson.cs" />
@@ -175,6 +182,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModels\DrugFeeView.cs" />
     <Compile Include="ViewModels\DrugMessage.cs" />
+    <Compile Include="ViewModels\InPatientDDDHospitalDays.cs" />
     <Compile Include="ViewModels\InpatientDrugRecordFees.cs" />
     <Compile Include="ViewModels\InPatientDepartmentCost.cs" />
     <Compile Include="ViewModels\InPatientDrugRecordView.cs" />
@@ -219,6 +227,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="PhMS2dot1DomainContextMigrations\201611300742190_RefleshDatabase.resx">
       <DependentUpon>201611300742190_RefleshDatabase.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PhMS2dot1DomainContextMigrations\201612070846492_AddEffectiveConstituentAmoutInDrugRecord.resx">
+      <DependentUpon>201612070846492_AddEffectiveConstituentAmoutInDrugRecord.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

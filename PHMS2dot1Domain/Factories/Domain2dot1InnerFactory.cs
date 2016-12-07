@@ -146,12 +146,19 @@ namespace PhMS2dot1Domain.Factories
             return new ImInPatientDrugFee(this.context);
         }
 
-        public IInPatientDrugRecordDrugFeeView CreateInPatientDrugRecordDrugFeeView()
+        public IInPatientDrugRecordDrugFeeView CreateInPatientAntibioticDrugRecordFee()
         {
             return new ImInpatientAntibioticDrugRecordFees(this.context);
         }
-
-        public IInPatientOutDepartment CreateInPatientOutDepartment()
+        public IInPatientDrugRecordDrugFeeView CreateInPatientEssentialDrugRecordFee()
+        {
+            return new ImInpatientEnssentialDrugRecordFees(this.context);
+        }
+        public IInPatientDrugRecordDrugFeeView CreateInPatientAllDrugRecordFee()
+        {
+            return new ImInpatientAllDrugRecordFees(this.context);
+        }
+        public IInPatientOutDepartment CreateInPatientOutDepartmentPerson()
         {
             return new ImInPatientOutDepartment(this.context);
         }

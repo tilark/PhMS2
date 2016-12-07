@@ -45,6 +45,9 @@ namespace PhMS2dot1Domain.Models
             modelBuilder.Entity<InPatientDrugRecord>()
                 .Property(d => d.DDD)
                 .HasPrecision(18, 4);
+            modelBuilder.Entity<InPatientDrugRecord>()
+               .Property(d => d.EffectiveConstituentAmount)
+               .HasPrecision(18, 4);
             modelBuilder.Entity<DrugFee>()
                 .Property(d => d.UnitPrice)
                 .HasPrecision(18, 4);
@@ -63,13 +66,13 @@ namespace PhMS2dot1Domain.Models
             modelBuilder.Entity<OutPatientDrugRecord>()
                 .Property(o => o.ActualPrice).HasPrecision(18, 4);
 
-            //InPatient 1: n InPatientDrugRecord ，取消级联删除
+            //InPatient 1: n InPatientDrugRecord ，级联删除
             modelBuilder.Entity<InPatient>()
                 .HasMany(e => e.InPatientDrugRecords)
                 .WithRequired(e => e.InPatient)
                 .WillCascadeOnDelete(true);
 
-            //OutPatient 1: n OutPatientDrugRecord, 取消级联删除
+            //OutPatient 1: n OutPatientDrugRecord, 级联删除
             modelBuilder.Entity<OutPatient>()
                 .HasMany(o => o.OutPatientPrescriptions)
                 .WithRequired(o => o.OutPatient)

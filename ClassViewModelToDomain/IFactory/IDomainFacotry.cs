@@ -16,6 +16,8 @@ namespace ClassViewModelToDomain.IFactory
         IDepartmentAntibioticUsageRateDomain CreateDepartmentAntibioticUsageRateDomain();
         ISpecialAntibioticDdds CreateSpecialAntibioticDdds();
         ITotalAntibioticDdds CreateTotalAntibioticDdds();
+        IInPatientAntibioticCostRateDomain CreateInPatientAntibioticCostRateDomain();
+
         IDepartmentEssentialUsageRateDomain CreateDepartmentEssentialUsageRateDomain();
         IAntibioticCategoryNumber CreateInPatientAntibioticCategoryNumber();
         IInPatientAntibioticCost CreateInPatientAntibioticCost();

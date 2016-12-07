@@ -10,14 +10,24 @@ namespace ClassViewModelToDomain
     {
         public DepartmentEssentialUsageRateDomain()
         {
-            this.EssentialCost = Decimal.Zero;
+            this.essentialCost = Decimal.Zero;
             this.TotalDrugCost = Decimal.Zero;
         }
+        private Decimal essentialCost;
+        private Decimal totalDrugCost;
         public int DepartmentID { get; set; }
         public string DepartmentName { get; set; }
-        public Decimal EssentialCost { get; set; }
+        public Decimal EssentialCost
+        {
+            get { return Decimal.Round(this.essentialCost, 2); }
+            set { this.essentialCost = value; }
+        }
         //public int CancelAntibioticPerson { get; set; }
-        public Decimal TotalDrugCost { get; set; }
+        public Decimal TotalDrugCost
+        {
+            get { return Decimal.Round(this.totalDrugCost, 2); }
+            set { this.totalDrugCost = value; }
+        }
         public decimal UsageRate
         {
             get

@@ -41,6 +41,8 @@ namespace PhMS2dot1Domain.Models
         public virtual bool IsEssential { get; set; }
         [Display(Name = "药物剂型")]
         public virtual string DosageForm { get; set; }
+        [Display(Name = "有效成分含量")]
+        public virtual Decimal EffectiveConstituentAmount { get; set; }
         [Display(Name = "DDD值")]
         public virtual Decimal DDD { get; set; }
         [Display(Name = "原HIS药物用法")]

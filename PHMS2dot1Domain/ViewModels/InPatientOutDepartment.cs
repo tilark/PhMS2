@@ -13,7 +13,7 @@ namespace PhMS2dot1Domain.ViewModels
     {
         //出院科室
         public virtual int DepartmentID { get; set; }
-
+        public virtual string DepartmentName { get; set; }
         //出院人数
         public virtual int RegisterPerson { get; set; }
     }

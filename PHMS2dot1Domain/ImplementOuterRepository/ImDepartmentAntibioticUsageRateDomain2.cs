@@ -15,13 +15,11 @@ namespace PhMS2dot1Domain.ImplementOuterRepository
     {
         private readonly IDomain2dot1InnerFactory innerFactory;
         private readonly IInnerRepository innerRepository;
-        PhMS2dot1DomainContext context = null;
 
         public ImDepartmentAntibioticUsageRateDomain2(IDomain2dot1InnerFactory factory)
         {
             this.innerFactory = factory;
             this.innerRepository = new InnerRepository(this.innerFactory);
-            this.context = this.innerFactory.dbContext;
 
         }
 
@@ -30,7 +28,7 @@ namespace PhMS2dot1Domain.ImplementOuterRepository
             var result = new List<DepartmentAntibioticUsageRateDomain>();
             try
             {               
-                var inpatientAnbtioticDrugRecordFees = this.innerFactory.CreateInPatientDrugRecordDrugFeeView().GetInpatientDrugRecordFees(startTime, endTime);
+                var inpatientAnbtioticDrugRecordFees = this.innerFactory.CreateInPatientAntibioticDrugRecordFee().GetInpatientDrugRecordFees(startTime, endTime);
                 //antibioticPersonList 集合包括取定时间段内的科室与抗菌药物有效人数和在开始时间段前的抗菌药物有效人数
                 var antibioticPersonList = new List<InPatientDepartmentCost>();
                 //分成两部分，一部分出院病人为在取定时间段内
@@ -46,7 +44,7 @@ namespace PhMS2dot1Domain.ImplementOuterRepository
                                                  select new InPatientDepartmentCost { DepartmentID = g.Key, Count = g.Count() };
                 antibioticPersonList.AddRange(inDurationAntibioticPerson);
                 //另一部分为出院病人在startTime之前已出院，但是在取定时间段内还有费用产生，如退费等
-                var preStartTimeList = inpatientAnbtioticDrugRecordFees.Where(a => a.OutDate.Value < startTime).ToList();
+                var preStartTimeList = inpatientAnbtioticDrugRecordFees.Where(a => a.OutDate.Value < startTime).AsParallel().ToList();
 
                 if (preStartTimeList.Count > 0)
                 {
@@ -89,16 +87,11 @@ namespace PhMS2dot1Domain.ImplementOuterRepository
                 var antibioticDepartmentPerson = from a in antibioticPersonList
                                                  group a by a.DepartmentID into b
                                                  select new { DepartmentID = b.Key, AntibioticPerson = b.Sum(c => c.Count) };
-                //获取科室集合
-                var departments = this.innerFactory.CreateDepartment().GetDepartment() ;
                 //获取出院人数
-                var inpatientRegisterNumberList = this.innerFactory.CreateInPatientOutDepartment().GetInPatientOutDepartment(startTime, endTime);
+                var inpatientRegisterNumberList = this.innerFactory.CreateInPatientOutDepartmentPerson().GetInPatientOutDepartment(startTime, endTime);
                 //Join
-                var registerDepartmentList = from a in inpatientRegisterNumberList
-                                             join b in departments on a.DepartmentID equals b.Origin_DEPT_ID
-                                             select new DepartmentAntibioticUsageRateDomain { DepartmentID = a.DepartmentID, DepartmentName = b.DepartmentName, RegisterPerson = a.RegisterPerson };
                 
-                result = (from departmentPerson in registerDepartmentList
+                result = (from departmentPerson in inpatientRegisterNumberList
                           join antibioticPerson in antibioticDepartmentPerson on departmentPerson.DepartmentID equals antibioticPerson.DepartmentID into gj
                           from subgj in gj.DefaultIfEmpty()
                           select new DepartmentAntibioticUsageRateDomain { DepartmentID = departmentPerson.DepartmentID, DepartmentName = departmentPerson.DepartmentName, RegisterPerson = departmentPerson.RegisterPerson, AntibioticPerson = subgj == null ? 0 : (int)subgj.AntibioticPerson }).ToList();

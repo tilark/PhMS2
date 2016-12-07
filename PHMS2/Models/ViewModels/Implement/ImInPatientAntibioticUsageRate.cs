@@ -16,21 +16,22 @@ namespace PHMS2.Models.ViewModels.Implement
         {
             this.factory = factory;
         }
-        public InPatientAntibioticUsageRate GetInPatientAntibioticUsageRate(DateTime startTime, DateTime endTime)
+        public InPatientAntibioticCostRate GetInPatientAntibioticCostRate(DateTime startTime, DateTime endTime)
         {
-            var result = new InPatientAntibioticUsageRate();
+            var result = new InPatientAntibioticCostRate();
             try
             {
-                result = new InPatientAntibioticUsageRate
+                var temp = this.factory.CreateInPatientAntibioticCostRateDomain().GetInPatientAntibioticCostRateDomain(startTime, endTime);
+                result = new InPatientAntibioticCostRate
                 {
-                    TotalAntibioticCost = this.factory.CreateInPatientAntibioticCost().GetInPatientAntibioticCost(startTime, endTime),
-                    TotalDrugCost = this.factory.CreateInPatientDrugCost().GetPatientCost(startTime, endTime)
+                    TotalAntibioticCost =temp.TotalAntibioticCost,
+                    TotalDrugCost = temp.TotalDrugCost
                 };
             }
-            catch (Exception e)
+            catch (Exception)
             {
 
-                throw new ArgumentNullException("读取数据错误！{0}", e.Message);
+                throw;
             }
             return result;
         }

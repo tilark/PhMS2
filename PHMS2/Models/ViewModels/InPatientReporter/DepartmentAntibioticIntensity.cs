@@ -34,7 +34,9 @@ namespace PHMS2.Models.ViewModels.InPatientReporter
         {
             get
             {
-                return this.DepartmentAntibioticIntensityList.Sum(d => d.IntensityRate);
+                return this.TotalPersonNumberDays != 0
+                   ? Decimal.Round((Decimal)this.TotalAntibioticDdd  / (Decimal)this.TotalPersonNumberDays, 2)
+                  : 0;
             }
         }
     }

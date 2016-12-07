@@ -60,7 +60,7 @@ $PHMS(document).ready(function () {
     $PHMS(".patientMessage").on("click", "input", function (event) {
         event.preventDefault();
         $PHMS(this).hide();
-        ajaxload.insertAfter(this);
+        var ajaxloadcopy = ajaxload.clone().insertAfter(this);
         console.log($PHMS(this).attr("src"))
         var panelbody = $PHMS(this).parentsUntil(".patientMessage");
         panelbody.find(".panel-body").load($PHMS(this).attr("src"), jsonData, function (responseTxt, statusTxt, xhr) {
@@ -70,7 +70,7 @@ $PHMS(document).ready(function () {
                 alert("Error: " + xhr.status + ": " + xhr.statusText);
             }
             $PHMS(this).show();
-            ajaxload.remove();
+            ajaxloadcopy.remove();
         });
     });
 

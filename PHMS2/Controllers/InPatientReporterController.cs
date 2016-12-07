@@ -35,7 +35,7 @@ namespace PHMS2.Controllers
         /// <param name="startTime">The start time.</param>
         /// <param name="endTime">The end time.</param>
         /// <returns>ActionResult.</returns>
-        public  ActionResult InPatientDepartmentAntibioticUsageRate(DateTime startTime, DateTime endTime)
+        public ActionResult InPatientDepartmentAntibioticUsageRate(DateTime startTime, DateTime endTime)
         {
             ViewBag.startTime = startTime;
             ViewBag.endTime = endTime.AddDays(1).AddMilliseconds(-1);
@@ -44,7 +44,7 @@ namespace PHMS2.Controllers
             viewModel.DepartmentAntibioticUsageRateList = new List<ClassViewModelToDomain.DepartmentAntibioticUsageRateDomain>();
             try
             {
-                viewModel =  this.factory.CreateDepartmentAntibioticUsageRateList().GetDepartmentAntibioticUsageRateList(startTime, endTime);
+                viewModel = this.factory.CreateDepartmentAntibioticUsageRateList().GetDepartmentAntibioticUsageRateList(startTime, endTime);
             }
             catch (Exception e)
             {
@@ -78,12 +78,12 @@ namespace PHMS2.Controllers
             {
                 viewModel = this.factory.CreateDepartmentAntibioticIntensity().GetDepartmentAntibioticIntensity(startTime, endTime);
             }
-            catch (Exception)
+            catch (Exception e)
             {
                 var temp = new DepartmentAntibioticIntensityDomain
                 {
                     DepartmentID = -1,
-                    DepartmentName = "Empty",
+                    DepartmentName = e.Message,
                     AntibioticDdd = -1,
                     PersonNumberDays = 0
 
@@ -127,15 +127,15 @@ namespace PHMS2.Controllers
             ViewBag.startTime = startTime;
             ViewBag.endTime = endTime.AddDays(1).AddMilliseconds(-1);
             endTime = endTime.AddDays(1);
-            var viewModel = new InPatientAntibioticUsageRate();
+            var viewModel = new InPatientAntibioticCostRate();
             try
             {
-                viewModel = this.factory.CreateInPatientAntibioticUsageRate().GetInPatientAntibioticUsageRate(startTime, endTime);
+                viewModel = this.factory.CreateInPatientAntibioticUsageRate().GetInPatientAntibioticCostRate(startTime, endTime);
             }
             catch (Exception e)
             {
                 ViewBag.errorMessage = e.Message;
-                viewModel = new InPatientAntibioticUsageRate();
+                viewModel = new InPatientAntibioticCostRate();
             }
             return PartialView("_GetInPatientAntibioticUsageRate", viewModel);
         }
@@ -235,10 +235,17 @@ namespace PHMS2.Controllers
             {
                 viewModel = this.factory.CreateDepartmentEssentialUsageRate().GetDepartmentEssentialUsageRate(startTime, endTime);
             }
-            catch (InvalidOperationException)
+            catch (Exception e)
             {
+                var temp = new DepartmentEssentialUsageRateDomain
+                {
+                    DepartmentID = -1,
+                    DepartmentName = e.Message,
+                    EssentialCost = -1,
+                    TotalDrugCost = 0
+                };
+                viewModel.DepartmentEssentialUsageRateList.Add(temp);
 
-                viewModel = null;
             }
             return PartialView("_GetDepartmentEssentialUsageRate", viewModel);
         }

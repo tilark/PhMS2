@@ -9,6 +9,6 @@ namespace PHMS2.Models.ViewModels.Interface
 {
     public interface IInPatientAntibioticUsageRate
     {
-        InPatientAntibioticUsageRate GetInPatientAntibioticUsageRate(DateTime startTime, DateTime endTime);
+        InPatientAntibioticCostRate GetInPatientAntibioticCostRate(DateTime startTime, DateTime endTime);
     }
 }

@@ -5,16 +5,27 @@ using System.Web;
 
 namespace PHMS2.Models.ViewModels.InPatientReporter
 {
-    
-    public class InPatientAntibioticUsageRate
+    /// <summary>
+    /// 抗菌药物占总费用
+    /// </summary>
+    public class InPatientAntibioticCostRate
     {
-        public InPatientAntibioticUsageRate()
+        public InPatientAntibioticCostRate()
         {
-            this.TotalAntibioticCost = 0;
-            this.TotalDrugCost = 0;
+            this.totalAntibioticCost = 0;
+            this.totalAllDrugCost = 0;
         }
-        public virtual Decimal TotalAntibioticCost { get; set; }
-        public virtual Decimal TotalDrugCost { get; set; }
+        private Decimal totalAntibioticCost;
+        private Decimal totalAllDrugCost;
+        public virtual Decimal TotalAntibioticCost
+        {
+            get { return Decimal.Round(this.totalAntibioticCost, 2); }
+            set { this.totalAntibioticCost = value; }
+        }
+        public virtual Decimal TotalDrugCost {
+            get { return Decimal.Round(this.totalAllDrugCost, 2); }
+            set { this.totalAllDrugCost = value; }
+        }
 
         public Decimal Rate
         {
