@@ -18,7 +18,7 @@ namespace PhMS2dot1Domain.Models
 
         public OutPatient()
         {
-            OutPatientPrescriptions = new HashSet<OutPatientPrescription>();
+            OutPatientPrescriptions = new List<OutPatientPrescription>();
         }
         [Key]
         [Display(Name = "门诊病例ID")]
@@ -40,7 +40,7 @@ namespace PhMS2dot1Domain.Models
         public virtual Guid PatientID { get; set; }
 
         public virtual Patient Patient { get; set; }
-        public virtual ICollection<OutPatientPrescription> OutPatientPrescriptions { get; set; }
+        public virtual List<OutPatientPrescription> OutPatientPrescriptions { get; set; }
         #endregion
         #region 扩展方法
 
