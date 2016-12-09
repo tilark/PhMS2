@@ -13,8 +13,8 @@ namespace PHMS2.NinjectModules.InPatientReporterController
     {
         public override void Load()
         {
-            Bind<IInPatientReporterFactory>().To<InPatientReporterFactory>();
-            Bind<InPatientReporterFactory>().ToSelf().InSingletonScope();
+            //Bind<IInPatientReporterFactory>().To<InPatientReporterFactory>();
+            //Bind<InPatientReporterFactory>().ToSelf().InSingletonScope();
         }
     }
 }

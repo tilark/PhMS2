@@ -16,11 +16,9 @@ namespace PhMS2dot1Domain.ImplementOuterRepository
     public class ImDepartmentAntibioticIntensityDomain : IDepartmentAntibioticIntensityDomain
     {
         private readonly IDomain2dot1InnerFactory innerFactory;
-        private readonly IInnerRepository innerRepository;
         public ImDepartmentAntibioticIntensityDomain(IDomain2dot1InnerFactory factory)
         {
             this.innerFactory = factory;
-            this.innerRepository = new InnerRepository(this.innerFactory);
         }
         public List<DepartmentAntibioticIntensityDomain> GetDepartmentAntibioticIntensityDomain(DateTime startTime, DateTime endTime)
         {
@@ -30,19 +28,17 @@ namespace PhMS2dot1Domain.ImplementOuterRepository
                 var inpatientAnbtioticDrugRecordFees = this.innerFactory.CreateInPatientAntibioticDrugRecordFee().GetInpatientDrugRecordFees(startTime, endTime);
                 var inPatientDepartmentDdds = (from a in inpatientAnbtioticDrugRecordFees
                                                group a by new { a.DepartmentID, a.InPatientID } into g
-                                               select new InPatientDDDHospitalDays { InPatientID = g.Key.InPatientID, DepartmentID = (int)g.Key.DepartmentID, DDDs = g.Sum(c => c.DDD * c.Quantity), InHospitalDays = g.First().InHospitalDays });
+                                               select new InPatientDDDHospitalDays { InPatientID = g.Key.InPatientID, DepartmentID = (int)g.Key.DepartmentID, DDDs = g.Sum(c => c.EffectiveDDD), InPatientHospitalDays = g.First().InHospitalDays });
                 var inPatientAntibioticDDDs =
                     from e in inPatientDepartmentDdds
-
-
                             group e by e.DepartmentID into gd
-                            select new InPatientDDDHospitalDays { DepartmentID = gd.Key, DDDs = gd.Sum(f => f.DDDs), InHospitalDays = gd.Sum(h => h.InHospitalDays) };
+                            select new InPatientDDDHospitalDays { DepartmentID = gd.Key, DDDs = gd.Sum(f => f.DDDs), InPatientHospitalDays = gd.Sum(h => h.InPatientHospitalDays) };
                 //获取出院人数
                 var inpatientRegisterNumberList = this.innerFactory.CreateInPatientOutDepartmentPerson().GetInPatientOutDepartment(startTime, endTime);
                 result = (from a in inpatientRegisterNumberList
                           join b in inPatientAntibioticDDDs on a.DepartmentID equals b.DepartmentID into gj
                           from subgj in gj.DefaultIfEmpty()
-                          select new DepartmentAntibioticIntensityDomain { DepartmentID = a.DepartmentID, DepartmentName = a.DepartmentName, AntibioticDdd = (subgj == null ? 0 : subgj.DDDs), PersonNumberDays =  a.RegisterPerson * (subgj == null ? 0 : subgj.InHospitalDays) }).AsParallel().ToList();
+                          select new DepartmentAntibioticIntensityDomain { DepartmentID = a.DepartmentID, DepartmentName = a.DepartmentName, AntibioticDdd = (subgj == null ? 0 : subgj.DDDs), PersonNumberDays =  (subgj == null ? 0 : subgj.InPatientHospitalDays) }).AsParallel().ToList();
 
                 #region 旧的方法，更改
 

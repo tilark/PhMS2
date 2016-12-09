@@ -21,8 +21,8 @@ namespace PhMS2dot1Domain.ImplementOuterRepository
             try
             {
                 //根据DrugFee中的收费时间获取入院患者集合（含在取定时间范围之前的患者）
-                var inPatientFromDrugRecordList = this.innerFactory.CreateInPatientFromDrugRecords().GetInPatientInDruation(startTime, endTime);
-                result = inPatientFromDrugRecordList.Sum(i => i.TotalDddInDuration(startTime, endTime));
+                //var inPatientFromDrugRecordList = this.innerFactory.CreateInPatientFromDrugRecords().GetInPatientInDruation(startTime, endTime);
+                //result = inPatientFromDrugRecordList.Sum(i => i.TotalDddInDuration(startTime, endTime));
             }
             catch (Exception e)
             {

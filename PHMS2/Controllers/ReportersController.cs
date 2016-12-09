@@ -9,7 +9,6 @@ using PHMS2.Models.ViewModels.Reporter;
 using PHMS2.Controllers.UnitOfWork;
 using PHMS2.Models.ViewModels;
 using PHMS2.Models.ViewModels.Interface;
-using PHMS2Domain;
 
 namespace PHMS2.Controllers
 {

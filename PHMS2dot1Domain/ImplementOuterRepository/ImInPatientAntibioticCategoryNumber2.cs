@@ -1,22 +1,22 @@
 ﻿using ClassViewModelToDomain.Interface;
 using PhMS2dot1Domain.Factories;
-using PhMS2dot1Domain.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using PhMS2dot1Domain.ViewModels;
 
 namespace PhMS2dot1Domain.ImplementOuterRepository
 {
-    public class ImUnionAntibioticPerson : IUnionAntibioticPerson
+    class ImInPatientAntibioticCategoryNumber2 : IAntibioticCategoryNumber
     {
         private readonly IDomain2dot1InnerFactory innerFactory;
-        public ImUnionAntibioticPerson(IDomain2dot1InnerFactory factory)
+        public ImInPatientAntibioticCategoryNumber2(IDomain2dot1InnerFactory factory)
         {
             this.innerFactory = factory;
         }
-        public int GetUnionAntibioticPerson(DateTime startTime, DateTime endTime)
+        public int GetAntibioticCategoryNumber(DateTime startTime, DateTime endTime)
         {
             int result = 0;
             try
@@ -34,13 +34,13 @@ namespace PhMS2dot1Domain.ImplementOuterRepository
                                      select new InPatientDepartmentCost { InPatientID = b.Key.InPatientID, DepartmentID = (int)b.Key.DepartmentID, Origin_CJID = b.Key.Origin_CJID };
                 //再根据大于0的情况，按CJID分组，计算出CJID的总数，即出院患者使用抗菌药物的种类总数
                 var inDurationDrugCategory = from a in inDurationList
-                                             group a by new { a.InPatientID, a.Origin_CJID } into b
-                                             select new InPatientDepartmentCost { InPatientID = b.Key.InPatientID, Origin_CJID = b.Key.Origin_CJID, Count = b.Count() };
+                                             group a by a.Origin_CJID into b
+                                             select new InPatientDepartmentCost {  Origin_CJID = b.Key, Count = b.Count() };
                 antibioticCategoryList.AddRange(inDurationDrugCategory);
 
                 //另一部分为出院病人在startTime之前已出院，但是在取定时间段内还有费用产生，如退费等
                 var preStartTimeList = inPatientDepartmentDrug.Where(a => a.OutDate.Value < startTime).AsParallel().ToList();
-                if (preStartTimeList.Count > 0)
+                if(preStartTimeList.Count > 0)
                 {
                     //获取住院时间与startTime之间的所有费用，即<startTime的总费用
                     var preStartTimeCostList = from a in preStartTimeList
@@ -58,34 +58,33 @@ namespace PhMS2dot1Domain.ImplementOuterRepository
                                                    where a.Cost == 0
                                                    join b in preEndTimeCostList on a.InPatientID equals b.InPatientID
                                                    where b.Cost > 0
-                                                   select new InPatientDepartmentCost { InPatientID = a.InPatientID, DepartmentID = a.DepartmentID, Origin_CJID = a.Origin_CJID, Count = 1 };
+                                                   select new InPatientDepartmentCost { InPatientID = a.InPatientID, DepartmentID = a.DepartmentID,Origin_CJID = a.Origin_CJID, Count = 1 };
                     var preStartTimeNegativeList = from a in preEndTimeCostList
                                                    where a.Cost > 0
                                                    join b in preEndTimeCostList on a.InPatientID equals b.InPatientID
                                                    where b.Cost == 0
-                                                   select new InPatientDepartmentCost { InPatientID = a.InPatientID, DepartmentID = a.DepartmentID, Origin_CJID = a.Origin_CJID, Count = -1 };
+                                                   select new InPatientDepartmentCost { InPatientID = a.InPatientID, DepartmentID = a.DepartmentID,Origin_CJID = a.Origin_CJID, Count = -1 };
 
                     var preStartTimeAntibioticCategoryList = new List<InPatientDepartmentCost>();
                     preStartTimeAntibioticCategoryList.AddRange(preStartTimePositiveList);
                     preStartTimeAntibioticCategoryList.AddRange(preStartTimeNegativeList);
                     var preStartTimeAntibioticCategory = from a in preStartTimeAntibioticCategoryList
-                                                         group a by new { a.InPatientID, a.Origin_CJID } into b
-                                                         select new InPatientDepartmentCost { InPatientID = b.Key.InPatientID, Origin_CJID = b.Key.Origin_CJID, Count = b.Sum(c => c.Count) };
+                                                       group a by a.Origin_CJID into b
+                                                       select new InPatientDepartmentCost { Origin_CJID = b.Key, Count = b.Sum(c => c.Count) };
                     if (preStartTimeAntibioticCategory.Count() > 0)
                     {
                         antibioticCategoryList.AddRange(preStartTimeAntibioticCategory);
                     }
                 }
 
-                //将所有的抗菌药物列表集合，按InPatient分组，计算出药物种类>2的人数
+                //将所有的抗菌药物列表集合，按CJID分组，计算出总数
                 result = ((from a in antibioticCategoryList
-                           group a by a.InPatientID into b
-                           where b.Sum(c => c.Count) > 0 && b.Count() >= 2
-                           
-                           select b.Count())).ToList().Count;
+                                group a by a.Origin_CJID into b
+                                where b.Sum(c => c.Count) > 0
+                                select b.Count())).ToList().Count;
 
-
-
+                
+                         
             }
             catch (Exception)
             {

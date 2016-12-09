@@ -15,11 +15,9 @@ namespace PhMS2dot1Domain.ImplementOuterRepository
     public class ImDepartmentEssentialUsageRateDomain : IDepartmentEssentialUsageRateDomain
     {
         private readonly IDomain2dot1InnerFactory innerFactory;
-        private readonly IInnerRepository innerRepository;
         public ImDepartmentEssentialUsageRateDomain(IDomain2dot1InnerFactory factory)
         {
             this.innerFactory = factory;
-            this.innerRepository = new InnerRepository(this.innerFactory);
         }
         public List<DepartmentEssentialUsageRateDomain> GetDepartmentEssentialUsageRateDomain(DateTime startTime, DateTime endTime)
         {

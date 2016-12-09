@@ -21,7 +21,7 @@ namespace PhMS2dot1Domain.ImplementOuterRepository
             try
             {
                 //获取科室及所有药物费用
-                result = this.innerFactory.CreateInPatientAllDrugRecordFee().GetInpatientDrugRecordFees(startTime, endTime).Sum(a => a.ActualPrice);
+                result = this.innerFactory.CreateInPatientAllDrugCost().GetInPatientAllDrugCost(startTime, endTime);
             }
             catch (Exception)
             {

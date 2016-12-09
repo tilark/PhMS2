@@ -33,11 +33,9 @@ namespace PhMS2dot1Domain.ImplementOuterRepository
         public class GetEmergencyAntibioticPerson : IAntibioticPerson
         {
             private readonly IDomain2dot1InnerFactory innerFactory;
-            private readonly IInnerRepository innerRepository;
             public GetEmergencyAntibioticPerson(IDomain2dot1InnerFactory factory)
             {
                 this.innerFactory = factory;
-                this.innerRepository = new InnerRepository(this.innerFactory);
             }
             public int GetAntibioticPerson(DateTime startTime, DateTime endTime)
             {
@@ -57,11 +55,9 @@ namespace PhMS2dot1Domain.ImplementOuterRepository
         public class GetOutPatientEmergencyAntibioticPerson : IAntibioticPerson
         {
             private readonly IDomain2dot1InnerFactory innerFactory;
-            private readonly IInnerRepository innerRepository;
             public GetOutPatientEmergencyAntibioticPerson(IDomain2dot1InnerFactory factory)
             {
                 this.innerFactory = factory;
-                this.innerRepository = new InnerRepository(this.innerFactory);
             }
             public int GetAntibioticPerson(DateTime startTime, DateTime endTime)
             {

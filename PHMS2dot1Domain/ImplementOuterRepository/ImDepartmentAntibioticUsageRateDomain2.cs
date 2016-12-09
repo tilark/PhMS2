@@ -14,12 +14,10 @@ namespace PhMS2dot1Domain.ImplementOuterRepository
     public class ImDepartmentAntibioticUsageRateDomain2 : IDepartmentAntibioticUsageRateDomain
     {
         private readonly IDomain2dot1InnerFactory innerFactory;
-        private readonly IInnerRepository innerRepository;
 
         public ImDepartmentAntibioticUsageRateDomain2(IDomain2dot1InnerFactory factory)
         {
             this.innerFactory = factory;
-            this.innerRepository = new InnerRepository(this.innerFactory);
 
         }
 

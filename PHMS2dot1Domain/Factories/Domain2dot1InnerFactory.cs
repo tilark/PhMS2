@@ -74,16 +74,12 @@ namespace PhMS2dot1Domain.Factories
             // GC.SuppressFinalize(this);
         }
         #endregion
+
+        #region 住院信息
         public IInPatientInDruation CreateInPatientFromDrugRecords()
         {
             return new ImInPatientInDruation.ImGetInPatientFromDrugRecords(this.context);
         }
-
-        public IDepartment CreateDepartment()
-        {
-           return new ImDepartment(this.context);
-        }
-
         public IInPatientInDruation CreateInPatientInDuration()
         {
             return new ImInPatientInDruation.ImGetInPatientInDruation(this.context);
@@ -94,6 +90,58 @@ namespace PhMS2dot1Domain.Factories
             return new ImPrescriptionInDuration.GetPrescriptionInDurationList(this.context);
         }
 
+        public IInPatient CreateInPatient()
+        {
+            return new ImInPatient(this.context);
+        }
+
+        public IInPatientDrugRecord CreateInPatientDrugRecord()
+        {
+            throw new NotImplementedException();
+        }
+
+        public IInPatientDrugFee CreateInPatientDrugFee()
+        {
+            return new ImInPatientDrugFee(this.context);
+        }
+
+        public IInPatientDrugRecordDrugFeeView CreateInPatientAntibioticDrugRecordFee()
+        {
+            return new ImInpatientAntibioticDrugRecordFees(this.context);
+        }
+        public IInPatientDrugRecordDrugFeeView CreateInPatientEssentialDrugRecordFee()
+        {
+            return new ImInpatientEnssentialDrugRecordFees(this.context);
+        }
+        public IInPatientDrugRecordDrugFeeView CreateInPatientAllDrugRecordFee()
+        {
+            return new ImInpatientAllDrugRecordFees(this.context);
+        }
+        public IInPatientOutDepartment CreateInPatientOutDepartmentPerson()
+        {
+            return new ImInPatientOutDepartment(this.context);
+        }
+
+        public IInPatientDepartmentDrugName CreateInPatientDepartmentDrugName()
+        {
+            return new ImInPatientDepartmentDrugName(this.context);
+        }
+
+
+
+        public IInPatientAllDrugCost CreateInPatientAllDrugCost()
+        {
+            return new ImInPatientAllDrugCost(this.context);
+        }
+
+        public IInPatientAntibioticCostDomain CreateInPatientAntibioticCost()
+        {
+            return new ImInPatientAntibioticCost(this.context);
+        }
+
+        #endregion
+
+        #region 门诊信息
         public IOutPatientInDuration CreateRegisterFromPrescription(EnumOutPatientCategories categories)
         {
             IOutPatientInDuration result = null;
@@ -131,36 +179,19 @@ namespace PhMS2dot1Domain.Factories
             return result;
         }
 
-        public IInPatient CreateInPatient()
-        {
-            return new ImInPatient(this.context);
-        }
+        #endregion
 
-        public IInPatientDrugRecord CreateInPatientDrugRecord()
+        #region 门诊、住院共用信息
+        public IDepartment CreateDepartment()
         {
-            throw new NotImplementedException();
+            return new ImDepartment(this.context);
         }
+        #endregion
 
-        public IInPatientDrugFee CreateInPatientDrugFee()
-        {
-            return new ImInPatientDrugFee(this.context);
-        }
 
-        public IInPatientDrugRecordDrugFeeView CreateInPatientAntibioticDrugRecordFee()
-        {
-            return new ImInpatientAntibioticDrugRecordFees(this.context);
-        }
-        public IInPatientDrugRecordDrugFeeView CreateInPatientEssentialDrugRecordFee()
-        {
-            return new ImInpatientEnssentialDrugRecordFees(this.context);
-        }
-        public IInPatientDrugRecordDrugFeeView CreateInPatientAllDrugRecordFee()
-        {
-            return new ImInpatientAllDrugRecordFees(this.context);
-        }
-        public IInPatientOutDepartment CreateInPatientOutDepartmentPerson()
-        {
-            return new ImInPatientOutDepartment(this.context);
-        }
+
+
+
+
     }
 }

@@ -152,7 +152,7 @@ namespace PhMS2dot1Domain.Factories
 
         public IInPatientAntibioticCost CreateInPatientAntibioticCost()
         {
-            return new ImInPatientAntibioticCost(this.innerFactory);
+            return new ImInPatientAntibioticCost2(this.innerFactory);
         }
 
         public IPatientCost CreateInPatientDrugCost()
@@ -162,7 +162,7 @@ namespace PhMS2dot1Domain.Factories
 
         public IAntibioticCategoryNumber CreateInPatientAntibioticCategoryNumber()
         {
-            return new ImInPatientAntibioticCategoryNumber(this.innerFactory);
+            return new ImInPatientAntibioticCategoryNumber2(this.innerFactory);
         }
 
         /// <summary>
@@ -172,7 +172,7 @@ namespace PhMS2dot1Domain.Factories
         /// <exception cref="System.NotImplementedException"></exception>
         public IAntibioticPerson CreateInPatientAntibioticPerson()
         {
-            return new ImInPatientAntibioticPerson(this.innerFactory);
+            return new ImInPatientAntibioticPerson2(this.innerFactory);
         }
         /// <summary>
         /// 联合使用抗菌药物人数.
@@ -190,7 +190,7 @@ namespace PhMS2dot1Domain.Factories
 
         public IInPatientAntibioticCostRateDomain CreateInPatientAntibioticCostRateDomain()
         {
-            return new ImInPatientAntibioticCostRateDomain(this.innerFactory);
+            return new ImInPatientAntibioticCostRateDomain2(this.innerFactory);
         }
         #endregion
 

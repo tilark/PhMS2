@@ -13,16 +13,23 @@ namespace PhMS2dot1Domain.Factories
     {
         PhMS2dot1DomainContext dbContext { get; }
         #region 住院信息
+        IInPatientAllDrugCost CreateInPatientAllDrugCost();
+        IInPatientAntibioticCostDomain CreateInPatientAntibioticCost();
+        IInPatientDepartmentDrugName CreateInPatientDepartmentDrugName();
         IInPatientDrugRecordDrugFeeView CreateInPatientAntibioticDrugRecordFee();
         IInPatientDrugRecordDrugFeeView CreateInPatientEssentialDrugRecordFee();
         IInPatientDrugRecordDrugFeeView CreateInPatientAllDrugRecordFee();
+
+
         IInPatientOutDepartment CreateInPatientOutDepartmentPerson();
         IInPatientInDruation CreateInPatientFromDrugRecords();
         IInPatientInDruation CreateInPatientInDuration();
         IDepartment CreateDepartment();
-        IInPatient CreateInPatient();
-        IInPatientDrugRecord CreateInPatientDrugRecord();
-        IInPatientDrugFee CreateInPatientDrugFee();
+
+
+        //IInPatient CreateInPatient();
+        //IInPatientDrugRecord CreateInPatientDrugRecord();
+        //IInPatientDrugFee CreateInPatientDrugFee();
         #endregion
 
         #region 门诊信息

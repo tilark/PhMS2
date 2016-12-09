@@ -10,16 +10,17 @@ using PHMS2.Models.Factories;
 using ClassViewModelToDomain;
 using PHMS2.Models.ViewModels.InPatientReporter;
 using System.Threading.Tasks;
+using ClassViewModelToDomain.IFactory;
 
 namespace PHMS2.Controllers
 {
     public class InPatientReporterController : Controller
     {
-        private readonly IInPatientReporterFactory factory;
+        private readonly IDomainFacotry DomainFactory;
 
-        public InPatientReporterController(IInPatientReporterFactory factory)
+        public InPatientReporterController(IDomainFacotry factory)
         {
-            this.factory = factory;
+            this.DomainFactory = factory;
         }
         // GET: InPatientReporter
         public ActionResult Index()
@@ -44,15 +45,15 @@ namespace PHMS2.Controllers
             viewModel.DepartmentAntibioticUsageRateList = new List<ClassViewModelToDomain.DepartmentAntibioticUsageRateDomain>();
             try
             {
-                viewModel = this.factory.CreateDepartmentAntibioticUsageRateList().GetDepartmentAntibioticUsageRateList(startTime, endTime);
+                viewModel.DepartmentAntibioticUsageRateList = this.DomainFactory.CreateDepartmentAntibioticUsageRateDomain().GetDepartmentAntibioticUsageRateDomain(startTime, endTime);
             }
             catch (Exception e)
             {
                 var tempData = new DepartmentAntibioticUsageRateDomain
                 {
-                    AntibioticPerson = 0,
-                    RegisterPerson = 0,
-                    DepartmentID = 0,
+                    AntibioticPerson = -1,
+                    RegisterPerson = -1,
+                    DepartmentID = -1,
                     DepartmentName = e.Message
                 };
 
@@ -76,7 +77,7 @@ namespace PHMS2.Controllers
             viewModel.DepartmentAntibioticIntensityList = new List<DepartmentAntibioticIntensityDomain>();
             try
             {
-                viewModel = this.factory.CreateDepartmentAntibioticIntensity().GetDepartmentAntibioticIntensity(startTime, endTime);
+                viewModel.DepartmentAntibioticIntensityList = this.DomainFactory.CreateDepartmentAntibioticIntensityDomain().GetDepartmentAntibioticIntensityDomain(startTime, endTime);
             }
             catch (Exception e)
             {
@@ -107,7 +108,11 @@ namespace PHMS2.Controllers
             var viewModel = new SpecialAntibioticUsageRate();
             try
             {
-                viewModel = this.factory.CreateSpecialAntibioticUsageRate().GetSpecialAntibioticUsageRate(startTime, endTime);
+                viewModel = new SpecialAntibioticUsageRate
+                {
+                    SpecialAntibioticDdds = this.DomainFactory.CreateSpecialAntibioticDdds().GetSpecialAntibioticDdds(startTime, endTime),
+                    TotalAntibioticDdds = this.DomainFactory.CreateTotalAntibioticDdds().GetTotalAntibioticDdds(startTime, endTime)
+                };
             }
             catch (Exception)
             {
@@ -130,7 +135,12 @@ namespace PHMS2.Controllers
             var viewModel = new InPatientAntibioticCostRate();
             try
             {
-                viewModel = this.factory.CreateInPatientAntibioticUsageRate().GetInPatientAntibioticCostRate(startTime, endTime);
+                var temp = this.DomainFactory.CreateInPatientAntibioticCostRateDomain().GetInPatientAntibioticCostRateDomain(startTime, endTime);
+                viewModel = new InPatientAntibioticCostRate
+                {
+                    TotalAntibioticCost = temp.TotalAntibioticCost,
+                    TotalDrugCost = temp.TotalDrugCost
+                };
             }
             catch (Exception e)
             {
@@ -154,7 +164,11 @@ namespace PHMS2.Controllers
             var viewModel = new InPatientAverageAntibioticCostRate();
             try
             {
-                viewModel = this.factory.CreateInPatientAverageAntibioticCostRate().GetInPatientAverageAntibioticCostRate(startTime, endTime);
+                viewModel = new InPatientAverageAntibioticCostRate
+                {
+                    TotalAntibioticCost = this.DomainFactory.CreateInPatientAntibioticCost().GetInPatientAntibioticCost(startTime, endTime),
+                    TotalAntibioticPerson = this.DomainFactory.CreateInPatientAntibioticPerson().GetAntibioticPerson(startTime, endTime)
+                };
             }
             catch (Exception)
             {
@@ -179,7 +193,13 @@ namespace PHMS2.Controllers
             var viewModel = new InPatientDrugMessage();
             try
             {
-                viewModel = this.factory.CreateInPatientDrugMessage().GetInPatientDrugMessage(startTime, endTime);
+                viewModel = new InPatientDrugMessage
+                {
+                    AntibioticCategoryNumber = this.DomainFactory.CreateInPatientAntibioticCategoryNumber().GetAntibioticCategoryNumber(startTime, endTime),
+                    AntibioticCost = this.DomainFactory.CreateInPatientAntibioticCost().GetInPatientAntibioticCost(startTime, endTime),
+                    TotalDrugCost = this.DomainFactory.CreateInPatientDrugCost().GetPatientCost(startTime, endTime),
+                    UnionAntibioticPerson = this.DomainFactory.CreateUnionAntibioticPerson().GetUnionAntibioticPerson(startTime, endTime)
+                };
             }
             catch (Exception)
             {
@@ -208,7 +228,11 @@ namespace PHMS2.Controllers
             var viewModel = new InPatientAverageAntibioticCategoryRate();
             try
             {
-                viewModel = this.factory.CreateInPatientAverageAntibioticCategoryRate().GetInPatientAverageAntibioticCategoryRate(startTime, endTime);
+                viewModel = new InPatientAverageAntibioticCategoryRate
+                {
+                    TotalAntibioticCategoryNumber = this.DomainFactory.CreateInPatientAntibioticCategoryNumber().GetAntibioticCategoryNumber(startTime, endTime),
+                    TotalAntibioticPerson = this.DomainFactory.CreateInPatientAntibioticPerson().GetAntibioticPerson(startTime, endTime)
+                };
             }
             catch (Exception)
             {
@@ -233,7 +257,7 @@ namespace PHMS2.Controllers
             var viewModel = new DepartmentEssentialUsageRate();
             try
             {
-                viewModel = this.factory.CreateDepartmentEssentialUsageRate().GetDepartmentEssentialUsageRate(startTime, endTime);
+                viewModel.DepartmentEssentialUsageRateList = this.DomainFactory.CreateDepartmentEssentialUsageRateDomain().GetDepartmentEssentialUsageRateDomain(startTime, endTime);
             }
             catch (Exception e)
             {
