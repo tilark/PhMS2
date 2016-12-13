@@ -25,11 +25,11 @@ namespace PhMS2dot1Domain.Implement
                 //var sw = new StreamWriter(@"e:\databaseInPatientAntibioticLog.log") { AutoFlush = true };
                 //this.context.Database.Log = s => { sw.Write(s); };
                 result = (from a in this.context.InPatients
-                          where a.OutDate.HasValue && a.OutDate.Value < endTime && !a.CaseNumber.Contains("XT")
+                          where a.OutDate.HasValue  && !a.CaseNumber.StartsWith("XT")
                           join b in this.context.InPatientDrugRecords on a.InPatientID equals b.InPatientID
-                          join d in this.context.AntibioticLevels on b.Origin_KSSDJ equals d.Origin_KSSDJ
+                          join d in this.context.AntibioticLevels on b.Origin_KSSDJID equals d.Origin_KSSDJID
                           join c in this.context.DrugFees on b.InPatientDrugRecordID equals c.InPatientDrugRecordID
-                          where c.ChargeTime >= startTime && c.ChargeTime < endTime
+                          where (a.OutDate.Value >= startTime && a.OutDate.Value < endTime && c.ChargeTime < endTime) || (a.OutDate.Value < startTime && c.ChargeTime >= startTime && c.ChargeTime < endTime)
                           select new InpatientDrugRecordFees {  DepartmentID = a.Origin_DEPT_ID,  ActualPrice = c.ActualPrice, IsEssential = b.IsEssential, IsAntibiotic = d.IsAntibiotic }).ToList();
             }
             catch (Exception)

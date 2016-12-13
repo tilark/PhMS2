@@ -104,6 +104,7 @@
     <Compile Include="Interface\IOutDepartmentPerson.cs" />
     <Compile Include="Interface\IOutPatientInDuration.cs" />
     <Compile Include="Interface\IPrescriptionInDuration.cs" />
+    <Compile Include="Models\ImportDataLogs.cs" />
     <Compile Include="PhMS2dot1DomainContextMigrations\201611010117120_ChangeDoctorIDToLong.cs" />
     <Compile Include="PhMS2dot1DomainContextMigrations\201611010117120_ChangeDoctorIDToLong.Designer.cs">
       <DependentUpon>201611010117120_ChangeDoctorIDToLong.cs</DependentUpon>
@@ -127,6 +128,14 @@
     <Compile Include="PhMS2dot1DomainContextMigrations\201612070846492_AddEffectiveConstituentAmoutInDrugRecord.cs" />
     <Compile Include="PhMS2dot1DomainContextMigrations\201612070846492_AddEffectiveConstituentAmoutInDrugRecord.Designer.cs">
       <DependentUpon>201612070846492_AddEffectiveConstituentAmoutInDrugRecord.cs</DependentUpon>
+    </Compile>
+    <Compile Include="PhMS2dot1DomainContextMigrations\201612121449254_UpdatePhMS2dot1DomainDrugRecord.cs" />
+    <Compile Include="PhMS2dot1DomainContextMigrations\201612121449254_UpdatePhMS2dot1DomainDrugRecord.Designer.cs">
+      <DependentUpon>201612121449254_UpdatePhMS2dot1DomainDrugRecord.cs</DependentUpon>
+    </Compile>
+    <Compile Include="PhMS2dot1DomainContextMigrations\201612130142438_AddImportDataLog.cs" />
+    <Compile Include="PhMS2dot1DomainContextMigrations\201612130142438_AddImportDataLog.Designer.cs">
+      <DependentUpon>201612130142438_AddImportDataLog.cs</DependentUpon>
     </Compile>
     <Compile Include="ViewModels\AntibioticDepartmentPerson.cs" />
     <Compile Include="ViewModels\AntibioticPerson.cs" />
@@ -232,6 +241,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="PhMS2dot1DomainContextMigrations\201612070846492_AddEffectiveConstituentAmoutInDrugRecord.resx">
       <DependentUpon>201612070846492_AddEffectiveConstituentAmoutInDrugRecord.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PhMS2dot1DomainContextMigrations\201612121449254_UpdatePhMS2dot1DomainDrugRecord.resx">
+      <DependentUpon>201612121449254_UpdatePhMS2dot1DomainDrugRecord.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PhMS2dot1DomainContextMigrations\201612130142438_AddImportDataLog.resx">
+      <DependentUpon>201612130142438_AddImportDataLog.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

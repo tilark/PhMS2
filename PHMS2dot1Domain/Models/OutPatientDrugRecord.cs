@@ -27,7 +27,7 @@ namespace PhMS2dot1Domain.Models
         public virtual Guid OutPatientPrescriptionID { get; set; }
 
         [Display(Name = "原HIS抗菌药物等级")]
-        public virtual int? Origin_KSSDJ { get; set; }
+        public virtual int? Origin_KSSDJID { get; set; }
 
         [Display(Name = "原HIS药物CJID")]
         public virtual int? Origin_CJID { get; set; }
@@ -43,12 +43,15 @@ namespace PhMS2dot1Domain.Models
 
         [Display(Name = "是否中成药")]
         public virtual bool IsChinesePatentMedicine { get; set; }
-
+        [Display(Name = "是否中药")]
+        public virtual bool IsTraditionalChineseMedicine { get; set; }
         [Display(Name = "药物剂型")]
         public virtual string DosageForm { get; set; }
 
         [Display(Name = "Ddd值")]
         public virtual Decimal Ddd { get; set; }
+        [Display(Name = "有效成分含量")]
+        public virtual Decimal EffectiveConstituentAmount { get; set; }
 
         [Display(Name = "原HIS药物用法")]
         public virtual string Origin_YFMC { get; set; }
@@ -80,7 +83,7 @@ namespace PhMS2dot1Domain.Models
         {
             get
             {
-                return this.Origin_KSSDJ.HasValue && this.Origin_KSSDJ.Value >= 1 && this.Origin_KSSDJ.Value <= 3;
+                return this.Origin_KSSDJID.HasValue && this.Origin_KSSDJID.Value >= 1 && this.Origin_KSSDJID.Value <= 3;
             }
         }
         internal string AntibioticCategoryNumber

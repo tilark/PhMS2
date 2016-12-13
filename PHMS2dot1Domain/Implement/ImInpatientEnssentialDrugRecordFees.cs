@@ -23,11 +23,11 @@ namespace PhMS2dot1Domain.Implement
             try
             {
                 result = (from a in this.context.InPatients
-                          where a.OutDate.HasValue && a.OutDate.Value < endTime && !a.CaseNumber.Contains("XT")
+                          where a.OutDate.HasValue && !a.CaseNumber.Contains("XT")
                           join b in this.context.InPatientDrugRecords on a.InPatientID equals b.InPatientID
                           where b.IsEssential == true
                           join c in this.context.DrugFees on b.InPatientDrugRecordID equals c.InPatientDrugRecordID
-                          where c.ChargeTime >= startTime && c.ChargeTime < endTime
+                          where (a.OutDate.Value >= startTime && a.OutDate.Value < endTime && c.ChargeTime < endTime) || (a.OutDate.Value < startTime && c.ChargeTime >= startTime && c.ChargeTime < endTime)
                           select new InpatientDrugRecordFees {  DepartmentID = a.Origin_DEPT_ID,  ActualPrice = c.ActualPrice }).ToList();
             }
             catch (Exception)

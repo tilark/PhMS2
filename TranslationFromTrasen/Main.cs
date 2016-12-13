@@ -384,7 +384,7 @@ namespace TranslationFromTrasen
                         inPatientDrugRecord.Origin_ORDER_ID = itemVI_ZY_ORDERRECORD.ORDER_ID;
                         inPatientDrugRecord.Origin_EXEC_DEPT = itemVI_ZY_ORDERRECORD.EXEC_DEPT;
                         inPatientDrugRecord.Origin_ORDER_DOC = itemVI_ZY_ORDERRECORD.ORDER_DOC;
-                        inPatientDrugRecord.Origin_KSSDJ = objectYP_YPGGD.KSSDJID;
+                        inPatientDrugRecord.Origin_KSSDJID = objectYP_YPGGD.KSSDJID;
                         inPatientDrugRecord.Origin_CJID = objectYP_YPCJD.CJID;
                         inPatientDrugRecord.Origin_ORDER_USAGE = itemVI_ZY_ORDERRECORD.ORDER_USAGE;
 
@@ -403,7 +403,7 @@ namespace TranslationFromTrasen
                             inPatientDrugRecord.Origin_ORDER_ID = itemVI_ZY_ORDERRECORD.ORDER_ID;
                             inPatientDrugRecord.Origin_EXEC_DEPT = itemVI_ZY_ORDERRECORD.EXEC_DEPT;
                             inPatientDrugRecord.Origin_ORDER_DOC = itemVI_ZY_ORDERRECORD.ORDER_DOC;
-                            inPatientDrugRecord.Origin_KSSDJ = objectYP_YPGGD.KSSDJID;
+                            inPatientDrugRecord.Origin_KSSDJID = objectYP_YPGGD.KSSDJID;
                             inPatientDrugRecord.Origin_CJID = objectYP_YPCJD.CJID;
                             inPatientDrugRecord.Origin_ORDER_USAGE = itemVI_ZY_ORDERRECORD.ORDER_USAGE;
                         }
@@ -620,12 +620,12 @@ namespace TranslationFromTrasen
                 //dbTrasen.Database.Log = Console.WriteLine;
             }
 
-            var Origin_KSSDJs = db.InPatientDrugRecords.Select(c => c.Origin_KSSDJ).Distinct().ToList();
+            var Origin_KSSDJs = db.InPatientDrugRecords.Select(c => c.Origin_KSSDJID).Distinct().ToList();
             var listAntiBioticLevel = db.AntibioticLevels.ToList();
 
             foreach (var Origin_KSSDJ in Origin_KSSDJs)
             {
-                var antiBioticLevel = listAntiBioticLevel.Where(c => c.Origin_KSSDJ == Origin_KSSDJ).FirstOrDefault();
+                var antiBioticLevel = listAntiBioticLevel.Where(c => c.Origin_KSSDJID == Origin_KSSDJ).FirstOrDefault();
 
                 if (antiBioticLevel == null)
                 {
@@ -636,7 +636,7 @@ namespace TranslationFromTrasen
                     antiBioticLevel.IsRestrict = false;
                     antiBioticLevel.AntibioticLevelName = string.Empty;
                     antiBioticLevel.AntibioticLevelRemarks = "新增";
-                    antiBioticLevel.Origin_KSSDJ = Origin_KSSDJ;
+                    antiBioticLevel.Origin_KSSDJID = Origin_KSSDJ;
 
                     db.AntibioticLevels.Add(antiBioticLevel);
                 }
@@ -850,7 +850,7 @@ namespace TranslationFromTrasen
                         ProductName = itemTrasenVI_MZ_CFB_MX.PM,
                         IsEssential = itemYP_YPGGD.GJJBYW.Value,
                         Origin_CFMXID = itemTrasenVI_MZ_CFB_MX.CFMXID,
-                        Origin_KSSDJ = itemYP_YPGGD.KSSDJID,
+                        Origin_KSSDJID = itemYP_YPGGD.KSSDJID,
                         Origin_CJID = (int)itemTrasenVI_MZ_CFB_MX.XMID,
                         IsWesternMedicine = (itemTrasenVI_MZ_CFB_MX.TJDXMDM == "1"),
                         IsChinesePatentMedicine = (itemTrasenVI_MZ_CFB_MX.TJDXMDM == "2"),
@@ -878,7 +878,7 @@ namespace TranslationFromTrasen
                         outPatientDrugRecord.OutPatientPrescriptionID = itemTrasenVI_MZ_CFB_MX.CFID;
                         outPatientDrugRecord.ProductName = itemTrasenVI_MZ_CFB_MX.PM;
                         outPatientDrugRecord.IsEssential = itemYP_YPGGD.GJJBYW.Value;
-                        outPatientDrugRecord.Origin_KSSDJ = itemYP_YPGGD.KSSDJID;
+                        outPatientDrugRecord.Origin_KSSDJID = itemYP_YPGGD.KSSDJID;
                         outPatientDrugRecord.Origin_CJID = (int)itemTrasenVI_MZ_CFB_MX.XMID;
                         outPatientDrugRecord.IsWesternMedicine = (itemTrasenVI_MZ_CFB_MX.TJDXMDM == "1");
                         outPatientDrugRecord.IsChinesePatentMedicine = (itemTrasenVI_MZ_CFB_MX.TJDXMDM == "2");

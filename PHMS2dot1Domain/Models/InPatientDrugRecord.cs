@@ -28,7 +28,9 @@ namespace PhMS2dot1Domain.Models
         [Display(Name = "住院病历ID")]
         public virtual Guid InPatientID { get; set; }
         [Display(Name = "原HIS抗菌药物等级")]
-        public virtual int? Origin_KSSDJ { get; set; }
+        public virtual int? Origin_KSSDJID { get; set; }
+        [Display(Name = "原HIS开单科室")]
+        public virtual long Origin_DEPT_ID { get; set; }
         [Display(Name = "原HIS执行科室")]
         public virtual int Origin_EXEC_DEPT { get; set; }
         [Display(Name = "原HIS开医属医生")]
@@ -39,6 +41,16 @@ namespace PhMS2dot1Domain.Models
         public virtual string ProductName { get; set; }
         [Display(Name = "基本药物")]
         public virtual bool IsEssential { get; set; }
+
+        [Display(Name = "是否西药")]
+        public virtual bool IsWesternMedicine { get; set; }
+
+        [Display(Name = "是否中药")]
+        public virtual bool IsTraditionalChineseMedicine { get; set; }
+
+        [Display(Name = "是否中成药")]
+        public virtual bool IsChinesePatentMedicine { get; set; }
+
         [Display(Name = "药物剂型")]
         public virtual string DosageForm { get; set; }
         [Display(Name = "有效成分含量")]
@@ -58,7 +70,7 @@ namespace PhMS2dot1Domain.Models
         {
             get
             {
-                return this.Origin_KSSDJ.HasValue && this.Origin_KSSDJ.Value >= 1 && this.Origin_KSSDJ.Value <= 3;
+                return this.Origin_KSSDJID.HasValue && this.Origin_KSSDJID.Value >= 1 && this.Origin_KSSDJID.Value <= 3;
             }
         }
 
@@ -66,7 +78,7 @@ namespace PhMS2dot1Domain.Models
         {
             get
             {
-                return this.Origin_KSSDJ.HasValue && this.Origin_KSSDJ.Value == 3;
+                return this.Origin_KSSDJID.HasValue && this.Origin_KSSDJID.Value == 3;
             }
         }
         public Decimal AntibioticCost(DateTime startTime, DateTime endTime)

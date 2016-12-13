@@ -38,6 +38,7 @@ namespace PhMS2dot1Domain.Models
         public DbSet<OutPatientDrugRecord> OutPatientDrugRecords { get; set; }
         public DbSet<OutPatientPrescription> OutPatientPrescriptions { get; set; }
 
+        public DbSet<ImportDataLog> ImportDataLogs { get; set; }
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             
@@ -57,7 +58,7 @@ namespace PhMS2dot1Domain.Models
             modelBuilder.Entity<DrugFee>()
                 .Property(d => d.ActualPrice)
                 .HasPrecision(18, 4);
-
+            
             //OutPatientDrugRecord
             modelBuilder.Entity<OutPatientDrugRecord>()
                 .Property(o => o.UnitPrice).HasPrecision(18, 4);
@@ -65,7 +66,8 @@ namespace PhMS2dot1Domain.Models
                 .Property(o => o.Quantity).HasPrecision(18, 4);
             modelBuilder.Entity<OutPatientDrugRecord>()
                 .Property(o => o.ActualPrice).HasPrecision(18, 4);
-
+            modelBuilder.Entity<OutPatientDrugRecord>()
+                .Property(o => o.EffectiveConstituentAmount).HasPrecision(18, 4);
             //InPatient 1: n InPatientDrugRecord ，级联删除
             modelBuilder.Entity<InPatient>()
                 .HasMany(e => e.InPatientDrugRecords)

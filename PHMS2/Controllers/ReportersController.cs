@@ -9,16 +9,19 @@ using PHMS2.Models.ViewModels.Reporter;
 using PHMS2.Controllers.UnitOfWork;
 using PHMS2.Models.ViewModels;
 using PHMS2.Models.ViewModels.Interface;
+using ClassViewModelToDomain.IFactory;
 
 namespace PHMS2.Controllers
 {
     public class ReportersController : Controller
     {
         //private ReporterUnitOfWork unitOfWork = null;
+        private readonly IDomainFacotry DomainFactory;
         private readonly IReporterViewFactory ReporterViewFactory;
-        public ReportersController(IReporterViewFactory factory)
+        public ReportersController(IReporterViewFactory factory, IDomainFacotry DomainFactory)
         {
             this.ReporterViewFactory = factory;
+            this.DomainFactory = DomainFactory;
         }
         // GET: Reporters
         public ActionResult Index()
@@ -243,6 +246,8 @@ namespace PHMS2.Controllers
             try
             {
                 viewModel = this.ReporterViewFactory.CreateDrugTopThirtyDescription().GetDrugTopThirtyDescription(startTime, endTime);
+
+
             }
             catch (Exception)
             {
