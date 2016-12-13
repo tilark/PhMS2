@@ -14,12 +14,16 @@ namespace TranslationFromTrasen
         {
             this.localConnection = "Server=192.168.100.162;Database=PhMs2;User Id=User_PhMs;Password=IkgnhzWEXpkyBghq;MultipleActiveResultSets=True;App=EntityFramework";
             this.trasenConnection = "data source=192.168.100.20;initial catalog=trasen;user id=public_user;password=hzhis;MultipleActiveResultSets=True;App=EntityFramework";
+
+            MaxDegreeOfParallelism = 20;
         }
 
         public Main(string local, string trasen)
         {
             this.localConnection = local;
             this.trasenConnection = trasen;
+
+            MaxDegreeOfParallelism = 20;
         }
 
 
@@ -34,15 +38,21 @@ namespace TranslationFromTrasen
 
 
 
+        public int MaxDegreeOfParallelism { get; set; }
+
+
+
+
+
         /// <summary>
-        /// 获取病人与住院病例。
+        /// 获取住院病例，并同时获取病人。
         /// </summary>
         /// <param name="start">时段起点（闭区间）。</param>
         /// <param name="end">时段终点（开区间）。</param>
         /// <param name="isRemoveCancel">指定是否将CANCEL_BIT为1的记录在本地删除。</param>
         /// <param name="isContainNullOutDate">是否包含未出院记录。</param>
         /// <param name="isUpdateExists">是否更新已存在记录。</param>
-        /// <remarks>时间点注意后边界。</remarks>
+        /// <remarks>病人为住院、门诊共用。</remarks>
         /// <example>
         /// 获取2016年9月数据
         /// <code>
@@ -387,7 +397,7 @@ namespace TranslationFromTrasen
                         inPatientDrugRecord.Origin_KSSDJID = objectYP_YPGGD.KSSDJID;
                         inPatientDrugRecord.Origin_CJID = objectYP_YPCJD.CJID;
                         inPatientDrugRecord.Origin_ORDER_USAGE = itemVI_ZY_ORDERRECORD.ORDER_USAGE;
-
+                        
                         db.InPatientDrugRecords.Add(inPatientDrugRecord);
                     }
                     else
@@ -684,7 +694,7 @@ namespace TranslationFromTrasen
         /// <param name="start">时段起点（闭区间）。</param>
         /// <param name="end">时段终点（开区间）。</param>
         /// <param name="IsUpdateExists">是否更新已有记录。</param>
-        /// <remarks>病人为住院、门诊公用。</remarks>
+        /// <remarks>病人为住院、门诊共用。</remarks>
         public void GetPatientsAndOutPatients(DateTime start, DateTime end, bool IsUpdateExists = false)
         {
             //==对创新取数==
@@ -692,13 +702,13 @@ namespace TranslationFromTrasen
             var dbTrasen = new TrasenDbContext(this.trasenConnection);
 
             var queryTrasenVI_MZ_GHXX = dbTrasen.VI_MZ_GHXX.Where(c => (start <= c.GHDJSJ && c.GHDJSJ < end) || (c.QXGHSJ.HasValue && start <= c.QXGHSJ && c.QXGHSJ < end));
-            //（取创新中的原数据的可选筛选条件，暂无）          
+            //（取创新中的原数据的可选筛选条件，暂无）
             var listTrasen_VI_MZ_GHXX = queryTrasenVI_MZ_GHXX.ToList();
             var listTrasen_VI_MZ_GHXX_Distinct = listTrasen_VI_MZ_GHXX.Distinct(new Infrastructure.VI_MZ_GHXX_Comparer()).ToList();
 
             //==处理Patients==
 
-            Parallel.ForEach(listTrasen_VI_MZ_GHXX_Distinct, (itemTrasen_VI_MZ_GHXX, state, index) =>
+            Parallel.ForEach(listTrasen_VI_MZ_GHXX_Distinct, new ParallelOptions { MaxDegreeOfParallelism = this.MaxDegreeOfParallelism }, (itemTrasen_VI_MZ_GHXX, state, index) =>
             {
                 var dbParallel = new PhMS2dot1Domain.Models.PhMS2dot1DomainContext(this.localConnection);
 
@@ -729,7 +739,7 @@ namespace TranslationFromTrasen
 
             //==处理OutPatients==
 
-            Parallel.ForEach(listTrasen_VI_MZ_GHXX, (itemTrasen_VI_MZ_GHXX, state, index) =>
+            Parallel.ForEach(listTrasen_VI_MZ_GHXX, new ParallelOptions { MaxDegreeOfParallelism = this.MaxDegreeOfParallelism }, (itemTrasen_VI_MZ_GHXX, state, index) =>
             {
                 var dbParallel = new PhMS2dot1Domain.Models.PhMS2dot1DomainContext(this.localConnection);
 
@@ -779,7 +789,7 @@ namespace TranslationFromTrasen
         /// <param name="end">时段终点（开区间）。</param>
         /// <param name="isUpdateExists">是否更新已有记录。</param>
         /// <remarks>存在部分“创新”中的处方表记录无法对应挂号记录的记录，目前以忽略处理。</remarks>
-        public void GetOutPatientPrescriptions(DateTime start, DateTime end, bool isUpdateExists)
+        public void GetOutPatientPrescriptions(DateTime start, DateTime end, bool isUpdateExists = false)
         {
             //==对创新取数==
 
@@ -791,7 +801,7 @@ namespace TranslationFromTrasen
 
             //==处理OutPatientPrescriptions==
 
-            Parallel.ForEach(listTrasenVI_MZ_CFB, (itemTrasenVI_MZ_CFB, state, index) =>
+            Parallel.ForEach(listTrasenVI_MZ_CFB, new ParallelOptions { MaxDegreeOfParallelism = this.MaxDegreeOfParallelism }, (itemTrasenVI_MZ_CFB, state, index) =>
             {
                 var dbParallel = new PhMS2dot1Domain.Models.PhMS2dot1DomainContext(this.localConnection);
 
@@ -839,6 +849,13 @@ namespace TranslationFromTrasen
             Console.WriteLine("Finish Get OutPatientPrescriptions：{0} To {1}.", start, end);
         }
 
+        /// <summary>
+        /// 获取门诊用药记录。
+        /// </summary>
+        /// <param name="start">时段起点（闭区间）。</param>
+        /// <param name="end">时段终点（开区间）。</param>
+        /// <param name="isUpdateExists">是否更新已有记录。</param>
+        /// <remarks>存在部分“创新”中的处方明细表记录无法对应处方的记录，目前以忽略处理。</remarks>
         public void GetOutPatientDrugRecords(DateTime start, DateTime end, bool isUpdateExists = false)
         {
             //==对创新取数==
@@ -850,11 +867,11 @@ namespace TranslationFromTrasen
             var listTrasenVI_MZ_CFB_MX = queryTrasenVI_MZ_CFB_MX.ToList();
 
             var listYP_YPCJD = dbTrasen.YP_YPCJD.Where(c => !c.BDELETE).ToList();
-            var listYP_YPGGD = dbTrasen.YP_YPGGD.ToList();
+            var listYP_YPGGD = dbTrasen.YP_YPGGD.Where(c => !c.BDELETE).ToList();
 
             //==处理OutPatientDrugRecords==。
 
-            Parallel.ForEach(listTrasenVI_MZ_CFB_MX, new ParallelOptions { MaxDegreeOfParallelism = 10 }, (itemTrasenVI_MZ_CFB_MX, state, index) =>
+            Parallel.ForEach(listTrasenVI_MZ_CFB_MX, new ParallelOptions { MaxDegreeOfParallelism = this.MaxDegreeOfParallelism }, (itemTrasenVI_MZ_CFB_MX, state, index) =>
             {
                 var dbParallel = new PhMS2dot1Domain.Models.PhMS2dot1DomainContext(this.localConnection);
 
@@ -895,8 +912,8 @@ namespace TranslationFromTrasen
                             Origin_CFMXID = itemTrasenVI_MZ_CFB_MX.CFMXID,
                             Origin_KSSDJ = itemYP_YPGGD.KSSDJID,
                             Origin_CJID = (int)itemTrasenVI_MZ_CFB_MX.XMID,
-                            IsWesternMedicine = (itemTrasenVI_MZ_CFB_MX.TJDXMDM == "1"),
-                            IsChinesePatentMedicine = (itemTrasenVI_MZ_CFB_MX.TJDXMDM == "2"),
+                            IsWesternMedicine = (itemTrasenVI_MZ_CFB_MX.TJDXMDM == "01"),
+                            IsChinesePatentMedicine = (itemTrasenVI_MZ_CFB_MX.TJDXMDM == "02"),
                             DosageForm = itemTrasenVI_MZ_CFB_MX.GG,
                             Ddd = itemYP_YPGGD.DDD.Value,
                             Origin_YFMC = itemTrasenVI_MZ_CFB_MX.YFMC,
@@ -928,8 +945,8 @@ namespace TranslationFromTrasen
                         outPatientDrugRecord.IsEssential = itemYP_YPGGD.GJJBYW.Value;
                         outPatientDrugRecord.Origin_KSSDJID = itemYP_YPGGD.KSSDJID;
                         outPatientDrugRecord.Origin_CJID = (int)itemTrasenVI_MZ_CFB_MX.XMID;
-                        outPatientDrugRecord.IsWesternMedicine = (itemTrasenVI_MZ_CFB_MX.TJDXMDM == "1");
-                        outPatientDrugRecord.IsChinesePatentMedicine = (itemTrasenVI_MZ_CFB_MX.TJDXMDM == "2");
+                        outPatientDrugRecord.IsWesternMedicine = (itemTrasenVI_MZ_CFB_MX.TJDXMDM == "01");
+                        outPatientDrugRecord.IsChinesePatentMedicine = (itemTrasenVI_MZ_CFB_MX.TJDXMDM == "02");
                         outPatientDrugRecord.DosageForm = itemTrasenVI_MZ_CFB_MX.GG;
                         outPatientDrugRecord.Ddd = itemYP_YPGGD.DDD.Value;
                         outPatientDrugRecord.Origin_YFMC = itemTrasenVI_MZ_CFB_MX.YFMC;
