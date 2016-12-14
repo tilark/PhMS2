@@ -16,10 +16,10 @@ namespace PhMS2dot1Domain.Factories
         IInPatientAllDrugCost CreateInPatientAllDrugCost();
         IInPatientAntibioticCostDomain CreateInPatientAntibioticCost();
         IInPatientDepartmentDrugName CreateInPatientDepartmentDrugName();
-        IInPatientDrugRecordDrugFeeView CreateInPatientAntibioticDrugRecordFee();
-        IInPatientDrugRecordDrugFeeView CreateInPatientEssentialDrugRecordFee();
-        IInPatientDrugRecordDrugFeeView CreateInPatientAllDrugRecordFee();
-
+        //IInPatientDrugRecordDrugFeeView CreateInPatientAntibioticDrugRecordFee();
+        //IInPatientDrugRecordDrugFeeView CreateInPatientEssentialDrugRecordFee();
+        //IInPatientDrugRecordDrugFeeView CreateInPatientAllDrugRecordFee();
+        IInPatientDrugRecordDrugFeesView CreateInPatientDrugRecordFeeView();
 
         IInPatientOutDepartment CreateInPatientOutDepartmentPerson();
         IInPatientInDruation CreateInPatientFromDrugRecords();

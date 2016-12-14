@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace PhMS2dot1Domain.ViewModels
 {
-    public class InpatientDrugRecordFees
+    public class InpatientDrugRecordDrugFeesView
     {
         public Guid InPatientID { get; set; }
         public DateTime InDate { get; set; }
@@ -26,6 +26,8 @@ namespace PhMS2dot1Domain.ViewModels
         public virtual Decimal EffectiveConstituentAmount { get; set; }
         public bool IsEssential { get; set; }
         public bool IsAntibiotic { get; set; }
+
+        public bool IsSpecial { get; set; }
         public int InHospitalDays { get { return this.OutDate.HasValue ? this.OutDate.Value.Subtract(this.InDate).Days : 0; } }
 
         public Decimal EffectiveDDD

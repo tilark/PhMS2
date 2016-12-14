@@ -138,7 +138,10 @@ namespace PhMS2dot1Domain.Factories
         {
             return new ImInPatientAntibioticCost(this.context);
         }
-
+        public IInPatientDrugRecordDrugFeesView CreateInPatientDrugRecordFeeView()
+        {
+            return new ImInPatientDrugRecordDrugFeesView(this.context);
+        }
         #endregion
 
         #region 门诊信息
@@ -186,6 +189,8 @@ namespace PhMS2dot1Domain.Factories
         {
             return new ImDepartment(this.context);
         }
+
+
         #endregion
 
 

@@ -85,6 +85,7 @@
     <Compile Include="Implement\ImInPatientDrugFee.cs" />
     <Compile Include="Implement\ImInPatientDrugRecord.cs" />
     <Compile Include="Implement\ImInpatientAntibioticDrugRecordFees.cs" />
+    <Compile Include="Implement\ImInPatientDrugRecordDrugFeesView.cs" />
     <Compile Include="Implement\ImInpatientEnssentialDrugRecordFees.cs" />
     <Compile Include="Implement\ImInPatientInDruation.cs" />
     <Compile Include="Implement\ImInPatientOutDepartment.cs" />
@@ -98,6 +99,7 @@
     <Compile Include="Interface\IInPatientDepartmentDrugName.cs" />
     <Compile Include="Interface\IInPatientDrugFee.cs" />
     <Compile Include="Interface\IInPatientDrugRecord.cs" />
+    <Compile Include="Interface\IInPatientDrugRecordDrugFeesView.cs" />
     <Compile Include="Interface\IInPatientDrugRecordDrugFeeView.cs" />
     <Compile Include="Interface\IInPatientInDruation.cs" />
     <Compile Include="Interface\IInPatientOutDepartment.cs" />
@@ -194,7 +196,7 @@
     <Compile Include="ViewModels\DrugMessage.cs" />
     <Compile Include="ViewModels\InPatientDDDHospitalDays.cs" />
     <Compile Include="ViewModels\InPatientDepartmentDrugName.cs" />
-    <Compile Include="ViewModels\InpatientDrugRecordFees.cs" />
+    <Compile Include="ViewModels\InpatientDrugRecordDrugFeesView.cs" />
     <Compile Include="ViewModels\InPatientDepartmentCost.cs" />
     <Compile Include="ViewModels\InPatientDrugRecordView.cs" />
     <Compile Include="ViewModels\InPatientOutDepartment.cs" />

@@ -25,7 +25,7 @@ namespace PhMS2dot1Domain.ImplementOuterRepository
             var result = new List<DepartmentAntibioticIntensityDomain>();
             try
             {
-                var inpatientAnbtioticDrugRecordFees = this.innerFactory.CreateInPatientAntibioticDrugRecordFee().GetInpatientDrugRecordFees(startTime, endTime);
+                var inpatientAnbtioticDrugRecordFees = this.innerFactory.CreateInPatientDrugRecordFeeView().GetInpatientDrugRecordDrugFeesView(startTime, endTime,a => new InpatientDrugRecordDrugFeesView { InPatientID = a.InPatientID, DepartmentID = a.DepartmentID, IsAntibiotic = a.IsAntibiotic, InDate = a.InDate, OutDate = a.OutDate, DDD = a.DDD } , b=>b.IsAntibiotic);
                 var inPatientDepartmentDdds = (from a in inpatientAnbtioticDrugRecordFees
                                                group a by new { a.DepartmentID, a.InPatientID } into g
                                                select new InPatientDDDHospitalDays { InPatientID = g.Key.InPatientID, DepartmentID = (int)g.Key.DepartmentID, DDDs = g.Sum(c => c.EffectiveDDD), InPatientHospitalDays = g.First().InHospitalDays });

@@ -33,7 +33,7 @@ namespace PHMS2.Controllers.Tests
         private ReporterUnitOfWork unitOfWork = null;
         private DateTime startTime = DateTime.MinValue;
         private DateTime endTime = DateTime.MaxValue;
-        Mock<IReporterViewFactory> factoryMock = null;
+        //Mock<IReporterViewFactory> factoryMock = null;
 
         internal void InitialBaseData()
         {

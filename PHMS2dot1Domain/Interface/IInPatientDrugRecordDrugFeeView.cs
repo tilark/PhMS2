@@ -9,6 +9,6 @@ namespace PhMS2dot1Domain.Interface
 {
     public interface IInPatientDrugRecordDrugFeeView
     {
-        List<InpatientDrugRecordFees> GetInpatientDrugRecordFees(DateTime startTime, DateTime endTime);
+        List<InpatientDrugRecordDrugFeesView> GetInpatientDrugRecordFees(DateTime startTime, DateTime endTime);
     }
 }

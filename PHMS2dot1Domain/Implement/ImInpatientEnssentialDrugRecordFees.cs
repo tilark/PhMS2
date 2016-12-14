@@ -17,9 +17,9 @@ namespace PhMS2dot1Domain.Implement
         {
             this.context = context;
         }
-        public List<InpatientDrugRecordFees> GetInpatientDrugRecordFees(DateTime startTime, DateTime endTime)
+        public List<InpatientDrugRecordDrugFeesView> GetInpatientDrugRecordFees(DateTime startTime, DateTime endTime)
         {
-            var result = new List<InpatientDrugRecordFees>();
+            var result = new List<InpatientDrugRecordDrugFeesView>();
             try
             {
                 result = (from a in this.context.InPatients
@@ -28,7 +28,7 @@ namespace PhMS2dot1Domain.Implement
                           where b.IsEssential == true
                           join c in this.context.DrugFees on b.InPatientDrugRecordID equals c.InPatientDrugRecordID
                           where (a.OutDate.Value >= startTime && a.OutDate.Value < endTime && c.ChargeTime < endTime) || (a.OutDate.Value < startTime && c.ChargeTime >= startTime && c.ChargeTime < endTime)
-                          select new InpatientDrugRecordFees {  DepartmentID = a.Origin_DEPT_ID,  ActualPrice = c.ActualPrice }).ToList();
+                          select new InpatientDrugRecordDrugFeesView {  DepartmentID = a.Origin_DEPT_ID,  ActualPrice = c.ActualPrice }).ToList();
             }
             catch (Exception)
             {
