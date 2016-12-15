@@ -10,8 +10,8 @@ namespace TranslationFromTrasen
     {
         static void Main(string[] args)
         {
-            DateTime start = new DateTime(2016, 7, 1);
-            DateTime end = new DateTime(2016, 7, 10);
+            DateTime start = new DateTime(2016, 7, 10);
+            DateTime end = new DateTime(2016, 8, 1);
 
             if (false)
             {
@@ -40,7 +40,7 @@ namespace TranslationFromTrasen
 
                     Console.WriteLine(tempStart.ToLongDateString() + " - " + tempEmd.ToLongDateString() + "Finished");
                 }
-            }        
+            }
 
             if (false)
             {
@@ -70,11 +70,11 @@ namespace TranslationFromTrasen
 
                     //target.GetPatientsAndOutPatients(tempStart, tempEnd, true);
                     //target.GetOutPatientPrescriptions(tempStart, tempEnd, true);
-                    //target.GetOutPatientDrugRecords(tempStart, tempEnd, true);
+                    target.GetOutPatientDrugRecords(tempStart, tempEnd, true);
                 }
             }
 
-            Console.ReadLine();
+            //Console.ReadLine();
         }
     }
 }

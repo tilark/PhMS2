@@ -15,7 +15,7 @@ namespace TranslationFromTrasen
             this.localConnection = "Server=192.168.100.162;Database=PhMs2;User Id=User_PhMs;Password=IkgnhzWEXpkyBghq;MultipleActiveResultSets=True;App=EntityFramework";
             this.trasenConnection = "data source=192.168.100.20;initial catalog=trasen;user id=public_user;password=hzhis;MultipleActiveResultSets=True;App=EntityFramework";
 
-            MaxDegreeOfParallelism = 20;
+            this.MaxDegreeOfParallelism = 5;
         }
 
         public Main(string local, string trasen)
@@ -23,7 +23,7 @@ namespace TranslationFromTrasen
             this.localConnection = local;
             this.trasenConnection = trasen;
 
-            MaxDegreeOfParallelism = 20;
+            this.MaxDegreeOfParallelism = 5;
         }
 
 
@@ -397,7 +397,7 @@ namespace TranslationFromTrasen
                         inPatientDrugRecord.Origin_KSSDJID = objectYP_YPGGD.KSSDJID;
                         inPatientDrugRecord.Origin_CJID = objectYP_YPCJD.CJID;
                         inPatientDrugRecord.Origin_ORDER_USAGE = itemVI_ZY_ORDERRECORD.ORDER_USAGE;
-                        
+
                         db.InPatientDrugRecords.Add(inPatientDrugRecord);
                     }
                     else
@@ -688,25 +688,61 @@ namespace TranslationFromTrasen
 
 
 
+        #region "门诊"
+
         /// <summary>
         /// 获取门诊病例，并同时获取病人。
         /// </summary>
         /// <param name="start">时段起点（闭区间）。</param>
         /// <param name="end">时段终点（开区间）。</param>
-        /// <param name="IsUpdateExists">是否更新已有记录。</param>
+        /// <param name="isUpdateExists">是否更新已有记录。</param>
         /// <remarks>病人为住院、门诊共用。</remarks>
-        public void GetPatientsAndOutPatients(DateTime start, DateTime end, bool IsUpdateExists = false)
+        public void GetPatientsAndOutPatients(DateTime start, DateTime end, bool isUpdateExists = false)
         {
+            //==初始化==
+
+            #region "初始化"
+
+            var importDataLogPatient = new PhMS2dot1Domain.Models.ImportDataLog();
+            var importDataLogOutPatient = new PhMS2dot1Domain.Models.ImportDataLog();
+
+            this.LogInitial(importDataLogPatient, "Trasen", "VI_MZ_GHXX", "Patients", start, end);
+            this.LogInitial(importDataLogOutPatient, "Trasen", "VI_MZ_GHXX", "OutPatients", start, end);
+
+            this.LogAppendRemarks(importDataLogPatient, string.Format("MethodName=GetPatientsAndOutPatients. IsUpdateExists={0}. ", isUpdateExists));
+            this.LogAppendRemarks(importDataLogOutPatient, string.Format("MethodName=GetPatientsAndOutPatients. IsUpdateExists={0}. ", isUpdateExists));
+
+            #endregion
+
             //==对创新取数==
+
+            #region "对创新取数"
 
             var dbTrasen = new TrasenDbContext(this.trasenConnection);
 
             var queryTrasenVI_MZ_GHXX = dbTrasen.VI_MZ_GHXX.Where(c => (start <= c.GHDJSJ && c.GHDJSJ < end) || (c.QXGHSJ.HasValue && start <= c.QXGHSJ && c.QXGHSJ < end));
             //（取创新中的原数据的可选筛选条件，暂无）
+
+            this.LogSetReadStartTime(importDataLogPatient);
+            this.LogSetReadStartTime(importDataLogOutPatient);
+
             var listTrasen_VI_MZ_GHXX = queryTrasenVI_MZ_GHXX.ToList();
             var listTrasen_VI_MZ_GHXX_Distinct = listTrasen_VI_MZ_GHXX.Distinct(new Infrastructure.VI_MZ_GHXX_Comparer()).ToList();
 
+            this.LogSetReadEndTime(importDataLogPatient);
+            this.LogSetReadEndTime(importDataLogOutPatient);
+
+            this.LogSetSourceRecordCount(importDataLogPatient, listTrasen_VI_MZ_GHXX_Distinct.Count());
+            this.LogSetSourceRecordCount(importDataLogOutPatient, listTrasen_VI_MZ_GHXX.Count());
+
+            #endregion
+
             //==处理Patients==
+
+            #region "处理Patients"
+
+            this.LogSetSuccessImportRecordCount(importDataLogPatient, (int)importDataLogPatient.SourceRecordCount);
+            this.LogSetWriteStartTime(importDataLogPatient);
 
             Parallel.ForEach(listTrasen_VI_MZ_GHXX_Distinct, new ParallelOptions { MaxDegreeOfParallelism = this.MaxDegreeOfParallelism }, (itemTrasen_VI_MZ_GHXX, state, index) =>
             {
@@ -715,55 +751,56 @@ namespace TranslationFromTrasen
                 var patient = dbParallel.Patients.Where(c => c.Origin_PATIENT_ID == itemTrasen_VI_MZ_GHXX.BRXXID).FirstOrDefault();
                 if (patient == null)
                 {
-                    patient = new PhMS2dot1Domain.Models.Patient
-                    {
-                        PatientID = itemTrasen_VI_MZ_GHXX.BRXXID.Value,
-                        Origin_PATIENT_ID = itemTrasen_VI_MZ_GHXX.BRXXID.Value,
-                    };
+                    patient = new PhMS2dot1Domain.Models.Patient();
+
+                    patient.PatientID = itemTrasen_VI_MZ_GHXX.BRXXID.Value;
+                    patient.Origin_PATIENT_ID = itemTrasen_VI_MZ_GHXX.BRXXID.Value;
 
                     dbParallel.Patients.Add(patient);
                     dbParallel.SaveChanges();
-
-                    //Console.WriteLine("Insert Patient: index:" + index /*+ ", PatientID:" + patient.PatientID*/);
                 }
                 else
                 {
-                    if (IsUpdateExists)
+                    if (isUpdateExists)
                     {
-                        //什么也不做（因为没有出生日期）
-
-                        //Console.WriteLine("Update Patient: index:" + index /*+ ", PatientID:" + patient.PatientID*/);
+                        //什么也不做（因为没有其他需要处理的字段，无出生日期）
                     }
                 }
             });
 
+            this.LogSetWriteEndTime(importDataLogPatient);
+
+            #endregion
+
             //==处理OutPatients==
+
+            #region "处理OutPatients"
+
+            this.LogSetSuccessImportRecordCount(importDataLogOutPatient, (int)importDataLogOutPatient.SourceRecordCount);
+            this.LogSetWriteStartTime(importDataLogOutPatient);
 
             Parallel.ForEach(listTrasen_VI_MZ_GHXX, new ParallelOptions { MaxDegreeOfParallelism = this.MaxDegreeOfParallelism }, (itemTrasen_VI_MZ_GHXX, state, index) =>
             {
                 var dbParallel = new PhMS2dot1Domain.Models.PhMS2dot1DomainContext(this.localConnection);
 
-                var outPatient = dbParallel.OutPatients.Where(old => old.Origin_GHXXID == itemTrasen_VI_MZ_GHXX.GHXXID).FirstOrDefault();
+                var outPatient = dbParallel.OutPatients.Where(c => c.Origin_GHXXID == itemTrasen_VI_MZ_GHXX.GHXXID).FirstOrDefault();
                 if (outPatient == null)
                 {
-                    outPatient = new PhMS2dot1Domain.Models.OutPatient
-                    {
-                        OutPatientID = itemTrasen_VI_MZ_GHXX.GHXXID,
-                        PatientID = itemTrasen_VI_MZ_GHXX.BRXXID.Value,
-                        Origin_GHXXID = itemTrasen_VI_MZ_GHXX.GHXXID,
-                        Origin_GHLB = itemTrasen_VI_MZ_GHXX.GHLB,
-                        ChargeTime = itemTrasen_VI_MZ_GHXX.GHDJSJ.Value,
-                        CancelChargeTime = itemTrasen_VI_MZ_GHXX.QXGHSJ,
-                    };
+                    outPatient = new PhMS2dot1Domain.Models.OutPatient();
+
+                    outPatient.OutPatientID = itemTrasen_VI_MZ_GHXX.GHXXID;
+                    outPatient.PatientID = itemTrasen_VI_MZ_GHXX.BRXXID.Value;
+                    outPatient.Origin_GHXXID = itemTrasen_VI_MZ_GHXX.GHXXID;
+                    outPatient.Origin_GHLB = itemTrasen_VI_MZ_GHXX.GHLB;
+                    outPatient.ChargeTime = itemTrasen_VI_MZ_GHXX.GHDJSJ.Value;
+                    outPatient.CancelChargeTime = itemTrasen_VI_MZ_GHXX.QXGHSJ;
 
                     dbParallel.OutPatients.Add(outPatient);
                     dbParallel.SaveChanges();
-
-                    //Console.WriteLine("Insert OutPatient: index:" + index /*+ ", OutPatientID:" + outPatient.OutPatientID*/);
                 }
                 else
                 {
-                    if (IsUpdateExists)
+                    if (isUpdateExists)
                     {
                         outPatient.Origin_GHLB = itemTrasen_VI_MZ_GHXX.GHLB;
                         outPatient.ChargeTime = itemTrasen_VI_MZ_GHXX.GHDJSJ.Value;
@@ -771,15 +808,24 @@ namespace TranslationFromTrasen
                         outPatient.PatientID = itemTrasen_VI_MZ_GHXX.BRXXID.Value;
 
                         dbParallel.SaveChanges();
-
-                        //Console.WriteLine("Update OutPatient: index:" + index /*+ ", OutPatientID:" + outPatient.OutPatientID*/);
                     }
                 }
             });
 
+            this.LogSetWriteEndTime(importDataLogOutPatient);
+
+            #endregion
+
             //==完成==
 
+            #region "完成"
+
+            this.LogSave(importDataLogPatient);
+            this.LogSave(importDataLogOutPatient);
+
             Console.WriteLine("Finish Get OutPatients：{0} To {1}.", start, end);
+
+            #endregion
         }
 
         /// <summary>
@@ -791,15 +837,42 @@ namespace TranslationFromTrasen
         /// <remarks>存在部分“创新”中的处方表记录无法对应挂号记录的记录，目前以忽略处理。</remarks>
         public void GetOutPatientPrescriptions(DateTime start, DateTime end, bool isUpdateExists = false)
         {
+            //==初始化==
+
+            #region "初始化"
+
+            var importDataLog = new PhMS2dot1Domain.Models.ImportDataLog();
+
+            this.LogInitial(importDataLog, "Trasen", "VI_MZ_CFB", "OutPatientPrescriptions", start, end);
+
+            this.LogAppendRemarks(importDataLog, string.Format("MethodName=GetOutPatientPrescriptions. IsUpdateExists={0}. ", isUpdateExists));
+
+            #endregion
+
             //==对创新取数==
+
+            #region "对创新取数"
 
             var dbTrasen = new TrasenDbContext(this.trasenConnection);
 
             var queryTrasenVI_MZ_CFB = dbTrasen.VI_MZ_CFB.Where(c => start <= c.SFRQ && c.SFRQ < end);
             //（取创新中的原数据的可选筛选条件，暂无）
+
+            this.LogSetReadStartTime(importDataLog);
+
             var listTrasenVI_MZ_CFB = queryTrasenVI_MZ_CFB.ToList();
 
+            this.LogSetReadEndTime(importDataLog);
+            this.LogSetSourceRecordCount(importDataLog, listTrasenVI_MZ_CFB.Count());
+
+            #endregion
+
             //==处理OutPatientPrescriptions==
+
+            #region "处理OutPatientPrescriptions"
+
+            this.LogSetSuccessImportRecordCount(importDataLog, (int)importDataLog.SourceRecordCount);
+            this.LogSetWriteStartTime(importDataLog);
 
             Parallel.ForEach(listTrasenVI_MZ_CFB, new ParallelOptions { MaxDegreeOfParallelism = this.MaxDegreeOfParallelism }, (itemTrasenVI_MZ_CFB, state, index) =>
             {
@@ -811,7 +884,7 @@ namespace TranslationFromTrasen
                     //检测父节点
                     if (!dbParallel.OutPatients.Where(c => c.OutPatientID == itemTrasenVI_MZ_CFB.GHXXID.Value).Any())
                     {
-                        Console.WriteLine("Failded Insert OutPatientPrescription: index:" + index + ", OutPatientPrescriptionID:" + itemTrasenVI_MZ_CFB.CFID);
+                        this.LogAppendErrorMessage(importDataLog, "Failded Insert OutPatientPrescription: index:" + index + ", OutPatientPrescriptionID:" + itemTrasenVI_MZ_CFB.CFID + ". ");
                     }
                     else
                     {
@@ -826,8 +899,6 @@ namespace TranslationFromTrasen
 
                         dbParallel.OutPatientPrescriptions.Add(outPatientPrescription);
                         dbParallel.SaveChanges();
-
-                        //Console.WriteLine("Insert OutPatientPrescription: index:" + index + ", OutPatientPrescriptionID:" + outPatientPrescription.OutPatientPrescriptionID);
                     }
                 }
                 else
@@ -840,13 +911,23 @@ namespace TranslationFromTrasen
                         outPatientPrescription.Origin_YSDM = itemTrasenVI_MZ_CFB.YSDM;
 
                         dbParallel.SaveChanges();
-
-                        //Console.WriteLine("Update OutPatientPrescription: index:" + index + ", OutPatientPrescriptionID:" + outPatientPrescription.OutPatientPrescriptionID);
                     }
                 }
             });
 
+            this.LogSetWriteEndTime(importDataLog);
+
+            #endregion
+
+            //==完成==
+
+            #region "完成"
+
+            this.LogSave(importDataLog);
+
             Console.WriteLine("Finish Get OutPatientPrescriptions：{0} To {1}.", start, end);
+
+            #endregion
         }
 
         /// <summary>
@@ -858,18 +939,45 @@ namespace TranslationFromTrasen
         /// <remarks>存在部分“创新”中的处方明细表记录无法对应处方的记录，目前以忽略处理。</remarks>
         public void GetOutPatientDrugRecords(DateTime start, DateTime end, bool isUpdateExists = false)
         {
+            //==初始化==
+
+            #region "初始化"
+
+            var importDataLog = new PhMS2dot1Domain.Models.ImportDataLog();
+
+            this.LogInitial(importDataLog, "Trasen", "VI_MZ_CFB_MX, YP_YPCJD, YP_YPGGD", "OutPatientDrugRecords", start, end);
+
+            this.LogAppendRemarks(importDataLog, string.Format("MethodName=GetOutPatientDrugRecords. IsUpdateExists={0}. ", isUpdateExists));
+
+            #endregion
+
             //==对创新取数==
+
+            #region "对创新取数"
 
             var dbTrasen = new TrasenDbContext(this.trasenConnection);
 
             var queryTrasenVI_MZ_CFB_MX = dbTrasen.VI_MZ_CFB_MX.Where(c => start <= c.QRSJ && c.QRSJ < end && (c.TJDXMDM == "01" || c.TJDXMDM == "02" || c.TJDXMDM == "03"));
             //（取创新中的原数据的可选筛选条件，暂无）
+
+            this.LogSetReadStartTime(importDataLog);
+
             var listTrasenVI_MZ_CFB_MX = queryTrasenVI_MZ_CFB_MX.ToList();
 
-            var listYP_YPCJD = dbTrasen.YP_YPCJD.Where(c => !c.BDELETE).ToList();
+            var listYP_YPCJD = dbTrasen.YP_YPCJD.ToList();
             var listYP_YPGGD = dbTrasen.YP_YPGGD.Where(c => !c.BDELETE).ToList();
 
+            this.LogSetReadEndTime(importDataLog);
+            this.LogSetSourceRecordCount(importDataLog, listTrasenVI_MZ_CFB_MX.Count());
+
+            #endregion
+
             //==处理OutPatientDrugRecords==。
+
+            #region "处理OutPatientDrugRecords"
+
+            this.LogSetSuccessImportRecordCount(importDataLog, (int)importDataLog.SourceRecordCount);
+            this.LogSetWriteStartTime(importDataLog);
 
             Parallel.ForEach(listTrasenVI_MZ_CFB_MX, new ParallelOptions { MaxDegreeOfParallelism = this.MaxDegreeOfParallelism }, (itemTrasenVI_MZ_CFB_MX, state, index) =>
             {
@@ -878,59 +986,39 @@ namespace TranslationFromTrasen
                 var outPatientDrugRecord = dbParallel.OutPatientDrugRecords.Where(c => c.Origin_CFMXID == itemTrasenVI_MZ_CFB_MX.CFMXID).FirstOrDefault();
                 if (outPatientDrugRecord == null)
                 {
-                    if (dbParallel.OutPatientPrescriptions.Where(c => c.OutPatientPrescriptionID == itemTrasenVI_MZ_CFB_MX.CFID).Any())
+                    //检测父节点
+                    if (!dbParallel.OutPatientPrescriptions.Where(c => c.OutPatientPrescriptionID == itemTrasenVI_MZ_CFB_MX.CFID).Any())
                     {
-
-                        OutPatientDrugRecordID = itemTrasenVI_MZ_CFB_MX.CFMXID,
-                        OutPatientPrescriptionID = itemTrasenVI_MZ_CFB_MX.CFID,
-                        ProductName = itemTrasenVI_MZ_CFB_MX.PM,
-                        IsEssential = itemYP_YPGGD.GJJBYW.Value,
-                        Origin_CFMXID = itemTrasenVI_MZ_CFB_MX.CFMXID,
-                        Origin_KSSDJID = itemYP_YPGGD.KSSDJID,
-                        Origin_CJID = (int)itemTrasenVI_MZ_CFB_MX.XMID,
-                        IsWesternMedicine = (itemTrasenVI_MZ_CFB_MX.TJDXMDM == "1"),
-                        IsChinesePatentMedicine = (itemTrasenVI_MZ_CFB_MX.TJDXMDM == "2"),
-                        DosageForm = itemTrasenVI_MZ_CFB_MX.GG,
-                        Ddd = itemYP_YPGGD.DDD.Value,
-                        Origin_YFMC = itemTrasenVI_MZ_CFB_MX.YFMC,
-                        UnitPrice = itemTrasenVI_MZ_CFB_MX.DJ,
-                        UnitName = itemTrasenVI_MZ_CFB_MX.DW,
-                        Quantity = itemTrasenVI_MZ_CFB_MX.SL,
-                        ActualPrice = itemTrasenVI_MZ_CFB_MX.JE,
-                    };
-
-                        var itemYP_YPCJD = listYP_YPCJD.Where(c => c.CJID == itemTrasenVI_MZ_CFB_MX.XMID).First();
-                        var itemYP_YPGGD = listYP_YPGGD.Where(c => c.GGID == itemYP_YPCJD.GGID).First();
-
-
-                        outPatientDrugRecord = new PhMS2dot1Domain.Models.OutPatientDrugRecord
-                        {
-                            OutPatientDrugRecordID = itemTrasenVI_MZ_CFB_MX.CFMXID,
-                            OutPatientPrescriptionID = itemTrasenVI_MZ_CFB_MX.CFID,
-                            ProductName = itemTrasenVI_MZ_CFB_MX.PM,
-                            IsEssential = itemYP_YPGGD.GJJBYW.Value,
-                            Origin_CFMXID = itemTrasenVI_MZ_CFB_MX.CFMXID,
-                            Origin_KSSDJ = itemYP_YPGGD.KSSDJID,
-                            Origin_CJID = (int)itemTrasenVI_MZ_CFB_MX.XMID,
-                            IsWesternMedicine = (itemTrasenVI_MZ_CFB_MX.TJDXMDM == "01"),
-                            IsChinesePatentMedicine = (itemTrasenVI_MZ_CFB_MX.TJDXMDM == "02"),
-                            DosageForm = itemTrasenVI_MZ_CFB_MX.GG,
-                            Ddd = itemYP_YPGGD.DDD.Value,
-                            Origin_YFMC = itemTrasenVI_MZ_CFB_MX.YFMC,
-                            UnitPrice = itemTrasenVI_MZ_CFB_MX.DJ,
-                            UnitName = itemTrasenVI_MZ_CFB_MX.DW,
-                            Quantity = itemTrasenVI_MZ_CFB_MX.SL,
-                            ActualPrice = itemTrasenVI_MZ_CFB_MX.JE,
-                        };
-
-                        dbParallel.OutPatientDrugRecords.Add(outPatientDrugRecord);
-                        dbParallel.SaveChanges();
-
-                        //Console.WriteLine("Insert OutPatientDrugRecord: index:" + index + ", OutPatientDrugRecordID:" + outPatientDrugRecord.OutPatientDrugRecordID);
+                        this.LogAppendErrorMessage(importDataLog, "Failded Insert OutPatientDrugRecord: index:" + index + ", OutPatientDrugRecordID:" + itemTrasenVI_MZ_CFB_MX.CFMXID + ". ");
                     }
                     else
                     {
-                        Console.WriteLine("Failded Insert OutPatientDrugRecord: index:" + index + ", OutPatientDrugRecordID:" + itemTrasenVI_MZ_CFB_MX.CFMXID);
+                        var itemYP_YPCJD = listYP_YPCJD.Where(c => c.CJID == itemTrasenVI_MZ_CFB_MX.XMID).First();
+                        var itemYP_YPGGD = listYP_YPGGD.Where(c => c.GGID == itemYP_YPCJD.GGID).First();
+
+                        outPatientDrugRecord = new PhMS2dot1Domain.Models.OutPatientDrugRecord();
+
+                        outPatientDrugRecord.OutPatientDrugRecordID = itemTrasenVI_MZ_CFB_MX.CFMXID;
+                        outPatientDrugRecord.OutPatientPrescriptionID = itemTrasenVI_MZ_CFB_MX.CFID;
+                        outPatientDrugRecord.ProductName = itemTrasenVI_MZ_CFB_MX.PM;
+                        outPatientDrugRecord.IsEssential = itemYP_YPGGD.GJJBYW.Value;
+                        outPatientDrugRecord.Origin_CFMXID = itemTrasenVI_MZ_CFB_MX.CFMXID;
+                        outPatientDrugRecord.Origin_KSSDJID = itemYP_YPGGD.KSSDJID;
+                        outPatientDrugRecord.Origin_CJID = (int)itemTrasenVI_MZ_CFB_MX.XMID;
+                        outPatientDrugRecord.IsWesternMedicine = (itemTrasenVI_MZ_CFB_MX.TJDXMDM == "01");
+                        outPatientDrugRecord.IsChinesePatentMedicine = (itemTrasenVI_MZ_CFB_MX.TJDXMDM == "02");
+                        outPatientDrugRecord.IsTraditionalChineseMedicine = (itemTrasenVI_MZ_CFB_MX.TJDXMDM == "03");
+                        outPatientDrugRecord.DosageForm = itemTrasenVI_MZ_CFB_MX.GG;
+                        outPatientDrugRecord.Ddd = itemYP_YPGGD.DDD.Value;
+                        outPatientDrugRecord.Origin_YFMC = itemTrasenVI_MZ_CFB_MX.YFMC;
+                        outPatientDrugRecord.UnitPrice = itemTrasenVI_MZ_CFB_MX.DJ;
+                        outPatientDrugRecord.UnitName = itemTrasenVI_MZ_CFB_MX.DW;
+                        outPatientDrugRecord.Quantity = itemTrasenVI_MZ_CFB_MX.SL;
+                        outPatientDrugRecord.ActualPrice = itemTrasenVI_MZ_CFB_MX.JE;
+                        outPatientDrugRecord.EffectiveConstituentAmount = itemYP_YPGGD.DDDJL.HasValue ? itemYP_YPGGD.DDDJL.Value : itemYP_YPGGD.HLXS;
+
+                        dbParallel.OutPatientDrugRecords.Add(outPatientDrugRecord);
+                        dbParallel.SaveChanges();
                     }
                 }
                 else
@@ -947,6 +1035,7 @@ namespace TranslationFromTrasen
                         outPatientDrugRecord.Origin_CJID = (int)itemTrasenVI_MZ_CFB_MX.XMID;
                         outPatientDrugRecord.IsWesternMedicine = (itemTrasenVI_MZ_CFB_MX.TJDXMDM == "01");
                         outPatientDrugRecord.IsChinesePatentMedicine = (itemTrasenVI_MZ_CFB_MX.TJDXMDM == "02");
+                        outPatientDrugRecord.IsTraditionalChineseMedicine = (itemTrasenVI_MZ_CFB_MX.TJDXMDM == "03");
                         outPatientDrugRecord.DosageForm = itemTrasenVI_MZ_CFB_MX.GG;
                         outPatientDrugRecord.Ddd = itemYP_YPGGD.DDD.Value;
                         outPatientDrugRecord.Origin_YFMC = itemTrasenVI_MZ_CFB_MX.YFMC;
@@ -954,15 +1043,108 @@ namespace TranslationFromTrasen
                         outPatientDrugRecord.UnitName = itemTrasenVI_MZ_CFB_MX.DW;
                         outPatientDrugRecord.Quantity = itemTrasenVI_MZ_CFB_MX.SL;
                         outPatientDrugRecord.ActualPrice = itemTrasenVI_MZ_CFB_MX.JE;
+                        outPatientDrugRecord.EffectiveConstituentAmount = itemYP_YPGGD.DDDJL.HasValue ? itemYP_YPGGD.DDDJL.Value : itemYP_YPGGD.HLXS;
 
                         dbParallel.SaveChanges();
-
-                        //Console.WriteLine("Update OutPatientDrugRecord: index:" + index + ", OutPatientDrugRecordID:" + outPatientDrugRecord.OutPatientDrugRecordID);
                     }
                 }
             });
 
+            this.LogSetWriteEndTime(importDataLog);
+
+            #endregion
+
+            //==完成==
+
+            #region "完成"
+
+            this.LogSave(importDataLog);
+
             Console.WriteLine("Finish Get OutPatientDrugRecords：{0} To {1}.", start, end);
+
+            #endregion
+        }
+
+        #endregion
+
+
+
+
+
+
+
+        private void LogInitial(PhMS2dot1Domain.Models.ImportDataLog importDataLog, string sourceDatabaseName, string sourceTableName, string localTableName, DateTime startTime, DateTime endTime)
+        {
+            importDataLog.SourceDatabaseName = sourceDatabaseName;
+            importDataLog.SourceTableName = sourceTableName;
+            importDataLog.LocalTableName = localTableName;
+            importDataLog.StartTime = startTime;
+            importDataLog.EndTime = endTime;
+            importDataLog.Remarks = "";
+            importDataLog.ErrorMessage = "";
+        }
+
+        private void LogSetSourceRecordCount(PhMS2dot1Domain.Models.ImportDataLog importDataLog, int count)
+        {
+            importDataLog.SourceRecordCount = count;
+        }
+
+        private void LogSetSuccessImportRecordCount(PhMS2dot1Domain.Models.ImportDataLog importDataLog, int count)
+        {
+            importDataLog.SuccessImportRecordCount = count;
+        }
+
+        private void LogSetReadStartTime(PhMS2dot1Domain.Models.ImportDataLog importDataLog, DateTime? time = null)
+        {
+            if (time == null)
+                time = DateTime.Now;
+
+            importDataLog.ReadStartTime = time.Value;
+        }
+
+        private void LogSetReadEndTime(PhMS2dot1Domain.Models.ImportDataLog importDataLog, DateTime? time = null)
+        {
+            if (time == null)
+                time = DateTime.Now;
+
+            importDataLog.ReadEndTime = time.Value;
+        }
+
+        private void LogSetWriteStartTime(PhMS2dot1Domain.Models.ImportDataLog importDataLog, DateTime? time = null)
+        {
+            if (time == null)
+                time = DateTime.Now;
+
+            importDataLog.WriteStartTime = time.Value;
+        }
+
+        private void LogSetWriteEndTime(PhMS2dot1Domain.Models.ImportDataLog importDataLog, DateTime? time = null)
+        {
+            if (time == null)
+                time = DateTime.Now;
+
+            importDataLog.WriteEndTime = time.Value;
+        }
+
+        private void LogSave(PhMS2dot1Domain.Models.ImportDataLog importDataLog)
+        {
+            var db = new PhMS2dot1Domain.Models.PhMS2dot1DomainContext(this.localConnection);
+            db.ImportDataLogs.Add(importDataLog);
+            db.SaveChanges();
+        }
+
+        private void LogAppendErrorMessage(PhMS2dot1Domain.Models.ImportDataLog importDataLog, string message)
+        {
+            lock (importDataLog)
+            {
+                importDataLog.ErrorMessage += message;
+                importDataLog.SuccessImportRecordCount -= 1;
+            }
+        }
+
+        private void LogAppendRemarks(PhMS2dot1Domain.Models.ImportDataLog importDataLog, string remarks)
+        {
+            importDataLog.Remarks += remarks;
         }
     }
 }
