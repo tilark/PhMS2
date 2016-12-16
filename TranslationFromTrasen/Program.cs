@@ -10,8 +10,11 @@ namespace TranslationFromTrasen
     {
         static void Main(string[] args)
         {
-            DateTime start = new DateTime(2016, 8, 1);
-            DateTime end = new DateTime(2016, 10, 1);
+            DateTime start = new DateTime(2016, 7, 1);
+            DateTime end = new DateTime(2016, 7, 5);
+            TimeSpan span = new TimeSpan(0, 3, 0, 0);
+            int maxDegreeOfParallelism = 5;
+            var target = new TranslationFromTrasen.Main(maxDegreeOfParallelism);
 
             if (false)
             {
@@ -30,22 +33,37 @@ namespace TranslationFromTrasen
                 //target.GetUnit();
             }
 
+            //==门诊==
+
+            #region "门诊"
+
             if (true)
             {
-                var target = new TranslationFromTrasen.Main();
-
-                for (var time = start; time < end; time = time.AddDays(1))
+                for (var time = start; time < end; time += span)
                 {
                     var tempStart = time;
-                    var tempEnd = time.AddDays(1);
+                    var tempEnd = time + span;
 
                     //target.GetPatientsAndOutPatients(tempStart, tempEnd, true);
                     //target.GetOutPatientPrescriptions(tempStart, tempEnd, true);
-                    target.GetOutPatientDrugRecords(tempStart, tempEnd, true);
+                    //target.GetOutPatientDrugRecords(tempStart, tempEnd, true);
+
+                    Console.WriteLine("Finish {0} To {1}.", tempStart, tempEnd);
                 }
             }
 
-            //Console.ReadLine();
+            #endregion
+
+            //==结束==
+
+            #region "结束"
+
+            if (true)
+            {
+                Console.ReadLine();
+            }
+
+            #endregion
         }
     }
 }

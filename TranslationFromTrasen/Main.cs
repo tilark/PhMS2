@@ -10,12 +10,22 @@ namespace TranslationFromTrasen
 {
     public class Main
     {
+        #region 初始化
+
         public Main()
         {
             this.localConnection = "Server=192.168.100.162;Database=PhMs2;User Id=User_PhMs;Password=IkgnhzWEXpkyBghq;MultipleActiveResultSets=True;App=EntityFramework";
             this.trasenConnection = "data source=192.168.100.20;initial catalog=trasen;user id=public_user;password=hzhis;MultipleActiveResultSets=True;App=EntityFramework";
 
-            this.MaxDegreeOfParallelism = 5;
+            this.MaxDegreeOfParallelism = defaultMaxDegreeOfParallelism;
+        }
+
+        public Main(int maxDegreeOfParallelism)
+        {
+            this.localConnection = "Server=192.168.100.162;Database=PhMs2;User Id=User_PhMs;Password=IkgnhzWEXpkyBghq;MultipleActiveResultSets=True;App=EntityFramework";
+            this.trasenConnection = "data source=192.168.100.20;initial catalog=trasen;user id=public_user;password=hzhis;MultipleActiveResultSets=True;App=EntityFramework";
+
+            this.MaxDegreeOfParallelism = maxDegreeOfParallelism;
         }
 
         public Main(string local, string trasen)
@@ -23,22 +33,38 @@ namespace TranslationFromTrasen
             this.localConnection = local;
             this.trasenConnection = trasen;
 
-            this.MaxDegreeOfParallelism = 5;
+            this.MaxDegreeOfParallelism = defaultMaxDegreeOfParallelism;
         }
 
+        public Main(string local, string trasen, int maxDegreeOfParallelism)
+        {
+            this.localConnection = local;
+            this.trasenConnection = trasen;
+
+            this.MaxDegreeOfParallelism = maxDegreeOfParallelism;
+        }
+
+        #endregion
 
 
 
+
+
+        #region 字段与属性
 
         private string localConnection;
 
         private string trasenConnection;
+
+        private readonly int defaultMaxDegreeOfParallelism = 5;
 
 
 
 
 
         public int MaxDegreeOfParallelism { get; set; }
+
+        #endregion
 
 
 
@@ -49,26 +75,47 @@ namespace TranslationFromTrasen
         /// </summary>
         /// <param name="start">时段起点（闭区间）。</param>
         /// <param name="end">时段终点（开区间）。</param>
-        /// <param name="isRemoveCancel">指定是否将CANCEL_BIT为1的记录在本地删除。</param>
+        /// <param name="isRemoveCancel">指定是否将“CANCEL_BIT”为1的记录从本地删除。</param>
         /// <param name="isContainNullOutDate">是否包含未出院记录。</param>
-        /// <param name="isUpdateExists">是否更新已存在记录。</param>
+        /// <param name="isUpdateExist">是否更新已存在记录。</param>
         /// <remarks>病人为住院、门诊共用。</remarks>
         /// <example>
         /// 获取2016年9月数据
         /// <code>
-        /// GetPatientAndInPatient(new DateTime(2016, 9, 1), new DateTime(2016, 10, 1));
+        /// GetPatienstAndInPatients(new DateTime(2016, 9, 1), new DateTime(2016, 10, 1));
         /// </code>
         /// </example>
-        public void GetPatientAndInPatient(DateTime start, DateTime end, bool isRemoveCancel = false, bool isContainNullOutDate = true, bool isUpdateExists = true)
+        public void GetPatienstAndInPatients(DateTime start, DateTime end, bool isRemoveCancel = true, bool isContainNullOutDate = false, bool isUpdateExist = false)
         {
-            var dbTrasen = new TrasenDbContext(this.trasenConnection);
+            //==初始化==
 
-            //处理Patients。
+            #region "初始化"
+
+            var importDataLogPatient = new PhMS2dot1Domain.Models.ImportDataLog();
+            var importDataLogInPatient = new PhMS2dot1Domain.Models.ImportDataLog();
+
+            this.LogInitial(importDataLogPatient, "Trasen", "VI_ZY_VINPATIENT", "Patients", start, end);
+            this.LogInitial(importDataLogInPatient, "Trasen", "VI_ZY_VINPATIENT", "InPatients", start, end);
+
+            this.LogAppendRemarks(importDataLogPatient, string.Format("MethodName=GetPatienstAndInPatients. isRemoveCancel={0}, isContainNullOutDate={1}, IsUpdateExists={2}. ", isRemoveCancel, isContainNullOutDate, isUpdateExist));
+            this.LogAppendRemarks(importDataLogInPatient, string.Format("MethodName=GetPatienstAndInPatients. isRemoveCancel={0}, isContainNullOutDate={1}, IsUpdateExists={2}. ", isRemoveCancel, isContainNullOutDate, isUpdateExist));
+
+            #endregion
+
+            //==对创新取数==
+
+            #region "对创新取数"
+
+            var dbTrasen = new TrasenDbContext(this.trasenConnection);
 
             var queryTrasenVI_ZY_VINPATIENT = dbTrasen.VI_ZY_VINPATIENT.Where(c => (start <= c.OUT_DATE && c.OUT_DATE < end) || (start <= c.CANCEL_DATE && c.CANCEL_DATE < end));
             if (isContainNullOutDate)
                 queryTrasenVI_ZY_VINPATIENT = queryTrasenVI_ZY_VINPATIENT.Union(dbTrasen.VI_ZY_VINPATIENT.Where(c => !c.OUT_DATE.HasValue));
             var listTrasen_VI_ZY_VINPATIENT = queryTrasenVI_ZY_VINPATIENT.ToList();
+
+            #endregion
+
+            //处理Patients。
 
             var listNewPatients = listTrasen_VI_ZY_VINPATIENT
                 .Select(c => new PhMS2dot1Domain.Models.Patient
@@ -92,7 +139,7 @@ namespace TranslationFromTrasen
                 }
                 else
                 {
-                    if (isUpdateExists)
+                    if (isUpdateExist)
                     {
                         oldPatient.BirthDate = newPatient.BirthDate;
                         dbParallel.SaveChanges();
@@ -149,7 +196,7 @@ namespace TranslationFromTrasen
                 }
                 else
                 {
-                    if (isUpdateExists)
+                    if (isUpdateExist)
                     {
                         oldInPatient.CaseNumber = c.CaseNumber;
                         oldInPatient.Times = c.Times;
@@ -318,7 +365,7 @@ namespace TranslationFromTrasen
                     }
                     else
                     {
-                        if (isUpdateExists)
+                        if (isUpdateExist)
                         {
                             InPatient.PatientID = patient.PatientID;
                             InPatient.CaseNumber = itemVI_ZY_VINPATIENT.INPATIENT_NO;
@@ -695,9 +742,9 @@ namespace TranslationFromTrasen
         /// </summary>
         /// <param name="start">时段起点（闭区间）。</param>
         /// <param name="end">时段终点（开区间）。</param>
-        /// <param name="isUpdateExists">是否更新已有记录。</param>
+        /// <param name="isUpdateExist">是否更新已有记录。</param>
         /// <remarks>病人为住院、门诊共用。</remarks>
-        public void GetPatientsAndOutPatients(DateTime start, DateTime end, bool isUpdateExists = false)
+        public void GetPatientsAndOutPatients(DateTime start, DateTime end, bool isUpdateExist = false)
         {
             //==初始化==
 
@@ -709,8 +756,8 @@ namespace TranslationFromTrasen
             this.LogInitial(importDataLogPatient, "Trasen", "VI_MZ_GHXX", "Patients", start, end);
             this.LogInitial(importDataLogOutPatient, "Trasen", "VI_MZ_GHXX", "OutPatients", start, end);
 
-            this.LogAppendRemarks(importDataLogPatient, string.Format("MethodName=GetPatientsAndOutPatients. IsUpdateExists={0}. ", isUpdateExists));
-            this.LogAppendRemarks(importDataLogOutPatient, string.Format("MethodName=GetPatientsAndOutPatients. IsUpdateExists={0}. ", isUpdateExists));
+            this.LogAppendRemarks(importDataLogPatient, string.Format("MethodName=GetPatientsAndOutPatients. IsUpdateExists={0}. ", isUpdateExist));
+            this.LogAppendRemarks(importDataLogOutPatient, string.Format("MethodName=GetPatientsAndOutPatients. IsUpdateExists={0}. ", isUpdateExist));
 
             #endregion
 
@@ -761,7 +808,7 @@ namespace TranslationFromTrasen
                 }
                 else
                 {
-                    if (isUpdateExists)
+                    if (isUpdateExist)
                     {
                         //什么也不做（因为没有其他需要处理的字段，无出生日期）
                     }
@@ -800,7 +847,7 @@ namespace TranslationFromTrasen
                 }
                 else
                 {
-                    if (isUpdateExists)
+                    if (isUpdateExist)
                     {
                         outPatient.Origin_GHLB = itemTrasen_VI_MZ_GHXX.GHLB;
                         outPatient.ChargeTime = itemTrasen_VI_MZ_GHXX.GHDJSJ.Value;
