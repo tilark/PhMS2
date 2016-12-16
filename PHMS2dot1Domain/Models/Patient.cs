@@ -22,6 +22,10 @@ namespace PhMS2dot1Domain.Models
         public virtual Guid PatientID { get; set; }
         [Display(Name = "原HIS病人信息ID")]
         public virtual Guid? Origin_PATIENT_ID { get; set; }
+
+        [Display(Name = "病人姓名")]
+        public virtual string PatientName { get; set; }
+
         [Display(Name = "出生日期")]
         public virtual DateTime? BirthDate { get; set; }
         public virtual ICollection<InPatient> InPatients { get; set; }

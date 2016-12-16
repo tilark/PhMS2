@@ -30,7 +30,8 @@ namespace PhMS2dot1Domain.Models
 
         [Display(Name = "病人信息ID")]
         public virtual Guid PatientID { get; set; }
-
+        [Display(Name = "病人姓名")]
+        public virtual string PatientName { get; set; }
         [Display(Name = "住院号")]
         public virtual String CaseNumber { get; set; }
 

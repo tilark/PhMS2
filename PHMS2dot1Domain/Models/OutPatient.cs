@@ -26,7 +26,8 @@ namespace PhMS2dot1Domain.Models
 
         [Display(Name = "原HIS门诊挂号ID")]
         public virtual Guid? Origin_GHXXID { get; set; }
-
+        [Display(Name = "病人姓名")]
+        public virtual string PatientName { get; set; }
         [Display(Name = "挂号类别")]
         public virtual int? Origin_GHLB { get; set; }
 

@@ -140,6 +140,10 @@
     <Compile Include="PhMS2dot1DomainContextMigrations\201612130142438_AddImportDataLog.Designer.cs">
       <DependentUpon>201612130142438_AddImportDataLog.cs</DependentUpon>
     </Compile>
+    <Compile Include="PhMS2dot1DomainContextMigrations\201612160034036_AddPersonNameForPatient.cs" />
+    <Compile Include="PhMS2dot1DomainContextMigrations\201612160034036_AddPersonNameForPatient.Designer.cs">
+      <DependentUpon>201612160034036_AddPersonNameForPatient.cs</DependentUpon>
+    </Compile>
     <Compile Include="ViewModels\AntibioticDepartmentPerson.cs" />
     <Compile Include="ViewModels\AntibioticPerson.cs" />
     <Compile Include="ViewModels\DepartmentCost.cs" />
@@ -250,6 +254,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="PhMS2dot1DomainContextMigrations\201612130142438_AddImportDataLog.resx">
       <DependentUpon>201612130142438_AddImportDataLog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PhMS2dot1DomainContextMigrations\201612160034036_AddPersonNameForPatient.resx">
+      <DependentUpon>201612160034036_AddPersonNameForPatient.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
