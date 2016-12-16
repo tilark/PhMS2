@@ -51,6 +51,7 @@
     <Compile Include="EnumOutPatientCategories.cs" />
     <Compile Include="IFactory\IDomainFacotry.cs" />
     <Compile Include="InPatientAntibioticCostRateDomain.cs" />
+    <Compile Include="InPatientOutDepartmentDomain.cs" />
     <Compile Include="Interface\IAntibioticCategoryNumber.cs" />
     <Compile Include="Interface\IAntibioticPerson.cs" />
     <Compile Include="Interface\IDepartmentAntibioticIntensityDomain.cs" />
@@ -62,6 +63,7 @@
     <Compile Include="Interface\IInPatientAntibioticCost.cs" />
     <Compile Include="Interface\IInPatientAntibioticCostRateDomain.cs" />
     <Compile Include="Interface\IInPatientDrugDoctorCost.cs" />
+    <Compile Include="Interface\IInPatientOutDepartmentDomain.cs" />
     <Compile Include="Interface\IPatientCost.cs" />
     <Compile Include="Interface\IPrescriptionMessage.cs" />
     <Compile Include="Interface\IRegisterPerson.cs" />

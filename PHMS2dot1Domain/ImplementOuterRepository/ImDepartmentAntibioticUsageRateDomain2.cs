@@ -26,7 +26,7 @@ namespace PhMS2dot1Domain.ImplementOuterRepository
             var result = new List<DepartmentAntibioticUsageRateDomain>();
             try
             {               
-                var inpatientAnbtioticDrugRecordFees = this.innerFactory.CreateInPatientDrugRecordFeeView().GetInpatientDrugRecordDrugFeesView(startTime, endTime, a => new InpatientDrugRecordDrugFeesView { InPatientID = a.InPatientID, DepartmentID = a.DepartmentID, InDate = a.InDate, OutDate = a.OutDate, ActualPrice=a.ActualPrice }, a=> a.IsAntibiotic);
+                var inpatientAnbtioticDrugRecordFees = this.innerFactory.CreateInPatientAntibioticDrugRecordFee().GetInpatientDrugRecordFees(startTime, endTime);
                 //antibioticPersonList 集合包括取定时间段内的科室与抗菌药物有效人数和在开始时间段前的抗菌药物有效人数
                 var antibioticPersonList = new List<InPatientDepartmentCost>();
                 //分成两部分，一部分出院病人为在取定时间段内

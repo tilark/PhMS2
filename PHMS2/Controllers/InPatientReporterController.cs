@@ -274,5 +274,17 @@ namespace PHMS2.Controllers
             return PartialView("_GetDepartmentEssentialUsageRate", viewModel);
         }
         #endregion
+
+        #region 出院病人详细信息
+        public ActionResult InPatientOutDepartmentDetails(DateTime startTime, DateTime endTime)
+        {
+            ViewBag.startTime = startTime;
+            ViewBag.endTime = endTime.AddDays(1).AddMilliseconds(-1);
+            endTime = endTime.AddDays(1);
+            var viewModel = new InPatientOutDepartmentDetail();
+            viewModel.InPatientOutDepartmentDomainList = this.DomainFactory.CreateInPatientOutDepartmentDetail().GetInPatientOutDepartmentDetail(startTime, endTime);
+            return PartialView("_GetInPatientOutDepartmentDetail", viewModel);
+        }
+        #endregion
     }
 }

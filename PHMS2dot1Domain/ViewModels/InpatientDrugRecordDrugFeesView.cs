@@ -9,6 +9,8 @@ namespace PhMS2dot1Domain.ViewModels
     public class InpatientDrugRecordDrugFeesView
     {
         public Guid InPatientID { get; set; }
+
+        public string CaseNumber { get; set; }
         public DateTime InDate { get; set; }
         public DateTime? OutDate { get; set; }
 

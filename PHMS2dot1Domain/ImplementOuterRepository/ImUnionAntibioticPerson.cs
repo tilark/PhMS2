@@ -22,7 +22,7 @@ namespace PhMS2dot1Domain.ImplementOuterRepository
             try
             {
                 //获取inPatient、DrugRecord、DrugFee关于药物种类的基本信息
-                var inPatientDepartmentDrug = this.innerFactory.CreateInPatientDrugRecordFeeView().GetInpatientDrugRecordDrugFeesView(startTime, endTime, a => new InpatientDrugRecordDrugFeesView { InPatientID = a.InPatientID, DepartmentID = a.DepartmentID, IsAntibiotic = a.IsAntibiotic, InDate = a.InDate, OutDate = a.OutDate, DDD = a.DDD }, a => a.IsAntibiotic);
+                var inPatientDepartmentDrug = this.innerFactory.CreateInPatientAntibioticDrugRecordFee().GetInpatientDrugRecordFees(startTime, endTime);
                 //antibioticCategoryList 集合包括取定时间段内的科室与抗菌药物有效人数和在开始时间段前的抗菌药物有效人数
                 var antibioticCategoryList = new List<InPatientDepartmentCost>();
                 //分成两部分，一部分在取定时间段内，另一部分为在开始时间段前（出院后仍产生费用部分）

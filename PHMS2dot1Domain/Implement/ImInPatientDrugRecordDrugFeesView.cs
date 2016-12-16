@@ -20,27 +20,25 @@ namespace PhMS2dot1Domain.Implement
             this.context = context;
         }
 
-        public List<InpatientDrugRecordDrugFeesView> GetInpatientDrugRecordDrugFeesView(DateTime startTime, DateTime endTime, Expression<Func<InpatientDrugRecordDrugFeesView, InpatientDrugRecordDrugFeesView>> selector, Expression<Func<InpatientDrugRecordDrugFeesView, bool>> predicate = null)
+       
+
+        public List<InpatientDrugRecordDrugFeesView> GetInpatientDrugRecordDrugFeesView(DateTime startTime, DateTime endTime, Expression<Func<InpatientDrugRecordDrugFeesView, bool>> predicate = null)
         {
             var result = new List<InpatientDrugRecordDrugFeesView>();
             try
             {
-                var sw = new StreamWriter(@"e:\databaseInPatientAntibioticLog2.log") { AutoFlush = true };
+                var sw = new StreamWriter(@"e:\databaseInPatientAntibioticLog6.log");
                 this.context.Database.Log = s => { sw.Write(s); };
-                var outDateInDuration = (from a in this.context.InPatients
+                result = (from a in this.context.InPatients
                                          where a.OutDate.HasValue && !a.CaseNumber.Contains("XT")
                                          join b in this.context.InPatientDrugRecords on a.InPatientID equals b.InPatientID
                                          join d in this.context.AntibioticLevels on b.Origin_KSSDJID equals d.Origin_KSSDJID
                                          join c in this.context.DrugFees on b.InPatientDrugRecordID equals c.InPatientDrugRecordID
-                                         where (a.OutDate.Value >= startTime && a.OutDate.Value < endTime && c.ChargeTime < endTime)
-                                         select new InpatientDrugRecordDrugFeesView { InPatientID = a.InPatientID, InDate = a.InDate, OutDate = a.OutDate, KSSDJ = b.Origin_KSSDJID, DepartmentID = b.Origin_DEPT_ID, Origin_CJID = b.Origin_CJID, EffectiveConstituentAmount = b.EffectiveConstituentAmount, IsEssential = b.IsEssential, ChargeTime = c.ChargeTime, ActualPrice = c.ActualPrice, Quantity = c.Quantity, DDD = b.DDD, IsAntibiotic = d.IsAntibiotic,  IsSpecial = d.IsSpecial }).Where(predicate).Select(selector).ToList();
-                result.AddRange(outDateInDuration);
+                                         where (a.OutDate.Value >= startTime && a.OutDate.Value < endTime && c.ChargeTime < endTime) || (a.OutDate.Value < startTime && c.ChargeTime >= startTime && c.ChargeTime < endTime)
+                          select new InpatientDrugRecordDrugFeesView { InPatientID = a.InPatientID, CaseNumber = a.CaseNumber, InDate = a.InDate, OutDate = a.OutDate, KSSDJ = b.Origin_KSSDJID, DepartmentID = b.Origin_DEPT_ID, Origin_CJID = b.Origin_CJID, EffectiveConstituentAmount = b.EffectiveConstituentAmount, IsEssential = b.IsEssential, ChargeTime = c.ChargeTime, ActualPrice = c.ActualPrice, Quantity = c.Quantity, DDD = b.DDD, IsAntibiotic = d.IsAntibiotic,  IsSpecial = d.IsSpecial }).ToList();
                 //OutDate在取定时间开始之前，取出相应的InPatientID信息，再根据该InPatientID获得该患者的全部住院信息
-                var outDatePreStartTimeList = (from a in this.context.InPatients
-                                               where a.OutDate.HasValue && !a.CaseNumber.StartsWith("XT")
-                                               join b in this.context.InPatientDrugRecords on a.InPatientID equals b.InPatientID
-                                               join c in this.context.DrugFees on b.InPatientDrugRecordID equals c.InPatientDrugRecordID
-                                               where (a.OutDate.Value < startTime && c.ChargeTime >= startTime && c.ChargeTime < endTime)
+                var outDatePreStartTimeList = (from a in result                                              
+                                               where a.OutDate.Value < startTime 
                                                select new { InPatientID = a.InPatientID }).Distinct();
 
 
@@ -54,7 +52,7 @@ namespace PhMS2dot1Domain.Implement
                                     join b in this.context.InPatientDrugRecords on a.InPatientID equals b.InPatientID
                                     join d in this.context.AntibioticLevels on b.Origin_KSSDJID equals d.Origin_KSSDJID
                                     join c in this.context.DrugFees on b.InPatientDrugRecordID equals c.InPatientDrugRecordID
-                                    select new InpatientDrugRecordDrugFeesView { InPatientID = a.InPatientID, InDate = a.InDate, OutDate = a.OutDate, KSSDJ = b.Origin_KSSDJID, DepartmentID = b.Origin_DEPT_ID, Origin_CJID = b.Origin_CJID, EffectiveConstituentAmount = b.EffectiveConstituentAmount, IsEssential = b.IsEssential, ChargeTime = c.ChargeTime, ActualPrice = c.ActualPrice, Quantity = c.Quantity, DDD = b.DDD, IsAntibiotic = d.IsAntibiotic, IsSpecial = d.IsSpecial }).Where(predicate).Select(selector).ToList();
+                                    select new InpatientDrugRecordDrugFeesView { InPatientID = a.InPatientID, CaseNumber = a.CaseNumber, InDate = a.InDate, OutDate = a.OutDate, KSSDJ = b.Origin_KSSDJID, DepartmentID = b.Origin_DEPT_ID, Origin_CJID = b.Origin_CJID, EffectiveConstituentAmount = b.EffectiveConstituentAmount, IsEssential = b.IsEssential, ChargeTime = c.ChargeTime, ActualPrice = c.ActualPrice, Quantity = c.Quantity, DDD = b.DDD, IsAntibiotic = d.IsAntibiotic, IsSpecial = d.IsSpecial }).ToList();
                         result.AddRange(temp);
                     }
                 }

@@ -13,6 +13,7 @@ namespace PhMS2dot1Domain.Interface
     /// </summary>
     public interface IInPatientDrugRecordDrugFeesView
     {
-        List<InpatientDrugRecordDrugFeesView> GetInpatientDrugRecordDrugFeesView(DateTime startTime, DateTime endTime, Expression<Func<InpatientDrugRecordDrugFeesView, InpatientDrugRecordDrugFeesView>> selector, Expression<Func<InpatientDrugRecordDrugFeesView, bool>> predicate = null);
+        List<InpatientDrugRecordDrugFeesView> GetInpatientDrugRecordDrugFeesView(DateTime startTime, DateTime endTime, Expression<Func<InpatientDrugRecordDrugFeesView, bool>> predicate = null);
+
     }
 }

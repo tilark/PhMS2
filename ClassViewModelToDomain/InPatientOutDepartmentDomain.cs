@@ -4,18 +4,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PhMS2dot1Domain.ViewModels
+namespace ClassViewModelToDomain
 {
-    /// <summary>
-    /// 出院患者的科室及人数
-    /// </summary>
-    public class InPatientOutDepartment
+    public class InPatientOutDepartmentDomain
     {
         //出院科室
         public virtual int DepartmentID { get; set; }
         public virtual string DepartmentName { get; set; }
 
-        public string  CaseNumber { get; set; }
+        public string CaseNumber { get; set; }
         public int Times { get; set; }
         //出院人数
         public virtual int RegisterPerson { get; set; }

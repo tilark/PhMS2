@@ -222,6 +222,7 @@
     <Compile Include="Models\ViewModels\InPatientReporter\InPatientAverageAntibioticCategoryRate.cs" />
     <Compile Include="Models\ViewModels\InPatientReporter\InPatientAverageAntibioticCostRate.cs" />
     <Compile Include="Models\ViewModels\InPatientReporter\InPatientDrugMessage.cs" />
+    <Compile Include="Models\ViewModels\InPatientReporter\InPatientOutDepartmentDetail.cs" />
     <Compile Include="Models\ViewModels\InPatientReporter\SpecialAntibioticUsageRate.cs" />
     <Compile Include="Models\ViewModels\Interface\IAntibioticUsageRate.cs" />
     <Compile Include="Models\ViewModels\Interface\IDrugCategoryRate.cs" />
@@ -322,6 +323,7 @@
     <Content Include="Views\InPatientReporter\_GetInPatientDrugMessage.cshtml" />
     <Content Include="Views\InPatientReporter\_GetInPatientAverageAntibioticCategoryRate.cshtml" />
     <Content Include="Views\InPatientReporter\_GetDepartmentEssentialUsageRate.cshtml" />
+    <Content Include="Views\InPatientReporter\_GetInPatientOutDepartmentDetail.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

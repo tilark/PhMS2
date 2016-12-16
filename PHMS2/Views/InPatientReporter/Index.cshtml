@@ -54,7 +54,7 @@
             <li role="presentation"><a href="#InPatientAverageAnbitioticCategoryRateID" aria-controls="InPatientAverageAnbitioticCategoryRateID" role="tab" data-toggle="tab">住院患者人均使用抗菌药物品种数</a></li>
             <li role="presentation"><a href="#InPatientAverageAntibioticCostRateID" aria-controls="InPatientAverageAntibioticCostRateID" role="tab" data-toggle="tab">住院患者人均使用抗菌药物费用</a></li>
             <li role="presentation"><a href="#InPatientAntibioticUsageRateID" aria-controls="InPatientAntibioticUsageRateID" role="tab" data-toggle="tab">抗菌药物费用占药费总额的百分率</a></li>
-
+            <li role="presentation"><a href="#InPatientOutDepartmentDetailID" aria-controls="InPatientOutDepartmentDetailID" role="tab" data-toggle="tab">出院病人详细信息</a></li>
         </ul>
 
         <!-- Tab panes -->
@@ -186,7 +186,22 @@
                     </div>
                 </div>
             </div>
+            <div role="tabpanel" class="tab-pane patientMessage" id="InPatientOutDepartmentDetailID">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <div class="form-group">
+                            <label class="col-lg-6 control-label">出院病人详细信息</label>
+                            <div class="col-lg-6">
+                                <input type="submit"  src="@Url.Action("InPatientOutDepartmentDetails", "InPatientReporter")" value="获取"
+                                       class="label label-primary getResult" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel-body">
 
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>

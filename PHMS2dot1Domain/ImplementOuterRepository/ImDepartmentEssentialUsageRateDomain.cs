@@ -27,7 +27,7 @@ namespace PhMS2dot1Domain.ImplementOuterRepository
             {
                 
                 //获取科室及所有药物费用
-                var inpatientAllDrugRecordFees = this.innerFactory.CreateInPatientDrugRecordFeeView().GetInpatientDrugRecordDrugFeesView(startTime, endTime, a => new InpatientDrugRecordDrugFeesView { InPatientID = a.InPatientID, DepartmentID = a.DepartmentID, InDate = a.InDate, OutDate = a.OutDate, ActualPrice = a.ActualPrice });
+                var inpatientAllDrugRecordFees = this.innerFactory.CreateInPatientAllDrugRecordFee().GetInpatientDrugRecordFees(startTime, endTime);
                 var departmentAllCost = from a in inpatientAllDrugRecordFees
                                         group a by a.DepartmentID into g
                                         select new { DepartmentID = g.Key, AllCost = g.Sum(c => c.ActualPrice) };

@@ -68,6 +68,7 @@
     <Compile Include="ImplementOuterRepository\ImInPatientAntibioticCategoryNumber2.cs" />
     <Compile Include="ImplementOuterRepository\ImInPatientDrugCost.cs" />
     <Compile Include="ImplementOuterRepository\ImInPatientDrugDoctorCostList.cs" />
+    <Compile Include="ImplementOuterRepository\ImInPatientOutDepartmentDetail.cs" />
     <Compile Include="ImplementOuterRepository\ImPatientCost.cs" />
     <Compile Include="ImplementOuterRepository\ImPrescriptionMessage.cs" />
     <Compile Include="ImplementOuterRepository\ImRegisterPerson.cs" />
