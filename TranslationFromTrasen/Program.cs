@@ -11,8 +11,8 @@ namespace TranslationFromTrasen
         static void Main(string[] args)
         {
             DateTime start = new DateTime(2016, 7, 1);
-            DateTime end = new DateTime(2016, 7, 5);
-            TimeSpan span = new TimeSpan(0, 3, 0, 0);
+            DateTime end = new DateTime(2016, 10, 1);
+            TimeSpan span = new TimeSpan(1, 0, 0, 0);
             int maxDegreeOfParallelism = 5;
             var target = new TranslationFromTrasen.Main(maxDegreeOfParallelism);
 
@@ -33,9 +33,9 @@ namespace TranslationFromTrasen
                 //target.GetUnit();
             }
 
-            //==门诊==
+            //==住院==
 
-            #region "门诊"
+            #region 住院
 
             if (true)
             {
@@ -44,7 +44,25 @@ namespace TranslationFromTrasen
                     var tempStart = time;
                     var tempEnd = time + span;
 
-                    //target.GetPatientsAndOutPatients(tempStart, tempEnd, true);
+                    //target.GetPatienstAndInPatients(tempStart, tempEnd, true, false, true);
+                    //target.GetInPatientDrugRecords(tempStart, tempEnd, false, true);
+                }
+            }
+
+            #endregion
+
+            //==门诊==
+
+            #region 门诊
+
+            if (true)
+            {
+                for (var time = start; time < end; time += span)
+                {
+                    var tempStart = time;
+                    var tempEnd = time + span;
+
+                    target.GetPatientsAndOutPatients(tempStart, tempEnd, true);
                     //target.GetOutPatientPrescriptions(tempStart, tempEnd, true);
                     //target.GetOutPatientDrugRecords(tempStart, tempEnd, true);
 
@@ -58,7 +76,7 @@ namespace TranslationFromTrasen
 
             #region "结束"
 
-            if (true)
+            if (false)
             {
                 Console.ReadLine();
             }

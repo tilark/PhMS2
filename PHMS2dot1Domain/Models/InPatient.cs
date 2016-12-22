@@ -19,7 +19,7 @@ namespace PhMS2dot1Domain.Models
 
         public InPatient()
         {
-            //InPatientDrugRecords = new HashSet<InPatientDrugRecord>();
+            InPatientDrugRecords = new List<InPatientDrugRecord>();
         }
         [Key]
         [Display(Name = "住院病历ID")]
@@ -50,7 +50,7 @@ namespace PhMS2dot1Domain.Models
         public virtual long Origin_DEPT_ID { get; set; }
        
         public virtual Patient Patient { get; set; }
-        public ICollection<InPatientDrugRecord> InPatientDrugRecords { get; set; }
+        public virtual List<InPatientDrugRecord> InPatientDrugRecords { get; set; }
         #endregion
 
         #region 扩展方法

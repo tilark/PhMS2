@@ -22,4 +22,20 @@ namespace TranslationFromTrasen.Infrastructure
             return obj.BRXXID.GetHashCode();
         }
     }
+
+    class VI_ZY_VINPATIENT_Comparer : IEqualityComparer<TrasenLib.VI_ZY_VINPATIENT>
+    {
+        public bool Equals(VI_ZY_VINPATIENT x, VI_ZY_VINPATIENT y)
+        {
+            if (x != null && y != null & x.PATIENT_ID == y.PATIENT_ID)
+                return true;
+            else
+                return false;
+        }
+
+        public int GetHashCode(VI_ZY_VINPATIENT obj)
+        {
+            return obj.PATIENT_ID.GetHashCode();
+        }
+    }
 }
