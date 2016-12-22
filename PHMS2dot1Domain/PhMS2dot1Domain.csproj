@@ -144,6 +144,10 @@
     <Compile Include="PhMS2dot1DomainContextMigrations\201612160034036_AddPersonNameForPatient.Designer.cs">
       <DependentUpon>201612160034036_AddPersonNameForPatient.cs</DependentUpon>
     </Compile>
+    <Compile Include="PhMS2dot1DomainContextMigrations\201612220113333_AddIsRelateToNoParentDrugFeeInDrugRecord.cs" />
+    <Compile Include="PhMS2dot1DomainContextMigrations\201612220113333_AddIsRelateToNoParentDrugFeeInDrugRecord.Designer.cs">
+      <DependentUpon>201612220113333_AddIsRelateToNoParentDrugFeeInDrugRecord.cs</DependentUpon>
+    </Compile>
     <Compile Include="ViewModels\AntibioticDepartmentPerson.cs" />
     <Compile Include="ViewModels\AntibioticPerson.cs" />
     <Compile Include="ViewModels\DepartmentCost.cs" />
@@ -257,6 +261,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="PhMS2dot1DomainContextMigrations\201612160034036_AddPersonNameForPatient.resx">
       <DependentUpon>201612160034036_AddPersonNameForPatient.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PhMS2dot1DomainContextMigrations\201612220113333_AddIsRelateToNoParentDrugFeeInDrugRecord.resx">
+      <DependentUpon>201612220113333_AddIsRelateToNoParentDrugFeeInDrugRecord.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

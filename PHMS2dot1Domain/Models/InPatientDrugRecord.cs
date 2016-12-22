@@ -59,6 +59,9 @@ namespace PhMS2dot1Domain.Models
         public virtual Decimal DDD { get; set; }
         [Display(Name = "原HIS药物用法")]
         public virtual string Origin_ORDER_USAGE { get; set; }
+
+        [Display(Name = "是否与无父结点的DrugFee相关联")]
+        public virtual bool IsRelateToNoParentDrugFee { get; set; }
         public virtual InPatient InPatient { get; set; }
         public ICollection<DrugFee> DrugFees { get; set; }
         #endregion
